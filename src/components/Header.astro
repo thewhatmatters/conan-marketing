@@ -1,0 +1,115 @@
+---
+// Sticky site header, COMPUTE-style.
+//   • At top: full-bleed, transparent, sits flush over the hero.
+//   • On scroll: collapses into a floating capsule — insets from the edges,
+//     narrows, rounds its corners, and gains a translucent blurred bg + border.
+// No island: a tiny passive scroll listener toggles `data-scrolled`; the rest
+// is CSS transitions driven off the group-data variant.
+const navLinks = [
+  { label: "Features", href: "#features" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "FAQ", href: "#faq" },
+];
+
+// TODO: point at the latest GitHub Release .dmg once published.
+const downloadHref = "#download";
+const githubHref = "https://github.com/";
+---
+
+<header
+  id="site-header"
+  data-scrolled="false"
+  class="group fixed inset-x-0 top-0 z-50 px-3 pt-0 transition-[padding] duration-300 ease-out data-[scrolled=true]:pt-3"
+>
+  <nav
+    class="relative isolate mx-auto flex max-w-[1760px] items-center justify-between rounded-none border border-transparent bg-transparent px-8 py-5 shadow-none transition-all duration-300 ease-out group-data-[scrolled=true]:max-w-[1180px] group-data-[scrolled=true]:rounded-full group-data-[scrolled=true]:border-border group-data-[scrolled=true]:bg-background/70 group-data-[scrolled=true]:px-3 group-data-[scrolled=true]:py-3 group-data-[scrolled=true]:shadow-lg group-data-[scrolled=true]:backdrop-blur-xl"
+  >
+    <!-- Lightning flash — plays once when the bar compacts. NOT clipped: the
+         bolt overflows the capsule, striking above and below the bar.
+         Screen-blended so only the gold shows; sits behind the content
+         (-z-10 within the nav's stacking context). -->
+    <div
+      id="nav-lightning"
+      aria-hidden="true"
+      class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[240px] w-[320px] -translate-x-1/2 -translate-y-1/2 opacity-90 mix-blend-screen"
+    >
+    </div>
+    <!-- Wordmark -->
+    <a href="/" class="flex items-baseline gap-1.5 transition-opacity hover:opacity-80">
+      <span class="text-lg font-semibold uppercase tracking-[0.2em] text-foreground">
+        Conan
+      </span>
+      <span class="font-mono text-xs text-muted-foreground">.sh</span>
+    </a>
+
+    <!-- Centered links (absolute-centered within the bar) -->
+    <ul
+      class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex"
+    >
+      {
+        navLinks.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Right actions -->
+    <div class="flex items-center gap-3">
+      <a
+        href={githubHref}
+        class="hidden text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline"
+      >
+        GitHub
+      </a>
+      <a
+        href={downloadHref}
+        class="inline-flex items-center rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+      >
+        Download for Mac
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  import lottie from "lottie-web/build/player/lottie_light";
+
+  const header = document.getElementById("site-header");
+  const mount = document.getElementById("nav-lightning");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Lightning plays once each time the bar compacts. Skipped under reduced motion.
+  let bolt: ReturnType<typeof lottie.loadAnimation> | null = null;
+  if (mount && !reduceMotion) {
+    bolt = lottie.loadAnimation({
+      container: mount,
+      renderer: "svg",
+      loop: false,
+      autoplay: false,
+      path: "/animations/lightning.json",
+      rendererSettings: { preserveAspectRatio: "xMidYMid meet" },
+    });
+    bolt.setSpeed(1.4);
+  }
+
+  let scrolled = false;
+  const onScroll = () => {
+    const now = window.scrollY > 8;
+    if (now === scrolled) return;
+    scrolled = now;
+    header?.setAttribute("data-scrolled", String(now));
+    if (now && bolt) {
+      bolt.goToAndStop(0, true);
+      bolt.play();
+    }
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+</script>

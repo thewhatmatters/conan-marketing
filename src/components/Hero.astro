@@ -1,0 +1,92 @@
+---
+import HeroWord from "./HeroWord.tsx";
+
+// Pricing facts framed as the COMPUTE-style metric strip (all true — CLAUDE.md).
+const stats = [
+  { value: "Free", label: "live Claude observer" },
+  { value: "$39", label: "once · lifetime 1.x" },
+  { value: "macOS 13+", label: "native · Apple silicon" },
+];
+---
+
+<section
+  class="relative isolate flex min-h-screen flex-col justify-center overflow-hidden"
+>
+  <!-- Fire glow: oxblood→ember from the lower-left, like the poster flame. -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10"
+    style="background:
+      radial-gradient(55% 50% at 16% 116%, rgba(127,29,29,0.70), rgba(217,119,6,0.22) 38%, transparent 72%),
+      radial-gradient(38% 30% at 82% -12%, rgba(217,119,6,0.10), transparent 70%);"
+  >
+  </div>
+  <!-- Edge vignette. -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10"
+    style="background: radial-gradient(120% 95% at 50% 35%, transparent 52%, rgba(0,0,0,0.65) 100%);"
+  >
+  </div>
+  <!-- Faint warm grid (12 × 8). -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10 opacity-[0.06]"
+    style="background-image:
+      linear-gradient(to right, var(--bone) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--bone) 1px, transparent 1px);
+      background-size: 8.3333% 12.5%;"
+  >
+  </div>
+  <!-- Left readability scrim for the left-aligned headline. -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10"
+    style="background: linear-gradient(to right, rgba(12,10,9,0.85), rgba(12,10,9,0.30) 45%, transparent 78%);"
+  >
+  </div>
+
+  <!-- Headline block -->
+  <div class="relative z-10 mx-auto w-full max-w-[1400px] px-6 py-32 lg:px-12 lg:py-40">
+    <div class="lg:max-w-[70%]">
+      <p
+        class="hero-rise mb-8 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground"
+        style="animation-delay: 60ms;"
+      >
+        <span class="h-px w-8 bg-gold/70"></span>
+        The campaign, as it happens
+      </p>
+
+      <h1
+        class="hero-rise font-display text-[clamp(1.85rem,6vw,6.5rem)] font-bold leading-[0.95] tracking-tight text-foreground"
+        style="animation-delay: 160ms;"
+      >
+        <span class="block whitespace-nowrap">Command the campaign,</span>
+        <span class="block whitespace-nowrap">
+          by your own <span class="relative inline-block"><HeroWord client:load /></span>
+        </span>
+      </h1>
+    </div>
+  </div>
+
+  <!-- Metric strip -->
+  <div
+    class="hero-rise absolute bottom-12 left-0 right-0 z-10 px-6 lg:px-12"
+    style="animation-delay: 460ms;"
+  >
+    <div class="mx-auto flex max-w-[1400px] flex-wrap items-start gap-10 lg:gap-20">
+      {
+        stats.map((stat) => (
+          <div class="flex flex-col gap-2">
+            <span class="font-display text-3xl text-foreground lg:text-4xl">
+              {stat.value}
+            </span>
+            <span class="font-mono text-xs leading-tight text-muted-foreground">
+              {stat.label}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

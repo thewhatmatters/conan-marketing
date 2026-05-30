@@ -1,0 +1,46 @@
+---
+const links = [
+  { label: "Features", href: "#features" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "FAQ", href: "#faq" },
+  { label: "GitHub", href: "https://github.com/" },
+];
+---
+
+<footer class="relative border-t border-border/60 px-6 py-14 lg:px-12">
+  <div
+    class="mx-auto flex max-w-[1200px] flex-col gap-8 md:flex-row md:items-end md:justify-between"
+  >
+    <div class="flex flex-col gap-2">
+      <a href="/" class="flex items-baseline gap-1.5">
+        <span class="text-lg font-semibold uppercase tracking-[0.2em] text-foreground"
+          >Conan</span
+        >
+        <span class="font-mono text-xs text-muted-foreground">.sh</span>
+      </a>
+      <p class="font-mono text-xs text-muted-foreground">
+        A barbarian misses nothing.
+      </p>
+    </div>
+
+    <nav class="flex flex-wrap gap-x-7 gap-y-2">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class="text-sm text-muted-foreground transition-colors hover:text-gold"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+
+  <div class="mx-auto mt-10 max-w-[1200px] border-t border-border/40 pt-6">
+    <p class="font-mono text-[11px] leading-relaxed text-muted-foreground">
+      © 2026 WhatMatters · Not affiliated with Anthropic · Not affiliated with
+      Conan Properties Int'l · Payments by Polar (Merchant of Record)
+    </p>
+  </div>
+</footer>

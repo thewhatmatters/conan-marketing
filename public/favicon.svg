@@ -1,0 +1,6 @@
+<!-- Placeholder favicon (neutral). Replace with the conan-icon bull mark per DESIGN.md §2. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#171717" />
+  <text x="16" y="22" font-family="monospace" font-size="16" font-weight="700"
+        text-anchor="middle" fill="#fafafa">C</text>
+</svg>

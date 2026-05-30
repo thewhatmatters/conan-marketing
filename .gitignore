@@ -6,6 +6,10 @@ dist/
 build/
 .next/
 .vercel/
+.astro/
+
+# font sources (only the converted woff2 in public/fonts/ ship)
+fonts-src/
 
 # os / editor
 .DS_Store

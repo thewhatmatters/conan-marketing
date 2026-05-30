@@ -1,0 +1,202 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ── Self-hosted fonts (Pangram Pangram PP Neue) ──────────────────────────
+   Bit = headings (display), Montreal = body, Montreal Mono = eyebrows/code.
+   woff2 only; sources live in /fonts-src (gitignored). swap = no FOIT. */
+@font-face {
+  font-family: "PP Neue Bit";
+  src: url("/fonts/PPNeueBit-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Neue Bit";
+  src: url("/fonts/PPNeueBit-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Neue Montreal";
+  src: url("/fonts/PPNeueMontreal-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Neue Montreal";
+  src: url("/fonts/PPNeueMontreal-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Neue Montreal";
+  src: url("/fonts/PPNeueMontreal-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Neue Montreal";
+  src: url("/fonts/PPNeueMontreal-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Neue Montreal Mono";
+  src: url("/fonts/PPNeueMontrealMono-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Neue Montreal Mono";
+  src: url("/fonts/PPNeueMontrealMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Class-based dark mode: toggling `.dark` on <html> flips the tokens below. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─────────────────────────────────────────────────────────────────────────
+   CONAN — WARM PULP THEME. Source of truth: DESIGN.md frontmatter.
+   Dark "ink + fire" system: warm near-black grounds, bone text, an ember
+   primary, and oxblood/gold lore accents. No green — the marketing site is the
+   warm poster that sells the (cool, green) app. Edit values in :root/.dark below.
+   ───────────────────────────────────────────────────────────────────────── */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Warm pulp lore palette (marketing-only) — see DESIGN.md §Colors. */
+  --color-oxblood: var(--oxblood);
+  --color-ember: var(--ember);
+  --color-gold: var(--gold);
+  --color-bone: var(--bone);
+
+  --font-sans: "PP Neue Montreal", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "PP Neue Montreal Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: "PP Neue Bit", "PP Neue Montreal", system-ui, sans-serif;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+/* Warm pulp palette — source of truth is DESIGN.md frontmatter. The site ships
+   DARK (.dark below is canonical); :root is a warm-light handoff variant. */
+:root {
+  color-scheme: light;
+  --background: #f7f1e3; /* parchment */
+  --foreground: #1c1208;
+  --card: #fffdf7;
+  --card-foreground: #1c1208;
+  --muted: #efe7d4;
+  --muted-foreground: #6b5d49;
+  --border: #e2d6bd;
+  --input: #e2d6bd;
+  --ring: #d97706;
+  --primary: #c2410c; /* ember (darker on light) */
+  --primary-foreground: #fffaf0;
+  --accent: #efe7d4;
+  --accent-foreground: #1c1208;
+  --destructive: #b91c1c;
+  --destructive-foreground: #fffaf0;
+  --oxblood: #7f1d1d;
+  --ember: #c2410c;
+  --gold: #a67414;
+  --bone: #1c1208;
+  --radius: 0.625rem;
+}
+
+/* Dark — canonical. Warm near-black ink, bone text, ember signal. */
+.dark {
+  color-scheme: dark;
+  --background: #0c0a09; /* warm near-black */
+  --foreground: #f0e8d6; /* bone */
+  --card: #1a1512;
+  --card-foreground: #f0e8d6;
+  --muted: #231c18;
+  --muted-foreground: #a89a82; /* dusty tan */
+  --border: #2c2521;
+  --input: #2c2521;
+  --ring: #d97706; /* ember */
+  --primary: #d97706; /* EMBER — primary CTA / key accent */
+  --primary-foreground: #1c1208;
+  --accent: #231c18;
+  --accent-foreground: #f0e8d6;
+  --destructive: #ef4444;
+  --destructive-foreground: #1c1208;
+  --oxblood: #7f1d1d; /* blood-red — hero fire, drama, danger */
+  --ember: #d97706; /* orange fire — energy, hover glow, "live" pulse */
+  --gold: #c8962b; /* bronze/brass — premium ($39), title shimmer */
+  --bone: #ece3d0; /* parchment — light accents on dark */
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Pulp grain — a fixed newsprint/film-grain wash over the whole page. Subtle:
+   it's atmosphere, not noise. Sits above content (pointer-events: none) so the
+   whole UI shares one tooth. See DESIGN.md §Texture, grain & atmosphere. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Grain is static, so it stays — but keep it even quieter for sensitivity. */
+  body::after {
+    opacity: 0.03;
+  }
+}
+
+/* Hero entrance — staggered fade + rise via per-element animation-delay. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-rise {
+  animation: hero-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    animation: none;
+  }
+}
