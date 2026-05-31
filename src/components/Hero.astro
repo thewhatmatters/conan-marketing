@@ -12,6 +12,26 @@ const stats = [
 <section
   class="relative isolate flex min-h-screen flex-col justify-center overflow-hidden"
 >
+  <!-- Background loop. No `autoplay` attr by design: the script below plays it
+       only when motion is allowed, so reduced-motion users get the static
+       poster. It sits furthest back (-z-20); the warm gradient layers below
+       tint it to the pulp palette and keep the headline readable. Until the
+       files exist in public/hero/ (see README there), the gradients just show
+       on warm-black — i.e. the current look, no broken state. -->
+  <video
+    id="hero-video"
+    class="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover"
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster="/hero/hero-poster.jpg"
+    aria-hidden="true"
+  >
+    <source src="/hero/hero-loop.webm" type="video/webm" />
+    <source src="/hero/hero-loop.mp4" type="video/mp4" />
+  </video>
+
   <!-- Fire glow: oxblood→ember from the lower-left, like the poster flame. -->
   <div
     aria-hidden="true"
@@ -90,3 +110,15 @@ const stats = [
     </div>
   </div>
 </section>
+
+<script>
+  // Play the hero loop only when the user hasn't asked for reduced motion;
+  // otherwise the poster frame stands in (no autoplay attribute on the video).
+  const video = document.getElementById("hero-video") as HTMLVideoElement | null;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (video && !reduce) {
+    const play = () => video.play().catch(() => {});
+    if (video.readyState >= 2) play();
+    else video.addEventListener("loadeddata", play, { once: true });
+  }
+</script>
