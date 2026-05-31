@@ -8,6 +8,7 @@ falls back to the warm fire-glow gradients (the current look — no broken state
 | `hero-loop.mp4` | Primary loop, **H.264 / yuv420p** | Widest browser support. Required. |
 | `hero-loop.webm` | Optional smaller VP9 copy | Served first when supported; skip if you only have one file. |
 | `hero-poster.jpg` | First/representative frame | Shown before play **and** for reduced-motion users. Optimize < 200 KB. |
+| `app-screenshot.webp` | Conan app capture for the **framed mockup** in front of the loop | 16:10, ~1600×1000, < 300 KB. Missing → the empty chrome frame stands in. |
 
 ## Specs (keep the page fast — the whole site is built for top Lighthouse)
 - **Duration:** 6–12 s, **seamless loop** (last frame matches first).

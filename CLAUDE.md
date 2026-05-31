@@ -83,6 +83,17 @@ is the source of truth. Major changes from the original plan below:
   "live" visuals (timeline stream, context ring, pulse line, tool chips, radio
   EQ), scroll-revealed via IntersectionObserver. id=`features`.
 - **`Footer.astro`** — compact; carries the required "not affiliated" trust line.
+- **`FAQ.astro` + `FaqAccordion.tsx`** — 9 trust-first Q&As (copy in `.astro`
+  frontmatter from the story doc) in a **shadcn Accordion** island (single-open).
+  `#faq`. First shadcn component added (`ui/accordion.tsx`).
+- **`CTA.astro`** — final fire-glow band, `id="download"` (the Header's scroll
+  target). "Miss nothing." kicker → "Take up the steel." H2 → ember Download +
+  pricing line. Hosts the waitlist as the Windows/Linux platform line.
+- **`WaitlistForm.tsx` + `/api/waitlist` (`waitlist.ts`)** — accessible email
+  capture (honeypot, `role=status/alert`) → KV. Endpoint persists to **Vercel
+  KV** (`@vercel/kv`, reuses the conan-license store) and **degrades gracefully**
+  when `KV_REST_API_*` env is unset (accepts + logs, doesn't drop). Creds pending.
+- **Hero now layers a background loop + framed app screenshot** (see §Hero below).
 
 **Fonts — DECIDED (2026-05-31): Geist + Geist Mono.** Loaded via Fontsource
 (`@fontsource-variable/geist`, `geist-mono`) in `global.css`; `--font-sans` +
@@ -91,24 +102,40 @@ default) was **removed entirely** — fonts, `@font-face`, preloads, `fonts-src/
 Display headlines = Geist bold + `tracking-tight`; pulp character now rides on
 color/grain/fire/lightning, not the type.
 
-**Animation stack:** CSS keyframes + IntersectionObserver + `lottie-web`.
-**Motion (Framer) is NOT installed** despite DESIGN.md mentioning it.
-**shadcn:** `components.json` is configured but **no components added yet**.
-**`frontend-design` skill** is vendored at `.claude/skills/frontend-design/` —
-use it for UI work.
+**Hero (updated):** full-bleed background **`<video>` loop** (muted/loop/
+playsinline, **no autoplay** — a script plays it only when motion is allowed,
+else the poster shows) behind the headline, calmed by a bottom-weighted subdue
+scrim, with a **framed app screenshot** (window chrome + ember/gold corner-glow)
+composited in front, bleeding off the bottom. Both assets live in `public/hero/`
+(`hero-loop.mp4`/`.webm` + `hero-poster.jpg`, `app-screenshot.webp`) — see the
+README there. **Graceful until assets exist**: no video → fire-glow; no shot →
+empty chrome frame. Asset loop must be **original/evocative, no franchise IP**.
 
-**Not yet built:** FAQ (shadcn accordion island), final CTA band, full footer
-columns, **waitlist** (`/api/waitlist` → Upstash KV), real Download/Buy URLs,
-product screenshots / hero loop, favicon (still placeholder), OG/SEO meta, and
-**Vercel connection + `conan.sh` domain** (push currently hits GitHub only).
+**Animation stack:** CSS keyframes + IntersectionObserver + `lottie-web`.
+`motion` (Framer's successor) **is** installed (`^12.40.0`) but currently
+**unused** — CSS/IO/lottie cover present needs. (Aceternity UI Pro was evaluated
+for the hero, not adopted; we went with a video loop + app frame instead.)
+**shadcn:** in use — **`ui/accordion.tsx`** added (new-york; pulls the unified
+`radix-ui` pkg). Add more via the shadcn skill / `npx shadcn@latest add`.
+**`frontend-design` + `build-ui` skills** drive UI work; `automate-browser`
+verifies in a real browser.
+
+**Not yet built:** **Pricing section** (the `#pricing` nav/footer anchor is
+currently DEAD — no `id="pricing"` exists), fuller footer columns, real
+Download/Buy URLs (Header/Hero/CTA are `#`/`#download` stubs), the actual hero
+**assets** (slots are wired, files pending), favicon (still placeholder), OG/SEO
+meta, **Vercel connection + `conan.sh` domain**, and the **KV creds** in env to
+make the waitlist actually persist.
 
 ## Build plan (scaffold → ship)
 1. ~~**Scaffold**~~ ✅ Astro + TS + React + Vercel adapter + Tailwind v4 + lottie.
    (Used `@tailwindcss/vite`, not `@astrojs/tailwind`. Motion/shadcn deferred.)
 2. ~~**Layout shell**~~ ✅ base layout + nav + compact footer. (SEO/OG meta TODO.)
-3. **Sections** — Hero ✅ · Bento ✅ · Footer ✅ (minimal) · **FAQ ⬜** (shadcn
-   accordion island) · **Final CTA band ⬜**.
-4. **Waitlist** ⬜ — `WaitlistForm` island → `POST /api/waitlist` → Upstash KV.
+3. **Sections** — Hero ✅ (video loop + app frame) · Bento ✅ · **FAQ ✅** ·
+   **Final CTA band ✅** · Footer 🟡 (minimal — fuller columns TODO) ·
+   **Pricing ⬜** (dead `#pricing` anchor — next up).
+4. **Waitlist** 🟡 — `WaitlistForm` + `/api/waitlist` → **Vercel KV** built &
+   graceful; ⬜ add `KV_REST_API_*` creds to env (reuse conan-license store).
 5. **Download/Buy wiring** ⬜ — DMG link to GitHub Release; Buy → Polar URL (both
    currently `#` stubs in Header/Hero).
 6. **Motion polish** 🟡 — scroll reveals + hover lift + "live" touches done via

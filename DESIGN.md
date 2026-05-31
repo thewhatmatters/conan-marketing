@@ -351,6 +351,13 @@ Rounded but product-first, not playful.
   ghost/outline that warms to **gold** on hover ("View on GitHub"); link = text
   (footer/legal). Action-specific labels, never "Get started". `rounded-full`,
   `label-md`.
+- **Hero** — full-bleed background **loop** (`<video>` muted/loop/playsinline,
+  **no autoplay**; reduced-motion → poster) behind the headline, calmed by a
+  bottom-weighted **subdue scrim** so the foreground reads. A **framed app
+  screenshot** (window chrome + ember/gold corner-glow) composites in front,
+  bleeding off the bottom into the bento. Headline = "Command the campaign, by
+  your own [cycling word]"; metric strip (Free · $39 · macOS 13+) beneath.
+  Graceful until assets land (fire-glow / empty chrome frame stand in).
 - **FAQ** — shadcn **Accordion** (React island), single-open, near page end.
 - **CTA band** — full-width section before the footer, fire glow reprise: H2
   "Take up the steel.", ember download button, micro-line "Miss nothing."
@@ -396,8 +403,14 @@ transforms/auto-play; keep the instant final state). The grain is static.
   grain) — not copying any specific artist's work or character art. Tasteful and
   dev-tool-credible per the "pulp accents on a tech base" direction. When in
   doubt, lean on color/light/grain/type instead of figurative art.
-- One hero **loop** (terminal task + HUD Pulse spiking + Timeline streaming) ≤ a
-  few seconds, muted, `prefers-reduced-motion` → static poster.
+- The hero layers **two** assets (both in `public/hero/`, see its README):
+  **(1)** a full-bleed **atmosphere loop** (`hero-loop.mp4`/`.webm` + poster) —
+  evocative sword-and-sorcery mood (ember/oxblood, smoke, grain, embers),
+  **original / no franchise IP** (no Conan/Arnold/Frazetta); **(2)** a framed
+  **app screenshot** (`app-screenshot.webp`) of the dark HUD. Loop ≤ a few
+  seconds, muted, `prefers-reduced-motion` → static poster. With a busy loop
+  *and* a screenshot on screen, push the subdue scrim darker / soften the frame
+  glow so they don't compete.
 - OG/social image: bull + "A barbarian misses nothing." + a HUD sliver over the
   fire glow.
 
