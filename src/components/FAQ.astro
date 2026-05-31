@@ -1,0 +1,94 @@
+---
+import FaqAccordion from "./FaqAccordion.tsx";
+
+// Canonical copy: docs/landing-page-story.md §4 (trust questions first, internal
+// citations trimmed). No refund FAQ by design — the free tier is the
+// try-before-you-buy. Keep answers plainspoken (one lore beat, landed plainly).
+const faqs = [
+  {
+    q: "Do I need Claude Code to use Conan?",
+    a: "Yes. Conan observes and visualizes Claude Code — it doesn't replace it or run the model itself. You run real Claude Code in Conan's terminal; Conan adds the cockpit around it.",
+  },
+  {
+    q: "Is my code or data sent anywhere?",
+    a: "No. Conan runs entirely on your Mac and reads Claude Code's local session data in ~/.claude. Nothing about your code or your prompts ever leaves your machine. No telemetry.",
+  },
+  {
+    q: "Does it slow Claude Code down?",
+    a: "No. Conan keeps the watch — it never enters the fight. It doesn't sit in the request path; it reads the activity Claude Code already writes to disk, so the agent runs at full speed.",
+  },
+  {
+    q: "Is it really a one-time purchase?",
+    a: "Yes — $39, once, by your own hand. No subscription, no tribute every moon, no per-device limit. Free updates across the entire 1.x line.",
+  },
+  {
+    q: "What's free vs. Premium?",
+    a: "Free is a genuinely useful live observer: terminal, Context, Usage, and a basic Timeline. Premium ($39) unlocks the insight layer — skill-scoring rows, Plan/Loop/Build rows, expandable tool payloads, longer Pulse history, Skills' last-fired times, and the MCP auth watchdog. The gate is depth of insight, never your live data.",
+  },
+  {
+    q: "macOS only? What about Windows and Linux?",
+    a: "macOS first — Apple silicon, signed and notarized. Windows and Linux aren't available yet; join the waitlist and we'll email you the moment they are.",
+  },
+  {
+    q: "How do updates work?",
+    a: "Conan auto-updates itself, signed. Every 1.x release is included in your one-time purchase.",
+  },
+  {
+    q: "Who's behind it — is it affiliated with Anthropic?",
+    a: "Independent. Conan is built by WhatMatters and is not affiliated with or endorsed by Anthropic, or with Conan Properties International.",
+  },
+  {
+    q: "What are the system requirements?",
+    a: "macOS 13 or later on Apple silicon, with Claude Code installed.",
+  },
+];
+---
+
+<section id="faq" class="faq relative py-24 lg:py-32">
+  <div class="shell grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
+    <!-- Intro column -->
+    <div class="faq-col lg:col-span-4" style="--d: 0ms">
+      <p
+        class="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground"
+      >
+        <span class="h-px w-8 bg-gold/70"></span>
+        Frequently asked
+      </p>
+      <h2
+        class="font-display text-[clamp(1.75rem,4vw,3.25rem)] font-bold leading-[0.98] tracking-tight text-foreground"
+      >
+        Answers before you ride out.
+      </h2>
+      <p class="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
+        Still wondering something? <a
+          href="https://github.com/"
+          class="text-gold underline-offset-4 transition-colors hover:underline"
+          >Ask on GitHub</a
+        >.
+      </p>
+    </div>
+
+    <!-- Accordion column -->
+    <div class="faq-col lg:col-span-7 lg:col-start-6" style="--d: 120ms">
+      <FaqAccordion items={faqs} client:visible />
+    </div>
+  </div>
+</section>
+
+<script>
+  const faq = document.querySelector(".faq");
+  if (faq) {
+    const io = new IntersectionObserver(
+      (entries, obs) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-in");
+            obs.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(faq);
+  }
+</script>

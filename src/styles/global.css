@@ -244,3 +244,27 @@ body::after {
     animation: none;
   }
 }
+
+/* ── FAQ ───────────────────────────────────────────────────────────────────
+   Intro + accordion columns reveal on scroll (.is-in, same IO pattern as the
+   bento). The accordion's own open/close animation comes from tw-animate-css. */
+.faq-col {
+  opacity: 0;
+}
+.faq.is-in .faq-col {
+  animation: bento-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-col {
+    opacity: 1;
+  }
+  .faq.is-in .faq-col {
+    animation: none;
+  }
+  /* Keep the panel's final state; skip the height tween. */
+  [data-slot="accordion-content"] {
+    animation: none !important;
+  }
+}
