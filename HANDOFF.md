@@ -20,14 +20,12 @@ Built, verified (`npm run build` green, served HTML checked), and pushed to `mai
 - **Footer.astro** — compact, has the "not affiliated" line.
 - Theme tokens (warm pulp, ember/oxblood/gold/bone, grain overlay) in `global.css`.
 
-**In progress this session (UNCOMMITTED until the push below):** Bento.astro (new)
-+ a **font A/B**: currently switched to **Geist/Geist Mono** (was PP Neue).
+**Fonts DECIDED:** Geist / Geist Mono (Fontsource) — PP Neue fully removed
+(files, `@font-face`, preloads, `fonts-src/`). **Sections now share a `.shell`
+container** (max-width 1280px, `px-6`→`lg:px-12`) so all content aligns.
 
 ## Next steps
-1. **Decide fonts** — Geist (current) vs PP Neue Bit/Montreal/Mono (pulp default)
-   vs hybrid (Bit for display only). Flip via the three `--font-*` tokens in
-   `global.css`. If Geist wins, delete the unused PP Neue preloads in `Layout.astro`.
-2. Build remaining sections: **FAQ** (shadcn accordion island — first shadcn add),
+1. Build remaining sections: **FAQ** (shadcn accordion island — first shadcn add),
    **final CTA band**, fuller footer columns.
 3. **Waitlist**: `WaitlistForm` island → `POST /api/waitlist` → Upstash KV
    (`export const prerender = false`).
@@ -51,8 +49,6 @@ Built, verified (`npm run build` green, served HTML checked), and pushed to `mai
   of truth for `global.css`).
 
 ## Open questions / risks
-- **Font licensing:** PP Neue is **commercial (Pangram Pangram)** and the woff2 are
-  committed/public — confirm a webfont license before real launch.
 - Headline final pick (① "A barbarian misses nothing." vs ② the cycling "Command
   the campaign…" currently live).
 - Nav wordmark hugs the left curve of the pill (cosmetic; parked — fix with
@@ -64,15 +60,14 @@ Built, verified (`npm run build` green, served HTML checked), and pushed to `mai
 - Page: `src/pages/index.astro` (Header → Hero → Bento → Footer).
 - Components: `src/components/{Header,Hero,Bento,Footer}.astro`, `HeroWord.tsx`.
 - Theme/anim: `src/styles/global.css`. Lottie: `public/animations/lightning.json`.
-- Fonts: `public/fonts/*.woff2` (sources in gitignored `fonts-src/`).
+- Fonts: Geist via Fontsource (`@import` in `global.css`); no local font files.
 - Skill: `.claude/skills/frontend-design/` (use for UI work).
 - Commands: `npm run dev` (:4321, currently running) · `npm run build` · `npm run preview`.
 
 ## Git state
-Branch `main`. Before this handoff's commit: modified CLAUDE.md, package.json,
-package-lock.json, src/pages/index.astro, src/styles/global.css; new Bento.astro
-+ HANDOFF.md + .claude/current-task.txt. **All committed & pushed during this
-handoff** (user asked to commit + push).
+Branch `main`, **clean** — all work committed & pushed. Latest batch: the
+`.shell` alignment refactor (all sections share one 1280px container) + the PP
+Neue→Geist font swap (PP Neue removed entirely) + these doc updates. Build green.
 
 ## Don't redo
 - Don't re-add Framer Motion expecting DESIGN.md needs it — CSS/lottie covers it.

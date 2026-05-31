@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: Conan — conan.sh
-description: A dark pulp dev-tool system — 70s/80s comic-book "ink & fire". Warm near-black grounds, an oxblood-to-ember glow, bronze/gold and parchment accents, pixel-display headlines, film grain. Clean COMPUTE structure underneath; pulp atmosphere on top. Lore in color, light, type, and texture — never cheap fantasy clip-art.
+description: A dark pulp dev-tool system — 70s/80s comic-book "ink & fire". Warm near-black grounds, an oxblood-to-ember glow, bronze/gold and parchment accents, tight editorial Geist headlines, film grain. Clean COMPUTE structure underneath; pulp atmosphere on top. Lore in color, light, type, and texture — never cheap fantasy clip-art.
 # Canonical theme is DARK (the site ships dark). Light values are a warm
 # parchment handoff variant only — see §Colors.
 colors:
@@ -25,69 +25,69 @@ colors:
   destructive: "#ef4444"       # errors/validation — rare, functional
   destructive-foreground: "#1c1208"
 typography:
-  display:        # hero H1 — PP Neue Bit (pixel display); scales fluid, see §Typography
-    fontFamily: PP Neue Bit
+  display:        # hero H1 — Geist Bold, tight tracking; scales fluid, see §Typography
+    fontFamily: Geist
     fontSize: 72px
-    fontWeight: 700
+    fontWeight: 600
     lineHeight: 1.0
-    letterSpacing: 0px       # pixel face → never negative tracking
-  headline-lg:    # section H2 — PP Neue Bit
-    fontFamily: PP Neue Bit
+    letterSpacing: -2px      # grotesque → tighten hard at display sizes
+  headline-lg:    # section H2 — Geist
+    fontFamily: Geist
     fontSize: 40px
-    fontWeight: 700
+    fontWeight: 600
     lineHeight: 1.05
-    letterSpacing: 0px
-  headline-md:    # sub-section — PP Neue Bit
-    fontFamily: PP Neue Bit
+    letterSpacing: -1px
+  headline-md:    # sub-section — Geist
+    fontFamily: Geist
     fontSize: 28px
-    fontWeight: 700
+    fontWeight: 600
     lineHeight: 1.1
-    letterSpacing: 0px
-  headline-sm:    # tile H3 — Montreal Medium (Bit gets noisy this small; flip to Bit if wanted)
-    fontFamily: PP Neue Montreal
+    letterSpacing: -0.6px
+  headline-sm:    # tile H3 — Geist Medium
+    fontFamily: Geist
     fontSize: 20px
     fontWeight: 500
     lineHeight: 26px
     letterSpacing: -0.2px
-  body-lg:        # lead paragraphs — PP Neue Montreal
-    fontFamily: PP Neue Montreal
+  body-lg:        # lead paragraphs — Geist
+    fontFamily: Geist
     fontSize: 18px
     fontWeight: 400
     lineHeight: 28px
     letterSpacing: 0px
   body-md:
-    fontFamily: PP Neue Montreal
+    fontFamily: Geist
     fontSize: 16px
     fontWeight: 400
     lineHeight: 24px
     letterSpacing: 0px
   body-sm:
-    fontFamily: PP Neue Montreal
+    fontFamily: Geist
     fontSize: 14px
     fontWeight: 400
     lineHeight: 20px
     letterSpacing: 0px
-  label-lg:       # buttons / prominent labels — PP Neue Montreal
-    fontFamily: PP Neue Montreal
+  label-lg:       # buttons / prominent labels — Geist
+    fontFamily: Geist
     fontSize: 16px
     fontWeight: 500
     lineHeight: 24px
     letterSpacing: 0px
   label-md:
-    fontFamily: PP Neue Montreal
+    fontFamily: Geist
     fontSize: 14px
     fontWeight: 500
     lineHeight: 20px
     letterSpacing: 0px
   eyebrow:        # THE signature mono kicker — uppercase, tracked, often gold
-    fontFamily: PP Neue Montreal Mono
+    fontFamily: Geist Mono
     fontSize: 12px
     fontWeight: 400
     lineHeight: 16px
     letterSpacing: 1.6px
     textTransform: uppercase
   mono:           # code, .sh, stat units, terminal bits
-    fontFamily: PP Neue Montreal Mono
+    fontFamily: Geist Mono
     fontSize: 14px
     fontWeight: 400
     lineHeight: 20px
@@ -255,47 +255,44 @@ atmosphere, not noise — and degrade for reduced-motion where relevant.
   hurt text contrast. Atmosphere must never cost legibility.
 
 ## Typography
-Three Pangram Pangram **PP Neue** faces. Hierarchy comes from **family + size +
-weight** — not all-caps everywhere. The one intentional uppercase moment is the
-mono eyebrow, which reads like terminal/log output: the recurring dev-tool
-signature, often tinted **gold** for lore.
+Two faces: **Geist** (display + body) and **Geist Mono** (the terminal voice).
+Hierarchy comes from **family + size + weight** — not all-caps everywhere. The
+one intentional uppercase moment is the mono eyebrow, which reads like
+terminal/log output: the recurring dev-tool signature, often tinted **gold** for
+lore. With a clean grotesque carrying the type, the pulp character now rides on
+**color, light, grain, and motion** (the fire glow, the gold lightning) — the
+font stays sharp and modern.
 
-- **PP Neue Bit — display & headlines.** The pixel/bitmap grotesque is the
-  showpiece: hero H1, section H2/H3, big stat numbers. Its low-res, rune-like
-  character is the barbarian-meets-terminal soul that bridges pulp and dev tool.
-  **Render it large** (where the pixels sing) and **never apply negative
-  tracking** — pixel faces want `0` to slightly positive letter-spacing.
-  Weights: Regular (400), Bold (700).
-- **PP Neue Montreal — body, labels, controls, small headings.** Clean modern
-  grotesque for paragraphs, buttons, tile titles. Regular (400) body, Medium
-  (500) labels/buttons/H3, Bold (700) emphasis, plus Italic. Large Montreal can
-  take **slight** negative tracking; body stays at `0`.
-- **PP Neue Montreal Mono — eyebrows, code, terminal bits.** The mono kicker
+- **Geist — display & headlines + body.** A precise modern grotesque. At display
+  sizes (hero H1, section H2/H3, big stat numbers) push it **bold and tightly
+  tracked** (`tracking-tight`, ~`-1` to `-2px`) for editorial confidence. For
+  body, Regular (400) with relaxed leading; Medium (500) for labels/buttons/tile
+  titles; SemiBold (600) for headlines.
+- **Geist Mono — eyebrows, code, terminal bits.** The mono kicker
   (`THE CAMPAIGN, AS IT HAPPENS`) — uppercase, letter-spaced `~1.6px`, gold or
   muted — tops each section/tile. Also `conan.sh`, the `npm install` snippet,
-  stat units, the price. Weights: Light (300), Regular (400).
+  stat units, the price, and the bento timeline rows.
 
-**Scale (fluid — clamp the big sizes; tighten nothing on Bit):**
-- Hero H1 (`display`, Bit): `clamp(2.75rem, 6vw, 5rem)`, weight 700, `tracking-normal`.
-- Section H2 (`headline-lg`, Bit): `clamp(1.75rem, 3vw, 2.5rem)`.
-- Tile H3 (`headline-sm`, Montreal Medium): `~1.25rem`.
-- Body (`body-lg`/`body-md`, Montreal): `1.0–1.125rem`, `leading-relaxed`,
-  usually `text-muted-foreground`; max line length `~65ch`.
+**Scale (fluid — clamp the big sizes, tighten tracking as they grow):**
+- Hero H1 (`display`): `clamp(2.75rem, 6vw, 5rem)`, weight 600, `tracking-tight`.
+- Section H2 (`headline-lg`): `clamp(1.75rem, 3vw, 2.5rem)`, `tracking-tight`.
+- Tile H3 (`headline-sm`): `~1.25rem`, Medium.
+- Body (`body-lg`/`body-md`): `1.0–1.125rem`, `leading-relaxed`, usually
+  `text-muted-foreground`; max line length `~65ch`.
 - Eyebrow (`eyebrow`, Mono): `0.75rem` uppercase, `tracking-[0.1em]`, gold/muted.
 
-> **Note:** `headline-sm` (tile titles) is set in **Montreal Medium** because PP
-> Neue Bit gets noisy below ~24px. Flip it to Bit if you want pixels all the way
-> down — a one-token change.
-
-Tailwind tokens: `font-display` (Bit), `font-sans` (Montreal, default),
-`font-mono` (Montreal Mono).
+Tailwind tokens: `font-display` (Geist) and `font-sans` (Geist, default) resolve
+to the same family today; `font-mono` is Geist Mono. `font-display` is kept as a
+distinct hook in case a dedicated display face is added later.
 
 ## Layout
 Centered, fixed-max-width content column with generous outer margins — a focused
 stage on a very dark, lit page.
 
-- Container max width **~1100–1200px**, centered, `px-6` gutters. (Hero/nav may
-  run wider/full-bleed for drama.)
+- **One shared container — the `.shell` class** (in `global.css`): `max-width
+  1280px`, centered, `px-6` → `lg:px-12` gutters. Every section's inner content
+  uses `.shell` so all content shares the same left/right edge (header included).
+  Sections stay full-bleed for their backgrounds; only the content is shelled.
 - **Generous vertical rhythm:** sections `py-20` → `py-32`. Whitespace is the
   premium signal. Spacing: `4 / 8 / 16 / 24 / 40px` UI clusters, `~96px`
   (`section`) between sections.
@@ -321,7 +318,7 @@ line copy + a real product visual** (screenshot or loop). Five tiles (story §3)
 - Desktop: CSS Grid, asymmetric (Tile 1 spans 2 cols / 2 rows; Tile 5 smallest).
 - Mobile: everything **stacks to one column** in priority order (1→2→3→4→5).
 - Tile anatomy: `rounded-2xl border bg-card p-6` with a **heavier comic-panel
-  border**, gold mono eyebrow, Bit/Montreal H3, copy, then a visual that bleeds
+  border**, gold mono eyebrow, Geist H3, copy, then a visual that bleeds
   toward an edge. **Hover:** lift `-translate-y-1` + `shadow-xl` + faint **ember**
   glow (see Motion).
 - Tile 5 (Radio) is **physically smaller** and copy-light — a wink; first to cut
@@ -407,8 +404,7 @@ transforms/auto-play; keep the instant final state). The grain is static.
 ## Accessibility
 - Semantic HTML (`<header><main><section><footer>`, real heading order).
 - Color contrast ≥ WCAG AA — **re-check bone-on-warm-black, gold text, and any
-  text over the fire glow.** PP Neue Bit at small sizes and the grain overlay
-  both need contrast scrutiny.
+  text over the fire glow.** The grain overlay needs contrast scrutiny.
 - Visible focus rings (the ember `ring`) on all interactive elements.
 - `prefers-reduced-motion` honored everywhere (see Motion); grain stays static.
 - Waitlist form: labeled input, error text tied via `aria-describedby`.
@@ -417,7 +413,7 @@ transforms/auto-play; keep the instant final state). The grain is static.
 - **Voice = "seasoned, not cosplay."** One Hyborian beat per section
   (eyebrow/headline/microcopy), always landed by a plain product sentence.
 - **Pulp via craft, not clip-art.** The atmosphere comes from color, light,
-  grain, and the pixel display face — **not** dragons/swords stock or runic
+  grain, and the fire/lightning — **not** dragons/swords stock or runic
   borders.
 - **IP caution (sharper now that we're in pulp territory).** "Conan / Conan the
   Barbarian" are trademarks of Conan Properties International; the Frazetta
@@ -430,15 +426,15 @@ transforms/auto-play; keep the instant final state). The grain is static.
 
 ## Do's and Don'ts
 - **Do** keep surfaces warm-dark and let type, light, and space carry hierarchy.
-- **Do** use the three PP Neue faces consistently: Bit (display), Montreal
-  (body/labels), Montreal Mono (eyebrows/code).
+- **Do** use Geist (display + body/labels) and Geist Mono (eyebrows/code)
+  consistently; push display sizes bold + tightly tracked.
 - **Do** keep **one** fire (oxblood→ember) + **gold** for what's earned; lean on black.
 - **Do** layer pulp via grain, fire glow, vignette, and panel framing — subtly.
 - **Do** prefer the ember pill for primary actions; gold for premium/lore beats.
 - **Do** use the mono uppercase eyebrow as the recurring "terminal/log" signature.
 - **Don't** use any copyrighted Conan art, or let the site read as a movie fan-page.
 - **Don't** introduce green or bright/light sections — cadence is warm tonal steps.
-- **Don't** apply negative tracking to PP Neue Bit, or run it small where it's noisy.
+- **Don't** leave display headlines loosely tracked — Geist wants `tracking-tight` big.
 - **Don't** let grain/gradients hurt contrast, or let Radio/motion upstage the
   observability story.
 - **Don't** hard-code hex in markup — use the Tailwind tokens.

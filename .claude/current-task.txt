@@ -1,1 +1,1 @@
-conan.sh landing — fonts A/B (Geist vs PP Neue); FAQ/CTA/waitlist next
+conan.sh landing — Geist locked; next: FAQ + CTA band

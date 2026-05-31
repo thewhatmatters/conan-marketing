@@ -24,7 +24,7 @@ Primary actions on the page:
 ## Decided tech stack (2026-05-30)
 > ⚠ Partly superseded — see **Current state** above. Still true: Astro static +
 > React islands + Vercel + Tailwind v4. Changed: design is **warm pulp, ember
-> (not green)**; fonts are **PP Neue / Geist (A/B)**, not Geist-only; Motion &
+> (not green)**; fonts are **Geist / Geist Mono**; Motion &
 > shadcn not yet added; the conan-icon/theme were NOT lifted from the app.
 - **Astro** (static output) — chosen over Next.js because this is a content-first
   marketing page: ~zero JS baseline, top SEO/Lighthouse, and `.astro` files are
@@ -84,13 +84,12 @@ is the source of truth. Major changes from the original plan below:
   EQ), scroll-revealed via IntersectionObserver. id=`features`.
 - **`Footer.astro`** — compact; carries the required "not affiliated" trust line.
 
-**Fonts — DECISION OPEN (A/B in progress).** Currently **Geist / Geist Mono**
-(experiment). The pulp default is **PP Neue Bit** (display) / **Montreal** (body)
-/ **Montreal Mono** (mono) — self-hosted woff2 in `public/fonts/`, sources in
-gitignored `fonts-src/`. Both are wired in `global.css`; flip via the three
-`--font-*` tokens. ⚠ PP Neue is **commercial (Pangram Pangram)** — confirm a
-webfont/self-host license before real launch. If Geist wins, drop the now-unused
-PP Neue `<link rel=preload>`s in `Layout.astro`.
+**Fonts — DECIDED (2026-05-31): Geist + Geist Mono.** Loaded via Fontsource
+(`@fontsource-variable/geist`, `geist-mono`) in `global.css`; `--font-sans` +
+`--font-display` = Geist, `--font-mono` = Geist Mono. PP Neue (the earlier pulp
+default) was **removed entirely** — fonts, `@font-face`, preloads, `fonts-src/`.
+Display headlines = Geist bold + `tracking-tight`; pulp character now rides on
+color/grain/fire/lightning, not the type.
 
 **Animation stack:** CSS keyframes + IntersectionObserver + `lottie-web`.
 **Motion (Framer) is NOT installed** despite DESIGN.md mentioning it.
@@ -125,8 +124,7 @@ npm run preview    # preview the production build
 ```
 
 ## Open decisions
-- **Fonts (active A/B):** Geist/Geist Mono (current) vs PP Neue Bit/Montreal/Mono
-  (pulp default) vs a hybrid (Bit for big display only, Geist for body/mono).
+- ~~**Fonts**~~ RESOLVED → **Geist + Geist Mono** (PP Neue removed 2026-05-31).
 - **Headline:** the hero currently runs ② "Command the campaign, by your own
   [hand·steel·watch·eye]" (cycling). ① "A barbarian misses nothing." still lives
   in the footer/eyebrows. Final pick TBD.
@@ -147,6 +145,9 @@ npm run preview    # preview the production build
   `border-border`, `text-muted-foreground`, `primary`) plus the warm pulp lore
   tokens **`ember` / `oxblood` / `gold` / `bone`** — see DESIGN.md. No hard-coded
   hex in markup (background gradients/glows are the documented exception).
+- **One shared content container — the `.shell` class** (`global.css`):
+  `max-width 1280px`, `px-6`→`lg:px-12`. Every section's inner content wraps in
+  `.shell` so edges align page-wide; sections stay full-bleed for backgrounds.
 - **Lore voice = "seasoned, not cosplay"** — one Hyborian beat per section,
   always landed by a plain product sentence. The Crom/god angle was cut; the
   watcher idea rests on **Conan the warrior** ("a barbarian misses nothing").

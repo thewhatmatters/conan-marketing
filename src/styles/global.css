@@ -1,72 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* ── FONT EXPERIMENT: Geist / Geist Mono ──────────────────────────────────
-   Trying Geist in place of PP Neue. To revert, remove these two imports and
-   switch the --font-* tokens below back to the "PP Neue *" families. The PP
-   Neue @font-face blocks are left intact for that one-line flip-back. */
+/* Fonts — Geist (display + body) and Geist Mono (eyebrows/code), self-hosted
+   via Fontsource (variable). swap = no FOIT. */
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
-
-/* ── Self-hosted fonts (Pangram Pangram PP Neue) ──────────────────────────
-   Bit = headings (display), Montreal = body, Montreal Mono = eyebrows/code.
-   woff2 only; sources live in /fonts-src (gitignored). swap = no FOIT. */
-@font-face {
-  font-family: "PP Neue Bit";
-  src: url("/fonts/PPNeueBit-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Bit";
-  src: url("/fonts/PPNeueBit-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts/PPNeueMontreal-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts/PPNeueMontreal-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts/PPNeueMontreal-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts/PPNeueMontreal-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal Mono";
-  src: url("/fonts/PPNeueMontrealMono-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal Mono";
-  src: url("/fonts/PPNeueMontrealMono-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 
 /* Class-based dark mode: toggling `.dark` on <html> flips the tokens below. */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -100,7 +38,7 @@
   --color-gold: var(--gold);
   --color-bone: var(--bone);
 
-  /* FONT EXPERIMENT: Geist. Revert = swap these back to the PP Neue families. */
+  /* Geist for body + display, Geist Mono for the terminal/eyebrow voice. */
   --font-sans: "Geist Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display: "Geist Variable", system-ui, -apple-system, sans-serif;
@@ -165,6 +103,21 @@ body {
   font-family: var(--font-sans);
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Page container — ONE consistent content width + gutters for every section
+   (header, hero, bento, footer) so all content shares the same left/right edge.
+   Sections stay full-bleed for backgrounds; their inner content uses `.shell`. */
+.shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding-inline: 1.5rem; /* 24px */
+}
+@media (min-width: 1024px) {
+  .shell {
+    padding-inline: 3rem; /* 48px */
+  }
 }
 
 /* Pulp grain — a fixed newsprint/film-grain wash over the whole page. Subtle:
