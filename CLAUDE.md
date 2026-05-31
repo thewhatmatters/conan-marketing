@@ -22,6 +22,10 @@ Primary actions on the page:
 - **Waitlist** (Windows/Linux) → POST to `/api/waitlist` → Upstash KV.
 
 ## Decided tech stack (2026-05-30)
+> ⚠ Partly superseded — see **Current state** above. Still true: Astro static +
+> React islands + Vercel + Tailwind v4. Changed: design is **warm pulp, ember
+> (not green)**; fonts are **PP Neue / Geist (A/B)**, not Geist-only; Motion &
+> shadcn not yet added; the conan-icon/theme were NOT lifted from the app.
 - **Astro** (static output) — chosen over Next.js because this is a content-first
   marketing page: ~zero JS baseline, top SEO/Lighthouse, and `.astro` files are
   HTML-with-a-frontmatter-block so they're easy to edit by hand (the owner knows
@@ -55,23 +59,62 @@ Primary actions on the page:
   is the try-before-you-buy; refund handling lives in Terms + Polar only. Do not
   add a refund FAQ or a standalone footer "Refunds" link.
 
+## Current state (2026-05-31) — READ THIS FIRST
+
+**The design pivoted to "dark pulp / ink & fire"** (70s/80s Conan comic — Frazetta
+/ '82 poster mood). DESIGN.md has been fully rewritten to a token-doc format; it
+is the source of truth. Major changes from the original plan below:
+- **Dark is canonical. NO green.** The app's emerald was intentionally dropped —
+  the marketing site owns its own *warm* identity (the app stays the cool tool;
+  the site is the warm poster that sells it). Palette: **ember `#d97706`** (primary
+  CTA / accent), **oxblood / gold / bone**, warm near-black ground `#0c0a09`, plus
+  a global **film-grain** overlay. Tokens live in `src/styles/global.css`
+  (`@theme` + `:root`/`.dark`), sourced from DESIGN.md frontmatter.
+
+**Built & pushed to `main`** (single page, `src/pages/index.astro`):
+- **`Header.astro`** — COMPUTE-style sticky nav; on scroll it collapses into a
+  `rounded-full` blurred pill, firing an *overflowing* **gold lightning Lottie**
+  (`public/animations/lightning.json` via `lottie-web`; reduced-motion aware).
+- **`Hero.astro` + `HeroWord.tsx`** (React island) — fire-glow + warm-grid bg;
+  display headline "Command the campaign, / by your own [hand·steel·watch·eye]"
+  where the last word cycles with a per-letter blur-in colored by a warm fire
+  gradient. Pricing facts as the metric strip.
+- **`Bento.astro`** — 5-tile **comic-panel grid** (numbered 01–05), hand-built
+  "live" visuals (timeline stream, context ring, pulse line, tool chips, radio
+  EQ), scroll-revealed via IntersectionObserver. id=`features`.
+- **`Footer.astro`** — compact; carries the required "not affiliated" trust line.
+
+**Fonts — DECISION OPEN (A/B in progress).** Currently **Geist / Geist Mono**
+(experiment). The pulp default is **PP Neue Bit** (display) / **Montreal** (body)
+/ **Montreal Mono** (mono) — self-hosted woff2 in `public/fonts/`, sources in
+gitignored `fonts-src/`. Both are wired in `global.css`; flip via the three
+`--font-*` tokens. ⚠ PP Neue is **commercial (Pangram Pangram)** — confirm a
+webfont/self-host license before real launch. If Geist wins, drop the now-unused
+PP Neue `<link rel=preload>`s in `Layout.astro`.
+
+**Animation stack:** CSS keyframes + IntersectionObserver + `lottie-web`.
+**Motion (Framer) is NOT installed** despite DESIGN.md mentioning it.
+**shadcn:** `components.json` is configured but **no components added yet**.
+**`frontend-design` skill** is vendored at `.claude/skills/frontend-design/` —
+use it for UI work.
+
+**Not yet built:** FAQ (shadcn accordion island), final CTA band, full footer
+columns, **waitlist** (`/api/waitlist` → Upstash KV), real Download/Buy URLs,
+product screenshots / hero loop, favicon (still placeholder), OG/SEO meta, and
+**Vercel connection + `conan.sh` domain** (push currently hits GitHub only).
+
 ## Build plan (scaffold → ship)
-1. **Scaffold** Astro + TS, add `@astrojs/react` + `@astrojs/vercel` + Tailwind v4
-   + Motion + shadcn. Wire theme tokens + fonts + favicon (conan-icon).
-2. **Layout shell** — base layout, `<head>` SEO/OG meta, minimal nav, footer.
-3. **Sections** (all copy from the story doc):
-   - Hero (animated island: staggered headline/subhead/CTA; product loop visual)
-   - Benefits bento (5 tiles; Tile 1 large, Tile 5 = Radio, small)
-   - FAQ (shadcn accordion island)
-   - Final CTA band
-   - Footer (cols + trust strip; **no Refunds link**)
-4. **Waitlist** — `WaitlistForm` island → `POST /api/waitlist` → Upstash KV;
-   success/error states.
-5. **Download/Buy wiring** — DMG link to GitHub Release; Buy → Polar URL (stub
-   until checkout is live).
-6. **Motion polish** — scroll reveals, hover lift, "live" touches (see DESIGN.md).
-   Respect `prefers-reduced-motion`.
-7. **Ship** — `git init` + push, connect Vercel, point `conan.sh`.
+1. ~~**Scaffold**~~ ✅ Astro + TS + React + Vercel adapter + Tailwind v4 + lottie.
+   (Used `@tailwindcss/vite`, not `@astrojs/tailwind`. Motion/shadcn deferred.)
+2. ~~**Layout shell**~~ ✅ base layout + nav + compact footer. (SEO/OG meta TODO.)
+3. **Sections** — Hero ✅ · Bento ✅ · Footer ✅ (minimal) · **FAQ ⬜** (shadcn
+   accordion island) · **Final CTA band ⬜**.
+4. **Waitlist** ⬜ — `WaitlistForm` island → `POST /api/waitlist` → Upstash KV.
+5. **Download/Buy wiring** ⬜ — DMG link to GitHub Release; Buy → Polar URL (both
+   currently `#` stubs in Header/Hero).
+6. **Motion polish** 🟡 — scroll reveals + hover lift + "live" touches done via
+   CSS/IO/lottie; respect `prefers-reduced-motion` (honored). Refine later.
+7. **Ship** 🟡 — pushed to GitHub `main`. **Connect Vercel + point `conan.sh`** ⬜.
 
 ## Commands (after scaffold)
 ```bash
@@ -81,9 +124,15 @@ npm run build      # static build → dist/
 npm run preview    # preview the production build
 ```
 
-## Open decisions (carry-over from the story doc §7)
-- **Headline pick:** ① "A barbarian misses nothing." vs ② "Command the campaign
-  by your own hand." — A/B or designer's call.
+## Open decisions
+- **Fonts (active A/B):** Geist/Geist Mono (current) vs PP Neue Bit/Montreal/Mono
+  (pulp default) vs a hybrid (Bit for big display only, Geist for body/mono).
+- **Headline:** the hero currently runs ② "Command the campaign, by your own
+  [hand·steel·watch·eye]" (cycling). ① "A barbarian misses nothing." still lives
+  in the footer/eyebrows. Final pick TBD.
+- **Pill color:** RESOLVED → **ember** (was the green-vs-light fork in DESIGN.md).
+- **Buy/checkout URL** — fill in once the Polar checkout link exists (Header +
+  Hero CTAs are `#` stubs; Download should point at the latest GitHub Release).
 - **IP caution:** "Conan / Conan the Barbarian" are trademarks of Conan
   Properties International. Genre voice + public-domain Howard prose is low-risk;
   avoid the 1982 film's protected dialogue (e.g. "riddle of steel"), Arnold's
@@ -94,9 +143,10 @@ npm run preview    # preview the production build
 ## Conventions
 - **Edit copy in `.astro` markup directly** (plain HTML + Tailwind); reach for a
   React island only when something needs Motion or client state.
-- **Semantic Tailwind tokens** mirroring the app (`bg-background`, `text-foreground`,
-  `bg-card`, `border-border`, `text-muted-foreground`, `primary`, plus the lore
-  `accent` — see DESIGN.md). No hard-coded hex in markup.
+- **Semantic Tailwind tokens** (`bg-background`, `text-foreground`, `bg-card`,
+  `border-border`, `text-muted-foreground`, `primary`) plus the warm pulp lore
+  tokens **`ember` / `oxblood` / `gold` / `bone`** — see DESIGN.md. No hard-coded
+  hex in markup (background gradients/glows are the documented exception).
 - **Lore voice = "seasoned, not cosplay"** — one Hyborian beat per section,
   always landed by a plain product sentence. The Crom/god angle was cut; the
   watcher idea rests on **Conan the warrior** ("a barbarian misses nothing").
