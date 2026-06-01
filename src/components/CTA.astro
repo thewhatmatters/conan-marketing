@@ -13,6 +13,11 @@ const githubHref = "https://github.com/";
   id="download"
   class="cta relative isolate overflow-hidden border-t border-border/60 py-28 lg:py-36"
 >
+  <!-- The nav/footer "Pricing" links here: we sell one app + a $39 unlock, not
+       tiers, so there's no pricing table — this band carries the price. Anchor
+       sits at the band top with scroll-margin so the sticky header clears it. -->
+  <span id="pricing" aria-hidden="true" class="absolute top-0 scroll-mt-28"></span>
+
   <!-- Fire glow reprise: oxblood→ember rising from the base, echoing the hero. -->
   <div
     aria-hidden="true"

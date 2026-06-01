@@ -33,22 +33,25 @@ Header/Hero/Bento/Footer + Geist + `.shell` baseline:
 installed but unused (CSS/IO/lottie cover current needs).
 
 ## Next steps
-1. **Pricing section** (`#pricing` is a **DEAD ANCHOR** — Header nav + Footer
-   link to it but no `id="pricing"` exists). Free vs Premium ($39) comparison.
-   Self-contained like FAQ/CTA — recommended next.
-2. **Hero assets** — create + drop into `public/hero/` (see README there):
+> **Pricing — RESOLVED (2026-05-31):** no pricing table. We sell one app +
+> a $39 unlock (freemium), not tiers, so `#pricing` now anchors to the CTA band
+> (which carries the price). Don't build a tiered pricing grid.
+
+1. **Hero assets** — create + drop into `public/hero/` (see README there):
    `hero-loop.mp4`/`.webm` + `hero-poster.jpg` (original/evocative barbarian
    loop, **no franchise IP**) and `app-screenshot.webp` (dark HUD capture). Then
    tune the subdue scrim/frame-glow against the real footage.
-3. **KV creds** — add `KV_REST_API_URL` + `KV_REST_API_TOKEN` to a local `.env`
+2. **KV creds** — add `KV_REST_API_URL` + `KV_REST_API_TOKEN` to a local `.env`
    (and to Vercel) from the conan-license store, so the waitlist actually
    persists. Until then it accepts + logs but doesn't store.
-4. **Fuller footer columns** (Product / Resources / Company·Legal / Social +
+3. **Fuller footer columns** (Product / Resources / Company·Legal / Social +
    trust strip + Windows/Linux notify link) — currently minimal.
-5. Wire real **Download** (latest GitHub Release .dmg) + **Buy** (Polar) URLs —
+4. Wire real **Download** (latest GitHub Release .dmg) + **Buy** (Polar) URLs —
    currently `#`/`#download` stubs in Header/Hero/CTA.
-6. Real favicon (still placeholder "C"), OG/SEO meta in Layout.
-7. **Connect Vercel + point conan.sh** (push currently hits GitHub only).
+5. Real favicon (still placeholder "C"), OG/SEO meta in Layout.
+6. **Connect Vercel + point conan.sh** (push currently hits GitHub only).
+7. **Bento radio tile** (#05) — reads as a free "built-in" delight, but radio
+   playback is **Premium-gated**. Mark it Premium or soften the copy.
 
 ## Key decisions (and why)
 - **Dark pulp, NO green** — dropped the app's emerald so the site has its own warm

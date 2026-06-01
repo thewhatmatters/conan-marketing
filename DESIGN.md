@@ -361,6 +361,9 @@ Rounded but product-first, not playful.
 - **FAQ** — shadcn **Accordion** (React island), single-open, near page end.
 - **CTA band** — full-width section before the footer, fire glow reprise: H2
   "Take up the steel.", ember download button, micro-line "Miss nothing."
+  **Also carries the price** ("Premium $39, once") — the `#pricing` nav/footer
+  link anchors here. **No pricing table by design** (one app + a $39 unlock,
+  not tiers).
 - **Footer** — columns (Product / Resources / Company·Legal / Social) + a trust
   strip (`© WhatMatters` · `Not affiliated with Anthropic` · `Not affiliated with
   Conan Properties Int'l` · `Payments by Polar (MoR)` · Windows/Linux

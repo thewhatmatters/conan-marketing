@@ -53,8 +53,11 @@ Primary actions on the page:
   the app so download→app feels like one product.
 - **Pricing / business facts** (keep in sync with `../conan/CLAUDE.md`):
   **$39 one-time, lifetime updates within 1.x, no subscription, no trial, no
-  per-device limit.** Sold via **Polar.sh** (Merchant of Record). Free tier is a
-  real live Claude observer; Premium unlocks the insight layer.
+  per-device limit.** Sold via **Polar.sh** (Merchant of Record). It's **one app,
+  freemium** — a free, scaled-back-but-functional download (some features, e.g.
+  radio playback, are gated), and **$39 unlocks Premium** (the insight layer). Not
+  separate tiers/products — so the page has **no pricing table** (decided
+  2026-05-31); the CTA band carries the price and `#pricing` anchors to it.
 - **Refunds are NOT surfaced on the page** (decided 2026-05-30) — the free tier
   is the try-before-you-buy; refund handling lives in Terms + Polar only. Do not
   add a refund FAQ or a standalone footer "Refunds" link.
@@ -120,8 +123,7 @@ for the hero, not adopted; we went with a video loop + app frame instead.)
 **`frontend-design` + `build-ui` skills** drive UI work; `automate-browser`
 verifies in a real browser.
 
-**Not yet built:** **Pricing section** (the `#pricing` nav/footer anchor is
-currently DEAD — no `id="pricing"` exists), fuller footer columns, real
+**Not yet built:** fuller footer columns, real
 Download/Buy URLs (Header/Hero/CTA are `#`/`#download` stubs), the actual hero
 **assets** (slots are wired, files pending), favicon (still placeholder), OG/SEO
 meta, **Vercel connection + `conan.sh` domain**, and the **KV creds** in env to
@@ -132,8 +134,9 @@ make the waitlist actually persist.
    (Used `@tailwindcss/vite`, not `@astrojs/tailwind`. Motion/shadcn deferred.)
 2. ~~**Layout shell**~~ ✅ base layout + nav + compact footer. (SEO/OG meta TODO.)
 3. **Sections** — Hero ✅ (video loop + app frame) · Bento ✅ · **FAQ ✅** ·
-   **Final CTA band ✅** · Footer 🟡 (minimal — fuller columns TODO) ·
-   **Pricing ⬜** (dead `#pricing` anchor — next up).
+   **Final CTA band ✅** · Footer 🟡 (minimal — fuller columns TODO).
+   **Pricing ✅ — no table by design** (one app + $39 unlock, not tiers);
+   the `#pricing` nav/footer link anchors to the CTA band, which carries the price.
 4. **Waitlist** 🟡 — `WaitlistForm` + `/api/waitlist` → **Vercel KV** built &
    graceful; ⬜ add `KV_REST_API_*` creds to env (reuse conan-license store).
 5. **Download/Buy wiring** ⬜ — DMG link to GitHub Release; Buy → Polar URL (both
