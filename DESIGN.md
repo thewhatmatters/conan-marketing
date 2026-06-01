@@ -356,7 +356,9 @@ Rounded but product-first, not playful.
   bottom-weighted **subdue scrim** so the foreground reads. A **framed app
   screenshot** (window chrome + ember/gold corner-glow) composites in front,
   bleeding off the bottom into the bento. Headline = "Command the campaign, by
-  your own [cycling word]"; metric strip (Free · $39 · macOS 13+) beneath.
+  your own [cycling word]"; **Download for Mac** CTA + "View on GitHub" + a
+  price caption ($39 once, no subscription) beneath. **Don't use the word
+  "Free" as a label** anywhere on the page (decided 2026-05-31).
   Graceful until assets land (fire-glow / empty chrome frame stand in).
 - **FAQ** — shadcn **Accordion** (React island), single-open, near page end.
 - **CTA band** — full-width section before the footer, fire glow reprise: H2
@@ -371,7 +373,7 @@ Rounded but product-first, not playful.
 - **WaitlistForm** (island) — email input + submit → `/api/waitlist`; inline
   success ("By steel — you're on the list.") / error states; honeypot for spam.
 - **DownloadButton** — links to latest GitHub Release `.dmg`; caption
-  `Free to wield · Premium $39, once · macOS 13+ (Apple silicon)` (price in gold).
+  `$39 once, no subscription · macOS 13+ (Apple silicon)` (price in gold).
 - **Card / input / chip** — quiet warm containers: `bg-card`, panel border,
   `rounded-2xl` (card) / `rounded-md` (input). Chips are pill-shaped, gold mono
   eyebrow type. Iconography minimal and monochrome unless color is functional.

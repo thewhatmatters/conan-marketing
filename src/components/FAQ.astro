@@ -2,8 +2,9 @@
 import FaqAccordion from "./FaqAccordion.tsx";
 
 // Canonical copy: docs/landing-page-story.md §4 (trust questions first, internal
-// citations trimmed). No refund FAQ by design — the free tier is the
-// try-before-you-buy. Keep answers plainspoken (one lore beat, landed plainly).
+// citations trimmed). No refund FAQ by design — the download itself is the
+// try-before-you-buy. Avoid the word "Free" as a label (decided 2026-05-31);
+// keep answers plainspoken (one lore beat, landed plainly).
 const faqs = [
   {
     q: "Do I need Claude Code to use Conan?",
@@ -19,11 +20,11 @@ const faqs = [
   },
   {
     q: "Is it really a one-time purchase?",
-    a: "Yes — $39, once, by your own hand. No subscription, no tribute every moon, no per-device limit. Free updates across the entire 1.x line.",
+    a: "Yes — $39, once, by your own hand. No subscription, no tribute every moon, no per-device limit. Every update across the entire 1.x line is included.",
   },
   {
-    q: "What's free vs. Premium?",
-    a: "Free is a genuinely useful live observer: terminal, Context, Usage, and a basic Timeline. Premium ($39) unlocks the insight layer — skill-scoring rows, Plan/Loop/Build rows, expandable tool payloads, longer Pulse history, Skills' last-fired times, and the MCP auth watchdog. The gate is depth of insight, never your live data.",
+    q: "What do I get before I buy?",
+    a: "The download is a genuinely useful live observer out of the box — terminal, Context, Usage, and a basic Timeline. Premium ($39) unlocks the insight layer: skill-scoring rows, Plan/Loop/Build rows, expandable tool payloads, longer Pulse history, Skills' last-fired times, the MCP auth watchdog, and Claude Radio. The gate is depth of insight, never your live data.",
   },
   {
     q: "macOS only? What about Windows and Linux?",

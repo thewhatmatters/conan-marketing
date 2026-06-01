@@ -1,12 +1,10 @@
 ---
 import HeroWord from "./HeroWord.tsx";
 
-// Pricing facts framed as the COMPUTE-style metric strip (all true — CLAUDE.md).
-const stats = [
-  { value: "Free", label: "live Claude observer" },
-  { value: "$39", label: "once · lifetime 1.x" },
-  { value: "macOS 13+", label: "native · Apple silicon" },
-];
+// CTAs. Stubs for now — downloadHref scrolls to the CTA band (id="download");
+// swap for the latest GitHub Release .dmg once published.
+const downloadHref = "#download";
+const githubHref = "https://github.com/";
 ---
 
 <section
@@ -96,24 +94,31 @@ const stats = [
       </h1>
     </div>
 
-    <!-- Metric strip -->
+    <!-- Primary actions -->
     <div
-      class="hero-rise mt-10 flex flex-wrap items-start gap-10 lg:mt-12 lg:gap-20"
+      class="hero-rise mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center lg:mt-12"
       style="animation-delay: 460ms;"
     >
-      {
-        stats.map((stat) => (
-          <div class="flex flex-col gap-2">
-            <span class="font-display text-3xl text-foreground lg:text-4xl">
-              {stat.value}
-            </span>
-            <span class="font-mono text-xs leading-tight text-muted-foreground">
-              {stat.label}
-            </span>
-          </div>
-        ))
-      }
+      <a
+        href={downloadHref}
+        class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-[0_0_40px_-10px] shadow-ember/60 transition-opacity hover:opacity-90"
+      >
+        <span aria-hidden="true">↓</span> Download for Mac
+      </a>
+      <a
+        href={githubHref}
+        class="text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-gold hover:underline"
+      >
+        View on GitHub
+      </a>
     </div>
+    <p
+      class="hero-rise mt-5 font-mono text-xs text-muted-foreground"
+      style="animation-delay: 520ms;"
+    >
+      macOS 13+ · Apple silicon · <span class="text-gold">$39 once</span>, no
+      subscription
+    </p>
 
     <!-- Framed app screenshot — composited in front of the loop, bleeding off
          the bottom into the next section (top corners rounded, no bottom edge).

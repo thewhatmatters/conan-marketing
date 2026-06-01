@@ -81,7 +81,9 @@ is the source of truth. Major changes from the original plan below:
 - **`Hero.astro` + `HeroWord.tsx`** (React island) — fire-glow + warm-grid bg;
   display headline "Command the campaign, / by your own [hand·steel·watch·eye]"
   where the last word cycles with a per-letter blur-in colored by a warm fire
-  gradient. Pricing facts as the metric strip.
+  gradient. **Download for Mac CTA** + "View on GitHub" + a price caption
+  beneath (`$39 once, no subscription`). The old Free/$39/macOS metric strip was
+  removed 2026-05-31.
 - **`Bento.astro`** — 5-tile **comic-panel grid** (numbered 01–05), hand-built
   "live" visuals (timeline stream, context ring, pulse line, tool chips, radio
   EQ), scroll-revealed via IntersectionObserver. id=`features`.
