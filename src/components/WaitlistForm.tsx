@@ -52,7 +52,7 @@ export default function WaitlistForm() {
     return (
       <p
         role="status"
-        className="font-mono text-sm text-gold"
+        className="text-sm text-gold"
       >
         {message}
       </p>
@@ -104,7 +104,7 @@ export default function WaitlistForm() {
         <p
           id="waitlist-status"
           role="alert"
-          className="mt-2 font-mono text-xs text-destructive"
+          className="mt-2 text-xs text-destructive"
         >
           {message}
         </p>

@@ -79,15 +79,15 @@ typography:
     fontWeight: 500
     lineHeight: 20px
     letterSpacing: 0px
-  eyebrow:        # THE signature mono kicker — uppercase, tracked, often gold
-    fontFamily: Geist Mono
+  eyebrow:        # THE signature kicker — uppercase, tracked, often gold (Geist)
+    fontFamily: Geist
     fontSize: 12px
     fontWeight: 400
     lineHeight: 16px
     letterSpacing: 1.6px
     textTransform: uppercase
-  mono:           # code, .sh, stat units, terminal bits
-    fontFamily: Geist Mono
+  caption:        # code, .sh, stat units, terminal bits — Geist (no mono)
+    fontFamily: Geist
     fontSize: 14px
     fontWeight: 400
     lineHeight: 20px
@@ -255,12 +255,12 @@ atmosphere, not noise — and degrade for reduced-motion where relevant.
   hurt text contrast. Atmosphere must never cost legibility.
 
 ## Typography
-Two faces: **Geist** (display + body) and **Geist Mono** (the terminal voice).
-Hierarchy comes from **family + size + weight** — not all-caps everywhere. The
-one intentional uppercase moment is the mono eyebrow, which reads like
+One face: **Geist** (display + body + the eyebrow/terminal voice). Hierarchy
+comes from **family + size + weight** — not all-caps everywhere. The one
+intentional uppercase moment is the tracked eyebrow, which reads like
 terminal/log output: the recurring dev-tool signature, often tinted **gold** for
-lore. With a clean grotesque carrying the type, the pulp character now rides on
-**color, light, grain, and motion** (the fire glow, the gold lightning) — the
+lore. With a single clean grotesque carrying the type, the pulp character rides
+on **color, light, grain, and motion** (the fire glow, the gold lightning) — the
 font stays sharp and modern.
 
 - **Geist — display & headlines + body.** A precise modern grotesque. At display
@@ -268,10 +268,11 @@ font stays sharp and modern.
   tracked** (`tracking-tight`, ~`-1` to `-2px`) for editorial confidence. For
   body, Regular (400) with relaxed leading; Medium (500) for labels/buttons/tile
   titles; SemiBold (600) for headlines.
-- **Geist Mono — eyebrows, code, terminal bits.** The mono kicker
+- **Geist — eyebrows, code, terminal bits.** The kicker
   (`THE CAMPAIGN, AS IT HAPPENS`) — uppercase, letter-spaced `~1.6px`, gold or
   muted — tops each section/tile. Also `conan.sh`, the `npm install` snippet,
-  stat units, the price, and the bento timeline rows.
+  stat units, the price, and the bento timeline rows. No separate mono face;
+  uppercase + tracking carries the terminal voice.
 
 **Scale (fluid — clamp the big sizes, tighten tracking as they grow):**
 - Hero H1 (`display`): `clamp(2.75rem, 6vw, 5rem)`, weight 600, `tracking-tight`.
@@ -279,11 +280,12 @@ font stays sharp and modern.
 - Tile H3 (`headline-sm`): `~1.25rem`, Medium.
 - Body (`body-lg`/`body-md`): `1.0–1.125rem`, `leading-relaxed`, usually
   `text-muted-foreground`; max line length `~65ch`.
-- Eyebrow (`eyebrow`, Mono): `0.75rem` uppercase, `tracking-[0.1em]`, gold/muted.
+- Eyebrow (`eyebrow`, Geist): `0.75rem` uppercase, `tracking-[0.1em]`, gold/muted.
 
 Tailwind tokens: `font-display` (Geist) and `font-sans` (Geist, default) resolve
-to the same family today; `font-mono` is Geist Mono. `font-display` is kept as a
-distinct hook in case a dedicated display face is added later.
+to the same family. There is no `font-mono` — the eyebrow/terminal voice is plain
+Geist with uppercase + tracking. `font-display` is kept as a distinct hook in
+case a dedicated display face is added later.
 
 ## Layout
 Centered, fixed-max-width content column with generous outer margins — a focused
@@ -318,7 +320,7 @@ line copy + a real product visual** (screenshot or loop). Five tiles (story §3)
 - Desktop: CSS Grid, asymmetric (Tile 1 spans 2 cols / 2 rows; Tile 5 smallest).
 - Mobile: everything **stacks to one column** in priority order (1→2→3→4→5).
 - Tile anatomy: `rounded-2xl border bg-card p-6` with a **heavier comic-panel
-  border**, gold mono eyebrow, Geist H3, copy, then a visual that bleeds
+  border**, gold eyebrow, Geist H3, copy, then a visual that bleeds
   toward an edge. **Hover:** lift `-translate-y-1` + `shadow-xl` + faint **ember**
   glow (see Motion).
 - Tile 5 (Radio) is **physically smaller** and copy-light — a wink; first to cut
@@ -375,7 +377,7 @@ Rounded but product-first, not playful.
 - **DownloadButton** — links to latest GitHub Release `.dmg`; caption
   `$39 once, no subscription · macOS 13+ (Apple silicon)` (price in gold).
 - **Card / input / chip** — quiet warm containers: `bg-card`, panel border,
-  `rounded-2xl` (card) / `rounded-md` (input). Chips are pill-shaped, gold mono
+  `rounded-2xl` (card) / `rounded-md` (input). Chips are pill-shaped, gold
   eyebrow type. Iconography minimal and monochrome unless color is functional.
 
 ## Motion & micro-animation (Motion / Framer Motion)
@@ -444,12 +446,12 @@ transforms/auto-play; keep the instant final state). The grain is static.
 
 ## Do's and Don'ts
 - **Do** keep surfaces warm-dark and let type, light, and space carry hierarchy.
-- **Do** use Geist (display + body/labels) and Geist Mono (eyebrows/code)
+- **Do** use Geist for everything (display, body/labels, eyebrows/code)
   consistently; push display sizes bold + tightly tracked.
 - **Do** keep **one** fire (oxblood→ember) + **gold** for what's earned; lean on black.
 - **Do** layer pulp via grain, fire glow, vignette, and panel framing — subtly.
 - **Do** prefer the ember pill for primary actions; gold for premium/lore beats.
-- **Do** use the mono uppercase eyebrow as the recurring "terminal/log" signature.
+- **Do** use the uppercase tracked eyebrow as the recurring "terminal/log" signature.
 - **Don't** use any copyrighted Conan art, or let the site read as a movie fan-page.
 - **Don't** introduce green or bright/light sections — cadence is warm tonal steps.
 - **Don't** leave display headlines loosely tracked — Geist wants `tracking-tight` big.

@@ -1,10 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Fonts — Geist (display + body) and Geist Mono (eyebrows/code), self-hosted
-   via Fontsource (variable). swap = no FOIT. */
+/* Fonts — Geist (display + body), self-hosted via Fontsource (variable).
+   swap = no FOIT. One typeface throughout; no separate mono. */
 @import "@fontsource-variable/geist";
-@import "@fontsource-variable/geist-mono";
 
 /* Class-based dark mode: toggling `.dark` on <html> flips the tokens below. */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -38,9 +37,8 @@
   --color-gold: var(--gold);
   --color-bone: var(--bone);
 
-  /* Geist for body + display, Geist Mono for the terminal/eyebrow voice. */
+  /* Geist for body + display — one typeface throughout (no mono). */
   --font-sans: "Geist Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display: "Geist Variable", system-ui, -apple-system, sans-serif;
 
   --radius-lg: var(--radius);
