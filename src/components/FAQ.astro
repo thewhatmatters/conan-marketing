@@ -68,11 +68,12 @@ const faqs = [
         >.
       </p>
 
-      <!-- Lore beat: the rider (9:16 portrait). Its background is keyed onto the
-           section colour (#0c0a09), so it reads as a clean cut-out floating on
-           the dark — no frame or vignette needed. autoplay + muted + playsinline
-           + loop = reliable inline autoplay (incl. iOS); the poster covers any
-           blocked-playback case; reduced-motion is paused in the script below. -->
+      <!-- Lore beat: the rider (9:16 portrait). The clip's baked black can't
+           render identically to the CSS #0c0a09 (H.264 banding + colour range),
+           so its edges would read as a faint rectangle — the overlay feathers
+           those edges into the exact section colour so it dissolves cleanly.
+           autoplay + muted + playsinline + loop = reliable inline autoplay
+           (incl. iOS); poster covers blocked playback; reduced-motion paused. -->
       <div class="relative z-0 -mt-10 w-full max-w-[400px] lg:-mt-16">
         <video
           id="faq-video"
@@ -87,6 +88,12 @@ const faqs = [
         >
           <source src="/video/conan-horse-dark.mp4" type="video/mp4" />
         </video>
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0"
+          style="box-shadow: inset 0 0 26px 14px #0c0a09;"
+        >
+        </div>
       </div>
     </div>
 
