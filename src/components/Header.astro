@@ -10,9 +10,8 @@ const navLinks = [
   { label: "FAQ", href: "#faq" },
 ];
 
-// TODO: point at the latest GitHub Release .dmg once published.
+// TODO: point at the latest release .dmg once published.
 const downloadHref = "#download";
-const githubHref = "https://github.com/";
 ---
 
 <header
@@ -69,12 +68,6 @@ const githubHref = "https://github.com/";
 
     <!-- Right actions (flex-1 mirrors the wordmark wrapper to keep links centred). -->
     <div class="flex flex-1 items-center justify-end gap-3">
-      <a
-        href={githubHref}
-        class="hidden text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline"
-      >
-        GitHub
-      </a>
       <a
         href={downloadHref}
         class="inline-flex items-center rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"

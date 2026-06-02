@@ -4,9 +4,8 @@ import WaitlistForm from "./WaitlistForm.tsx";
 // Final CTA band — fire-glow reprise before the footer. Primary action is the
 // Mac download; the Windows/Linux waitlist sits beneath as the platform line
 // (story doc §2 — capture the email, never a greyed-out "Windows" button).
-// TODO: point downloadHref at the latest GitHub Release .dmg once published.
+// TODO: point downloadHref at the latest release .dmg once published.
 const downloadHref = "#download";
-const githubHref = "https://github.com/";
 ---
 
 <section
@@ -58,12 +57,6 @@ const githubHref = "https://github.com/";
         class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-[0_0_40px_-10px] shadow-ember/60 transition-opacity hover:opacity-90"
       >
         <span aria-hidden="true">↓</span> Download for Mac
-      </a>
-      <a
-        href={githubHref}
-        class="text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-gold hover:underline"
-      >
-        View on GitHub
       </a>
     </div>
     <p

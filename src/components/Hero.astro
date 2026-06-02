@@ -1,10 +1,9 @@
 ---
 import HeroWord from "./HeroWord.tsx";
 
-// CTAs. Stubs for now — downloadHref scrolls to the CTA band (id="download");
-// swap for the latest GitHub Release .dmg once published.
+// CTA. Stub for now — downloadHref scrolls to the CTA band (id="download");
+// swap for the latest release .dmg once published.
 const downloadHref = "#download";
-const githubHref = "https://github.com/";
 ---
 
 <section
@@ -115,12 +114,6 @@ const githubHref = "https://github.com/";
         class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-[0_0_40px_-10px] shadow-ember/60 transition-opacity hover:opacity-90"
       >
         <span aria-hidden="true">↓</span> Download for Mac
-      </a>
-      <a
-        href={githubHref}
-        class="text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-gold hover:underline"
-      >
-        View on GitHub
       </a>
     </div>
     <p
