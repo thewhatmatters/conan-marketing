@@ -33,17 +33,22 @@ const downloadHref = "#download";
       class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[240px] w-[320px] -translate-x-1/2 -translate-y-1/2 opacity-0 mix-blend-screen"
     >
     </div>
-    <!-- Wordmark (in a flex-1 wrapper so the links sit centred at the top; the
-         wrapper collapses to the wordmark width when the bar hugs). -->
+    <!-- Logo (in a flex-1 wrapper so the links sit centred at the top; the
+         wrapper collapses to the logo width when the bar hugs).
+         PLACEHOLDER: swap the inner <span> for an
+         <img class="h-9 w-9 rounded-full object-cover" src="/…" alt="Conan" />
+         once the circular logo asset exists. -->
     <div class="flex-1">
       <a
         href="/"
-        class="inline-flex items-baseline gap-1.5 transition-opacity hover:opacity-80"
+        aria-label="Conan"
+        class="inline-flex shrink-0 transition-opacity hover:opacity-80"
       >
-        <span class="text-lg font-semibold uppercase tracking-[0.2em] text-foreground">
-          Conan
+        <span
+          class="grid h-9 w-9 place-items-center rounded-full bg-foreground/10 text-sm font-semibold uppercase tracking-tight text-foreground ring-1 ring-border"
+        >
+          C
         </span>
-        <span class="text-xs text-muted-foreground">.sh</span>
       </a>
     </div>
 
@@ -57,7 +62,7 @@ const downloadHref = "#download";
           <li>
             <a
               href={l.href}
-              class="-mx-3 rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground data-[active=true]:bg-foreground/10 data-[active=true]:text-foreground"
+              class="-mx-3 inline-flex items-center rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground data-[active=true]:bg-foreground/10 data-[active=true]:text-foreground"
             >
               {l.label}
             </a>
