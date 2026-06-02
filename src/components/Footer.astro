@@ -1,10 +1,7 @@
 ---
-// Fire-finale footer: ember flames lick up from the top edge, fuller link
-// columns + social + trust strip sit on the dark ground, and a giant CONAN
-// wordmark bleeds off the bottom. Palette intentionally inverted from the
-// bright-orange reference — dark ground, ember/oxblood flames — to stay on the
-// site's "ink & fire" system. Hand-built flame SVG (swap for a designed asset
-// later if we want more flourish).
+// Footer: dark "ink & fire" ground with a subtle ember glow at the top edge,
+// fuller link columns + social + trust strip, and a giant CONAN wordmark
+// bleeding off the bottom.
 const columns = [
   {
     title: "Product",
@@ -30,61 +27,19 @@ const columns = [
 ];
 
 const githubHref = "https://github.com/";
-
-// Flame tongues as teardrop paths (pointed tip, rounded base) — far more
-// fire-like than a single wavy edge. Two rows: oxblood behind (taller), ember
-// in front. Tuned by hand; swap for a designed SVG later if we want more polish.
-const flame = (cx: number, w: number, tip: number, base = 200) => {
-  const h = base - tip;
-  const r = (n: number) => Math.round(n);
-  return `M${cx},${base} C${r(cx - w)},${r(base - h * 0.15)} ${r(cx - w * 0.5)},${r(tip + h * 0.42)} ${cx},${tip} C${r(cx + w * 0.5)},${r(tip + h * 0.42)} ${r(cx + w)},${r(base - h * 0.15)} ${cx},${base} Z`;
-};
-// [centerX, halfWidth, tipY]
-const backFlames = [
-  [120, 95, 18], [340, 100, 44], [560, 95, 12], [780, 105, 38],
-  [1000, 100, 16], [1230, 98, 34], [1420, 88, 54],
-];
-const frontFlames = [
-  [55, 68, 72], [165, 54, 28], [275, 78, 98], [400, 60, 16], [510, 72, 88],
-  [620, 54, 46], [742, 82, 104], [862, 60, 24], [972, 74, 82], [1092, 58, 38],
-  [1202, 80, 98], [1322, 62, 28], [1412, 64, 74],
-];
 ---
 
 <footer class="footer relative isolate overflow-hidden bg-background">
-  <!-- Ember glow rising behind the flames. -->
+  <!-- Subtle ember glow at the top edge — warm "ink & fire" accent. -->
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-72"
-    style="background: radial-gradient(70% 100% at 50% 0%, rgba(217,119,6,0.22), rgba(127,29,29,0.12) 45%, transparent 75%);"
+    class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-56"
+    style="background: radial-gradient(70% 100% at 50% 0%, rgba(217,119,6,0.16), rgba(127,29,29,0.08) 45%, transparent 75%);"
   >
   </div>
 
-  <!-- Flame top edge (two-tone for depth). Stretches full-width; aria-hidden. -->
-  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10">
-    <svg
-      class="h-28 w-full lg:h-40"
-      viewBox="0 0 1440 200"
-      preserveAspectRatio="none"
-      fill="none"
-    >
-      <!-- solid base so the tongues share a fire-line, not float -->
-      <rect x="0" y="188" width="1440" height="12" fill="var(--ember)"></rect>
-      <!-- back layer: oxblood, taller -->
-      {
-        backFlames.map(([cx, w, tip]) => (
-          <path d={flame(cx, w, tip)} fill="var(--oxblood)" opacity="0.6" />
-        ))
-      }
-      <!-- front layer: ember, with a soft glow -->
-      <g style="filter: drop-shadow(0 -6px 18px rgba(217,119,6,0.45));">
-        {frontFlames.map(([cx, w, tip]) => <path d={flame(cx, w, tip)} fill="var(--ember)" />)}
-      </g>
-    </svg>
-  </div>
-
   <!-- Columns -->
-  <div class="shell relative z-10 pt-40 lg:pt-56">
+  <div class="shell relative z-10 pt-20 lg:pt-24">
     <div class="grid grid-cols-2 gap-10 md:grid-cols-4 lg:gap-12">
       <!-- Brand + social -->
       <div class="col-span-2 flex flex-col gap-4 md:col-span-1">

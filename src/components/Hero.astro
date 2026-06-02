@@ -10,12 +10,11 @@ const githubHref = "https://github.com/";
 <section
   class="relative isolate flex min-h-screen flex-col overflow-hidden pb-0 pt-32 lg:pt-40"
 >
-  <!-- Background loop. No `autoplay` attr by design: the script below plays it
-       only when motion is allowed, so reduced-motion users get the static
-       poster. It sits furthest back (-z-20); the warm gradient layers below
-       tint it to the pulp palette and keep the headline readable. Until the
-       files exist in public/hero/ (see README there), the gradients just show
-       on warm-black — i.e. the current look, no broken state. -->
+  <!-- Background loop (conan-battle.mp4). No `autoplay` attr by design: the
+       script below plays it only when motion is allowed, so reduced-motion
+       users get the static poster. It sits furthest back (-z-20); the warm
+       gradient layers below tint it to the pulp palette and keep the headline
+       readable. -->
   <video
     id="hero-video"
     class="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover"
@@ -26,9 +25,18 @@ const githubHref = "https://github.com/";
     poster="/hero/hero-poster.jpg"
     aria-hidden="true"
   >
-    <source src="/hero/hero-loop.webm" type="video/webm" />
-    <source src="/hero/hero-loop.mp4" type="video/mp4" />
+    <source src="/video/conan-battle-dark.mp4" type="video/mp4" />
   </video>
+
+  <!-- Radial darken/fade over the loop: subdues the footage and adds depth —
+       lighter toward the figure (right), darker at the edges. Sits above the
+       video (-z-15) but below the fire glow and content. -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-[15]"
+    style="background: radial-gradient(90% 85% at 62% 42%, rgba(12,10,9,0.25), rgba(12,10,9,0.66) 100%);"
+  >
+  </div>
 
   <!-- Fire glow: oxblood→ember from the lower-left, like the poster flame. -->
   <div
@@ -69,6 +77,14 @@ const githubHref = "https://github.com/";
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 -z-10"
     style="background: linear-gradient(to bottom, rgba(12,10,9,0.30), rgba(12,10,9,0.08) 35%, rgba(12,10,9,0.78));"
+  >
+  </div>
+  <!-- Bottom blend: ramps the whole hero to SOLID #0c0a09 at the bottom edge so
+       the video dissolves seamlessly into the next section (no visible seam). -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10"
+    style="background: linear-gradient(to bottom, transparent 55%, rgba(12,10,9,0.55) 80%, #0c0a09 99%);"
   >
   </div>
 
