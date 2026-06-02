@@ -48,19 +48,19 @@ const faqs = [
 <section id="faq" class="faq relative py-24 lg:py-32">
   <div class="shell grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
     <!-- Intro column -->
-    <div class="faq-col lg:col-span-5" style="--d: 0ms">
+    <div class="faq-col relative isolate lg:col-span-5" style="--d: 0ms">
       <p
-        class="mb-4 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-muted-foreground"
+        class="relative z-10 mb-4 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-muted-foreground"
       >
         <span class="h-px w-8 bg-gold/70"></span>
         Frequently asked
       </p>
       <h2
-        class="font-display text-[clamp(1.75rem,4vw,3.25rem)] font-bold leading-[0.98] tracking-tight text-foreground"
+        class="relative z-10 font-display text-[clamp(1.75rem,4vw,3.25rem)] font-bold leading-[0.98] tracking-tight text-foreground"
       >
         Answers before you ride out.
       </h2>
-      <p class="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
+      <p class="relative z-10 mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
         Still wondering something? <a
           href="https://github.com/"
           class="text-gold underline-offset-4 transition-colors hover:underline"
@@ -73,7 +73,7 @@ const faqs = [
            the dark — no frame or vignette needed. autoplay + muted + playsinline
            + loop = reliable inline autoplay (incl. iOS); the poster covers any
            blocked-playback case; reduced-motion is paused in the script below. -->
-      <div class="mt-6 w-full max-w-[300px]">
+      <div class="relative z-0 -mt-24 w-full max-w-[300px] lg:-mt-36">
         <video
           id="faq-video"
           class="block aspect-[9/16] w-full object-cover"
