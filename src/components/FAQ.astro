@@ -68,14 +68,15 @@ const faqs = [
         >.
       </p>
 
-      <!-- Lore beat: the rider, framed under the headline. autoplay + muted +
-           playsinline + loop = reliable inline autoplay (incl. iOS); the poster
-           still covers any blocked-playback case. Reduced-motion is paused to
-           the poster in the script below. -->
-      <div class="relative mt-8 overflow-hidden">
+      <!-- Lore beat: the rider (9:16 portrait). Its background is keyed onto the
+           section colour (#0c0a09), so it reads as a clean cut-out floating on
+           the dark — no frame or vignette needed. autoplay + muted + playsinline
+           + loop = reliable inline autoplay (incl. iOS); the poster covers any
+           blocked-playback case; reduced-motion is paused in the script below. -->
+      <div class="mt-6 w-full max-w-[300px]">
         <video
           id="faq-video"
-          class="block aspect-video w-full object-cover"
+          class="block aspect-[9/16] w-full object-cover"
           autoplay
           muted
           loop
@@ -86,15 +87,6 @@ const faqs = [
         >
           <source src="/video/conan-horse-dark.mp4" type="video/mp4" />
         </video>
-        <!-- Hero-style blend: a strong radial vignette dissolves every edge into
-             the section colour (#0c0a09) so the rider emerges from the dark with
-             no rectangle/border — same treatment as the hero loop. -->
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute inset-0"
-          style="background: radial-gradient(ellipse 76% 74% at 50% 44%, transparent 14%, rgba(12,10,9,0.45) 40%, rgba(12,10,9,0.85) 64%, #0c0a09 82%);"
-        >
-        </div>
       </div>
     </div>
 
