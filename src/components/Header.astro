@@ -55,14 +55,23 @@ const downloadHref = "#download";
     <!-- Links — inline in both states (no position switch → smooth compaction).
          Centred at the top by the equal flex-1 sides. -->
     <ul
-      class="hidden shrink-0 items-center gap-8 md:flex group-data-[scrolled=true]:gap-6"
+      class="relative isolate hidden shrink-0 items-center gap-8 md:flex group-data-[scrolled=true]:gap-6"
     >
+      <!-- Shared highlight: one pill that slides + resizes between active items
+           (driven by the scroll-spy in the script). Hidden when none active. -->
+      <span
+        id="nav-pill"
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-y-0 left-0 z-0 w-0 rounded-full bg-foreground/10 opacity-0"
+        style="transition: transform 400ms cubic-bezier(0.16,1,0.3,1), width 400ms cubic-bezier(0.16,1,0.3,1), opacity 250ms ease-out;"
+      >
+      </span>
       {
         navLinks.map((l) => (
           <li>
             <a
               href={l.href}
-              class="-mx-4 inline-flex items-center rounded-full px-4 py-2 text-sm text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground data-[active=true]:bg-foreground/10 data-[active=true]:text-foreground"
+              class="relative z-10 -mx-4 inline-flex items-center px-4 py-2 text-sm text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground data-[active=true]:text-foreground"
             >
               {l.label}
             </a>
@@ -126,6 +135,27 @@ const downloadHref = "#download";
   // (Animating to `width: max-content` directly isn't transitionable; max-w:0
   // just collapses the box. A measured px target gives a clean morph.)
   const nav = header?.querySelector("nav") as HTMLElement | null;
+  const navUl = nav?.querySelector("ul") as HTMLElement | null;
+  const pill = document.getElementById("nav-pill");
+  const spyLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("#site-header ul a"),
+  );
+  let activeLink: HTMLAnchorElement | null = null;
+
+  // Slide the shared highlight pill onto the active link (or hide it).
+  const movePill = () => {
+    if (!pill || !navUl) return;
+    if (!activeLink) {
+      pill.style.opacity = "0";
+      return;
+    }
+    const u = navUl.getBoundingClientRect();
+    const r = activeLink.getBoundingClientRect();
+    pill.style.width = `${Math.round(r.width)}px`;
+    pill.style.transform = `translateX(${Math.round(r.left - u.left)}px)`;
+    pill.style.opacity = "1";
+  };
+
   const measureHug = () => {
     if (!nav || !header) return;
     const s = nav.style;
@@ -144,11 +174,17 @@ const downloadHref = "#download";
     nav.style.setProperty("--nav-hug", `${hug}px`);
   };
   if (nav) {
-    (document.fonts?.ready ?? Promise.resolve()).then(measureHug);
+    (document.fonts?.ready ?? Promise.resolve()).then(() => {
+      measureHug();
+      movePill();
+    });
     let rt = 0;
     window.addEventListener("resize", () => {
       clearTimeout(rt);
-      rt = window.setTimeout(measureHug, 150);
+      rt = window.setTimeout(() => {
+        measureHug();
+        movePill();
+      }, 150);
     });
   }
 
@@ -168,17 +204,19 @@ const downloadHref = "#download";
 
   // Scroll-spy: mark the nav link active when its section crosses the viewport
   // centre (rootMargin collapses the root to a centre line), and on click for
-  // instant feedback. No section centred (hero/CTA/footer) → none active.
-  const spyLinks = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>("#site-header ul a"),
-  );
+  // instant feedback. No section centred (hero/CTA/footer) → none active. The
+  // shared pill then slides/resizes onto the active link.
   const sections = spyLinks
     .map((a) => document.querySelector(a.getAttribute("href") || "#"))
     .filter((el): el is Element => !!el);
   const setActive = (id: string | null) => {
-    spyLinks.forEach((a) =>
-      a.setAttribute("data-active", String(a.getAttribute("href") === (id && `#${id}`))),
-    );
+    activeLink = null;
+    spyLinks.forEach((a) => {
+      const on = a.getAttribute("href") === (id && `#${id}`);
+      a.setAttribute("data-active", String(on));
+      if (on) activeLink = a;
+    });
+    movePill();
   };
   if (sections.length) {
     const inView = new Set<string>();
