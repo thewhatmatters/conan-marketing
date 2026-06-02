@@ -33,10 +33,11 @@ const githubHref = "https://github.com/";
 
   <!-- Radial darken/fade over the loop: subdues the footage and adds depth —
        lighter toward the figure (right), darker at the edges. Sits above the
-       video (-z-15) but below the fire glow and content. -->
+       video (-z-15) but below the content. `hero-veil` keeps it transparent on
+       load (clean video) then fades it in after the headline rises. -->
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute inset-0 -z-[15]"
+    class="hero-veil pointer-events-none absolute inset-0 -z-[15]"
     style="background: radial-gradient(90% 85% at 62% 42%, rgba(12,10,9,0.05), rgba(12,10,9,0.38) 100%);"
   >
   </div>

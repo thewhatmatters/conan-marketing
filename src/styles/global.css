@@ -160,6 +160,27 @@ body::after {
   }
 }
 
+/* Hero radial veil: the loop plays clean on load, then the radial darken fades
+   in once the headline has risen — a sequenced reveal. */
+@keyframes hero-veil {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.hero-veil {
+  opacity: 0;
+  animation: hero-veil 1.1s ease-out 0.65s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-veil {
+    opacity: 1;
+    animation: none;
+  }
+}
+
 /* ── Bento (comic-panel grid) ─────────────────────────────────────────────
    Tiles + inner rows reveal when the section scrolls into view (.is-in,
    toggled by a small IntersectionObserver). Pulse + EQ are ambient loops. */
