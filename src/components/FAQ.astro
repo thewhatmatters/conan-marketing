@@ -67,6 +67,28 @@ const faqs = [
           >Ask on GitHub</a
         >.
       </p>
+
+      <!-- Lore beat: the rider, framed under the headline. autoplay + muted +
+           playsinline + loop = reliable inline autoplay (incl. iOS); the poster
+           still covers any blocked-playback case. Reduced-motion is paused to
+           the poster in the script below. -->
+      <div
+        class="mt-10 max-w-sm overflow-hidden rounded-2xl border border-border bg-card/40 shadow-[0_10px_60px_-25px] shadow-ember/40"
+      >
+        <video
+          id="faq-video"
+          class="block aspect-video w-full object-cover"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="/video/conan-horse-poster.jpg"
+          aria-hidden="true"
+        >
+          <source src="/video/conan-horse-dark.mp4" type="video/mp4" />
+        </video>
+      </div>
     </div>
 
     <!-- Accordion column -->
@@ -77,6 +99,13 @@ const faqs = [
 </section>
 
 <script>
+  // Honour reduced-motion for the rider loop: pause to the poster frame.
+  const faqVideo = document.getElementById("faq-video") as HTMLVideoElement | null;
+  if (faqVideo && matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    faqVideo.removeAttribute("autoplay");
+    faqVideo.pause();
+  }
+
   const faq = document.querySelector(".faq");
   if (faq) {
     const io = new IntersectionObserver(
