@@ -68,32 +68,28 @@ const faqs = [
         >.
       </p>
 
-      <!-- Lore beat: the rider (9:16 portrait). The clip's baked black can't
-           render identically to the CSS #0c0a09 (H.264 banding + colour range),
-           so its edges would read as a faint rectangle — the overlay feathers
-           those edges into the exact section colour so it dissolves cleanly.
-           autoplay + muted + playsinline + loop = reliable inline autoplay
-           (incl. iOS); poster covers blocked playback; reduced-motion paused. -->
+      <!-- Lore beat: the rider as a TRUE-alpha cut-out (no baked background, so
+           no box — the page shows straight through). Source order matters:
+           Safari/iOS gets the HEVC .mov (video/quicktime so non-Safari skips the
+           container), Chrome/FF/Edge get the VP9 .webm, and the opaque .mp4 is a
+           last-resort fallback. Transparent .png poster covers blocked playback.
+           autoplay + muted + playsinline + loop = reliable inline autoplay. -->
       <div class="relative z-0 -mt-10 w-full max-w-[400px] lg:-mt-16">
         <video
           id="faq-video"
-          class="block aspect-[9/16] w-full object-cover"
+          class="block aspect-square w-full object-contain"
           autoplay
           muted
           loop
           playsinline
           preload="metadata"
-          poster="/video/conan-horse-poster.jpg"
+          poster="/video/conan-horse.png"
           aria-hidden="true"
         >
-          <source src="/video/conan-horse-dark.mp4" type="video/mp4" />
+          <source src="/video/conan-horse.mov" type="video/quicktime" />
+          <source src="/video/conan-horse.webm" type="video/webm" />
+          <source src="/video/conan-horse.mp4" type="video/mp4" />
         </video>
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute inset-0"
-          style="box-shadow: inset 0 0 26px 14px #0c0a09;"
-        >
-        </div>
       </div>
     </div>
 
