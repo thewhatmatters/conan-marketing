@@ -30,7 +30,7 @@ const githubHref = "https://github.com/";
     <div
       id="nav-lightning"
       aria-hidden="true"
-      class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[240px] w-[320px] -translate-x-1/2 -translate-y-1/2 opacity-90 mix-blend-screen"
+      class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[240px] w-[320px] -translate-x-1/2 -translate-y-1/2 opacity-0 mix-blend-screen"
     >
     </div>
     <!-- Wordmark -->
@@ -84,7 +84,10 @@ const githubHref = "https://github.com/";
   const mount = document.getElementById("nav-lightning");
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Lightning plays once each time the bar compacts. Skipped under reduced motion.
+  // Lightning flash — plays on scroll-state transitions (compact/expand, both
+  // directions) and on nav-link clicks. NEVER on load: the mount is hidden at
+  // rest (opacity 0, so the static first frame can't show) and only revealed
+  // while playing. Skipped entirely under reduced motion.
   let bolt: ReturnType<typeof lottie.loadAnimation> | null = null;
   if (mount && !reduceMotion) {
     bolt = lottie.loadAnimation({
@@ -96,19 +99,33 @@ const githubHref = "https://github.com/";
       rendererSettings: { preserveAspectRatio: "xMidYMid meet" },
     });
     bolt.setSpeed(1.4);
+    bolt.addEventListener("complete", () => {
+      if (mount) mount.style.opacity = "0";
+    });
   }
 
-  let scrolled = false;
+  const playBolt = () => {
+    if (!bolt || !mount) return;
+    mount.style.opacity = "0.9";
+    bolt.goToAndStop(0, true);
+    bolt.play();
+  };
+
+  // Sync the compacted state on load WITHOUT playing (avoids the load flash).
+  let scrolled = window.scrollY > 8;
+  header?.setAttribute("data-scrolled", String(scrolled));
+
   const onScroll = () => {
     const now = window.scrollY > 8;
     if (now === scrolled) return;
     scrolled = now;
     header?.setAttribute("data-scrolled", String(now));
-    if (now && bolt) {
-      bolt.goToAndStop(0, true);
-      bolt.play();
-    }
+    playBolt(); // fire on both directions (scroll down to compact, up to expand)
   };
-  onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Also flash on nav-link clicks.
+  document
+    .querySelectorAll("#site-header ul a")
+    .forEach((a) => a.addEventListener("click", () => playBolt()));
 </script>
