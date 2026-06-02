@@ -48,7 +48,7 @@ const faqs = [
 <section id="faq" class="faq relative py-24 lg:py-32">
   <div class="shell grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
     <!-- Intro column -->
-    <div class="faq-col lg:col-span-4" style="--d: 0ms">
+    <div class="faq-col lg:col-span-5" style="--d: 0ms">
       <p
         class="mb-4 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-muted-foreground"
       >
@@ -72,7 +72,7 @@ const faqs = [
            playsinline + loop = reliable inline autoplay (incl. iOS); the poster
            still covers any blocked-playback case. Reduced-motion is paused to
            the poster in the script below. -->
-      <div class="relative mt-10 max-w-sm overflow-hidden rounded-2xl">
+      <div class="relative mt-8 overflow-hidden">
         <video
           id="faq-video"
           class="block aspect-video w-full object-cover"
@@ -86,12 +86,13 @@ const faqs = [
         >
           <source src="/video/conan-horse-dark.mp4" type="video/mp4" />
         </video>
-        <!-- Corner vignette: fades the edges into the section color (#0c0a09)
-             so the clip blends in instead of reading as a hard rectangle. -->
+        <!-- Hero-style blend: a strong radial vignette dissolves every edge into
+             the section colour (#0c0a09) so the rider emerges from the dark with
+             no rectangle/border — same treatment as the hero loop. -->
         <div
           aria-hidden="true"
           class="pointer-events-none absolute inset-0"
-          style="background: radial-gradient(ellipse at center, transparent 48%, rgba(12,10,9,0.9) 100%);"
+          style="background: radial-gradient(ellipse 80% 78% at 50% 44%, transparent 30%, rgba(12,10,9,0.55) 62%, #0c0a09 88%);"
         >
         </div>
       </div>
