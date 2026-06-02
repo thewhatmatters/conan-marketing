@@ -72,9 +72,7 @@ const faqs = [
            playsinline + loop = reliable inline autoplay (incl. iOS); the poster
            still covers any blocked-playback case. Reduced-motion is paused to
            the poster in the script below. -->
-      <div
-        class="mt-10 max-w-sm overflow-hidden rounded-2xl border border-border bg-card/40 shadow-[0_10px_60px_-25px] shadow-ember/40"
-      >
+      <div class="relative mt-10 max-w-sm overflow-hidden rounded-2xl">
         <video
           id="faq-video"
           class="block aspect-video w-full object-cover"
@@ -88,6 +86,14 @@ const faqs = [
         >
           <source src="/video/conan-horse-dark.mp4" type="video/mp4" />
         </video>
+        <!-- Corner vignette: fades the edges into the section color (#0c0a09)
+             so the clip blends in instead of reading as a hard rectangle. -->
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0"
+          style="background: radial-gradient(ellipse at center, transparent 48%, rgba(12,10,9,0.9) 100%);"
+        >
+        </div>
       </div>
     </div>
 
