@@ -10,14 +10,17 @@ const githubHref = "https://github.com/";
 <section
   class="relative isolate flex min-h-screen flex-col overflow-hidden pb-0 pt-32 lg:pt-40"
 >
-  <!-- Background loop (conan-battle.mp4). No `autoplay` attr by design: the
-       script below plays it only when motion is allowed, so reduced-motion
-       users get the static poster. It sits furthest back (-z-20); the warm
-       gradient layers below tint it to the pulp palette and keep the headline
-       readable. -->
+  <!-- Background loop. `autoplay muted playsinline loop` is the canonical combo
+       for reliable INLINE autoplay on iOS/Safari (a JS-only .play() is flaky
+       there and blocked entirely in Low Power Mode). The script below honours
+       prefers-reduced-motion by pausing to the poster frame. Poster is a real
+       still from the clip, so the hero is never blank if playback is blocked.
+       Sits furthest back (-z-20); the warm gradient layers tint it and keep the
+       headline readable. -->
   <video
     id="hero-video"
     class="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover"
+    autoplay
     muted
     loop
     playsinline
@@ -194,13 +197,19 @@ const githubHref = "https://github.com/";
 </section>
 
 <script>
-  // Play the hero loop only when the user hasn't asked for reduced motion;
-  // otherwise the poster frame stands in (no autoplay attribute on the video).
+  // The video carries the `autoplay` attribute (reliable inline autoplay on
+  // iOS). Here we only special-case reduced-motion (pause to the poster frame)
+  // and give a belt-and-suspenders .play() nudge for engines that need it.
   const video = document.getElementById("hero-video") as HTMLVideoElement | null;
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (video && !reduce) {
-    const play = () => video.play().catch(() => {});
-    if (video.readyState >= 2) play();
-    else video.addEventListener("loadeddata", play, { once: true });
+  if (video) {
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      video.removeAttribute("autoplay");
+      video.pause();
+    } else {
+      const play = () => video.play().catch(() => {});
+      if (video.readyState >= 2) play();
+      else video.addEventListener("loadeddata", play, { once: true });
+    }
   }
 </script>
