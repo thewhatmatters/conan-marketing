@@ -57,7 +57,7 @@ const downloadHref = "#download";
           <li>
             <a
               href={l.href}
-              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              class="-mx-3 rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground data-[active=true]:bg-foreground/10 data-[active=true]:text-foreground"
             >
               {l.label}
             </a>
@@ -160,4 +160,38 @@ const downloadHref = "#download";
   document
     .querySelectorAll("#site-header ul a")
     .forEach((a) => a.addEventListener("click", () => playBolt()));
+
+  // Scroll-spy: mark the nav link active when its section crosses the viewport
+  // centre (rootMargin collapses the root to a centre line), and on click for
+  // instant feedback. No section centred (hero/CTA/footer) → none active.
+  const spyLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("#site-header ul a"),
+  );
+  const sections = spyLinks
+    .map((a) => document.querySelector(a.getAttribute("href") || "#"))
+    .filter((el): el is Element => !!el);
+  const setActive = (id: string | null) => {
+    spyLinks.forEach((a) =>
+      a.setAttribute("data-active", String(a.getAttribute("href") === (id && `#${id}`))),
+    );
+  };
+  if (sections.length) {
+    const inView = new Set<string>();
+    const spy = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) inView.add(e.target.id);
+          else inView.delete(e.target.id);
+        }
+        setActive(inView.size ? [...inView][0] : null);
+      },
+      { rootMargin: "-50% 0px -50% 0px" },
+    );
+    sections.forEach((s) => spy.observe(s));
+    spyLinks.forEach((a) =>
+      a.addEventListener("click", () =>
+        setActive((a.getAttribute("href") || "").slice(1)),
+      ),
+    );
+  }
 </script>
