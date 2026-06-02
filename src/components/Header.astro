@@ -21,7 +21,8 @@ const githubHref = "https://github.com/";
   class="group fixed inset-x-0 top-0 z-50 px-0 pt-0 transition-[padding] duration-300 ease-out data-[scrolled=true]:px-3 data-[scrolled=true]:pt-3"
 >
   <nav
-    class="relative isolate mx-auto flex max-w-[1280px] items-center justify-between gap-4 rounded-none border border-transparent bg-transparent px-6 py-5 shadow-none transition-all duration-300 ease-out lg:px-12 group-data-[scrolled=true]:w-max group-data-[scrolled=true]:max-w-[92vw] group-data-[scrolled=true]:gap-5 group-data-[scrolled=true]:rounded-full group-data-[scrolled=true]:border-border group-data-[scrolled=true]:bg-background/70 group-data-[scrolled=true]:py-2.5 group-data-[scrolled=true]:pl-5 group-data-[scrolled=true]:pr-2.5 group-data-[scrolled=true]:shadow-lg group-data-[scrolled=true]:backdrop-blur-xl"
+    style="--nav-hug: 520px"
+    class="relative isolate mx-auto flex max-w-[1280px] items-center gap-4 whitespace-nowrap rounded-none border border-transparent bg-transparent px-6 py-5 shadow-none transition-all duration-300 ease-out lg:px-12 group-data-[scrolled=true]:max-w-[var(--nav-hug)] group-data-[scrolled=true]:gap-5 group-data-[scrolled=true]:rounded-full group-data-[scrolled=true]:border-border group-data-[scrolled=true]:bg-background/70 group-data-[scrolled=true]:py-2.5 group-data-[scrolled=true]:pl-5 group-data-[scrolled=true]:pr-2.5 group-data-[scrolled=true]:shadow-lg group-data-[scrolled=true]:backdrop-blur-xl"
   >
     <!-- Lightning flash — plays once when the bar compacts. NOT clipped: the
          bolt overflows the capsule, striking above and below the bar.
@@ -33,17 +34,24 @@ const githubHref = "https://github.com/";
       class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[240px] w-[320px] -translate-x-1/2 -translate-y-1/2 opacity-0 mix-blend-screen"
     >
     </div>
-    <!-- Wordmark -->
-    <a href="/" class="flex items-baseline gap-1.5 transition-opacity hover:opacity-80">
-      <span class="text-lg font-semibold uppercase tracking-[0.2em] text-foreground">
-        Conan
-      </span>
-      <span class="text-xs text-muted-foreground">.sh</span>
-    </a>
+    <!-- Wordmark (in a flex-1 wrapper so the links sit centred at the top; the
+         wrapper collapses to the wordmark width when the bar hugs). -->
+    <div class="flex-1">
+      <a
+        href="/"
+        class="inline-flex items-baseline gap-1.5 transition-opacity hover:opacity-80"
+      >
+        <span class="text-lg font-semibold uppercase tracking-[0.2em] text-foreground">
+          Conan
+        </span>
+        <span class="text-xs text-muted-foreground">.sh</span>
+      </a>
+    </div>
 
-    <!-- Centered links (absolute-centered within the bar) -->
+    <!-- Links — inline in both states (no position switch → smooth compaction).
+         Centred at the top by the equal flex-1 sides. -->
     <ul
-      class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex group-data-[scrolled=true]:static group-data-[scrolled=true]:translate-x-0 group-data-[scrolled=true]:gap-6"
+      class="hidden shrink-0 items-center gap-8 md:flex group-data-[scrolled=true]:gap-6"
     >
       {
         navLinks.map((l) => (
@@ -59,8 +67,8 @@ const githubHref = "https://github.com/";
       }
     </ul>
 
-    <!-- Right actions -->
-    <div class="flex items-center gap-3">
+    <!-- Right actions (flex-1 mirrors the wordmark wrapper to keep links centred). -->
+    <div class="flex flex-1 items-center justify-end gap-3">
       <a
         href={githubHref}
         class="hidden text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline"
@@ -114,6 +122,37 @@ const githubHref = "https://github.com/";
   // Sync the compacted state on load WITHOUT playing (avoids the load flash).
   let scrolled = window.scrollY > 8;
   header?.setAttribute("data-scrolled", String(scrolled));
+
+  // Measure the compacted pill's content width once (after fonts load) into
+  // --nav-hug, so max-width can animate full -> exact content width smoothly.
+  // (Animating to `width: max-content` directly isn't transitionable; max-w:0
+  // just collapses the box. A measured px target gives a clean morph.)
+  const nav = header?.querySelector("nav") as HTMLElement | null;
+  const measureHug = () => {
+    if (!nav || !header) return;
+    const s = nav.style;
+    const prev = { width: s.width, maxWidth: s.maxWidth, transition: s.transition };
+    const was = header.getAttribute("data-scrolled");
+    s.transition = "none";
+    header.setAttribute("data-scrolled", "true");
+    s.maxWidth = "none";
+    s.width = "max-content";
+    const hug = Math.ceil(nav.getBoundingClientRect().width) + 1;
+    s.width = prev.width;
+    s.maxWidth = prev.maxWidth;
+    header.setAttribute("data-scrolled", was || "false");
+    void nav.offsetWidth; // commit the restore before re-enabling transitions
+    s.transition = prev.transition;
+    nav.style.setProperty("--nav-hug", `${hug}px`);
+  };
+  if (nav) {
+    (document.fonts?.ready ?? Promise.resolve()).then(measureHug);
+    let rt = 0;
+    window.addEventListener("resize", () => {
+      clearTimeout(rt);
+      rt = window.setTimeout(measureHug, 150);
+    });
+  }
 
   const onScroll = () => {
     const now = window.scrollY > 8;
