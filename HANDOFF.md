@@ -1,106 +1,82 @@
-# Handoff — conan.sh marketing site (dark-pulp landing page)
+# Handoff — conan.sh marketing site (hero video · nav · FAQ rider)
 
-_Updated 2026-05-31 · session: FAQ + CTA + waitlist/KV + video-hero checkpoint_
+_Updated 2026-06-02 · session refresh checkpoint_
 
 ## Goal
-Build the public marketing landing page for **conan.sh** (sells Conan, the macOS
-app that wraps/observes Claude Code). Single fast Astro page, **"dark pulp / ink
-& fire"** aesthetic (70s/80s Conan comic). See CLAUDE.md §Current state + DESIGN.md.
+Public marketing landing page for **conan.sh** (sells Conan, the macOS app that
+observes Claude Code). Single Astro page, dark "ink & fire" pulp aesthetic.
+This session was a polish pass: hero background video, a heavily-reworked nav,
+and the FAQ rider cut-out. See `CLAUDE.md` + `DESIGN.md` for the baseline system.
 
 ## Current state
-Page is **content-complete** (Hero → Bento → FAQ → CTA → Footer), build green,
-browser-verified, pushed to `main`. New this session on top of the prior
-Header/Hero/Bento/Footer + Geist + `.shell` baseline:
-- **FAQ** (`FAQ.astro` + `FaqAccordion.tsx`) — 9 trust-first Q&As (copy in
-  `.astro` frontmatter) in a **shadcn Accordion** island, single-open. `#faq`.
-  **First shadcn component** added (`ui/accordion.tsx`, new-york → pulls unified
-  `radix-ui`; dropped the redundant `@radix-ui/react-accordion`).
-- **CTA band** (`CTA.astro`) — fire-glow reprise, `id="download"` (Header's
-  scroll target). "Miss nothing." kicker → "Take up the steel." H2 → ember
-  Download + pricing line. Hosts the waitlist as the Windows/Linux platform line.
-- **Waitlist** (`WaitlistForm.tsx` + `src/pages/api/waitlist.ts`) — accessible
-  capture (honeypot, `role=status/alert`) → **Vercel KV** (`@vercel/kv`,
-  `kv.sadd("waitlist:emails", …)`, reuses the conan-license store). Reads
-  `KV_REST_API_URL`/`_TOKEN` from Vite env or `process.env`; **degrades
-  gracefully** when unset (accepts + logs, doesn't drop). `prerender = false`.
-- **Hero reworked** — full-bleed background `<video>` loop (no-autoplay,
-  reduced-motion → poster) + subdue scrim + a **framed app screenshot** (window
-  chrome, ember/gold corner-glow) composited in front, bleeding off the bottom.
-  Graceful until assets exist (fire-glow / empty chrome frame stand in).
-
-**Carried baseline:** Geist/Geist Mono (PP Neue gone); shared `.shell` (1280px,
-`px-6`→`lg:px-12`); warm-pulp tokens + grain in `global.css`. `motion` is
-installed but unused (CSS/IO/lottie cover current needs).
+All committed **and pushed to `main`** (HEAD `645ae49`); build green;
+www.conan.sh auto-deploys from `main` (push → Vercel). Highlights:
+- **Hero** (`Hero.astro`) — full-bleed background loop `conan-battle-dark.mp4`
+  (keyed onto `#0c0a09`). `autoplay muted playsinline loop` + real
+  `hero-poster.jpg` for reliable iOS autoplay. Sequenced reveal: clean video on
+  load → `hero-veil` radial darken fades in after the headline rises. Radial is
+  light (0.05→0.38). Fire-glow removed. Edge feather (inset `#0c0a09`) hides the
+  baked-black seam. Bottom-blend ramps to `#0c0a09` into the next section.
+- **Header/nav** (`Header.astro`) — compacts on scroll into a content-hugging
+  pill that **animates smoothly** (`max-width` → measured `--nav-hug`, links
+  stay inline via equal `flex-1` sides). **Scroll-spy** with a single **shared
+  sliding highlight pill** (`#nav-pill`, driven by IntersectionObserver +
+  `movePill()`). **Circular logo placeholder** ("C" in a ring — swap for an
+  `<img class="h-9 w-9 rounded-full object-cover">`). 44px gaps; chip matches the
+  Download button (36px, px-4). Lightning lottie only on scroll/nav-click.
+- **FAQ** (`FAQ.astro`) — rider cut-out (`conan-horse.mp4`, opaque keyed
+  `#0c0a09`) under the headline, `aspect-square max-w-[480px]`, lifted behind the
+  copy. Edge feather + bottom-fade so the hooves dissolve into the page. Poster
+  `conan-horse.png` (transparent). Contact link is `mailto:hello@whatmatters.so`.
+- **GitHub fully removed** from the site (no public source). **Geist Mono
+  dropped** — Geist throughout.
 
 ## Next steps
-> **Pricing — RESOLVED (2026-05-31):** no pricing table. We sell one app +
-> a $39 unlock (freemium), not tiers, so `#pricing` now anchors to the CTA band
-> (which carries the price). Don't build a tiered pricing grid.
-
-1. **Hero assets** — create + drop into `public/hero/` (see README there):
-   `hero-loop.mp4`/`.webm` + `hero-poster.jpg` (original/evocative barbarian
-   loop, **no franchise IP**) and `app-screenshot.webp` (dark HUD capture). Then
-   tune the subdue scrim/frame-glow against the real footage.
-2. **KV creds** — add `KV_REST_API_URL` + `KV_REST_API_TOKEN` to a local `.env`
-   (and to Vercel) from the conan-license store, so the waitlist actually
-   persists. Until then it accepts + logs but doesn't store.
-3. **Fuller footer columns** (Product / Resources / Company·Legal / Social +
-   trust strip + Windows/Linux notify link) — currently minimal.
-4. Wire real **Download** (latest GitHub Release .dmg) + **Buy** (Polar) URLs —
-   currently `#`/`#download` stubs in Header/Hero/CTA.
-5. Real favicon (still placeholder "C"), OG/SEO meta in Layout.
-6. **Connect Vercel + point conan.sh** (push currently hits GitHub only).
-7. **Bento radio tile** (#05) — reads as a free "built-in" delight, but radio
-   playback is **Premium-gated**. Mark it Premium or soften the copy.
+1. **Real circular logo** → replace the `<span>C</span>` placeholder in
+   `Header.astro` with `<img class="h-9 w-9 rounded-full object-cover" src="…">`.
+2. **Confirm the FAQ contact email** — `hello@whatmatters.so` is a placeholder.
+3. **Mobile hero scrim** — the desktop left→right readability scrim blankets most
+   of a phone's width, hiding the video. Make it responsive (top/bottom scrim on
+   mobile) so the loop reads. (Known, not yet done.)
+4. **Wire real URLs** — Download (`#download`) and any Buy still point at the CTA
+   band; swap for the latest Release `.dmg` / Polar when published.
+5. **Cleanup** — unused `~/Desktop/archive/*.mp4` variants + untracked
+   `public/video/conan-horse-dark-to-gif.mp4` (the FAQ source); old
+   `public/video/conan-battle.mp4`/`-1` if still around.
 
 ## Key decisions (and why)
-- **Dark pulp, NO green** — dropped the app's emerald so the site has its own warm
-  identity (app = cool tool, site = warm poster). Ember `#d97706` is primary.
-- **Pill color = ember** (resolved the green-vs-light fork).
-- **Nav lightning overflows** the capsule (not clipped), screen-blended, plays
-  once per compaction — user loved it.
-- **No external assets from the COMPUTE reference** (their hero video) — used our
-  own fire-glow/grid instead. **No copyrighted Conan art** — evoke era via
-  color/grain/type only (IP caution in DESIGN.md).
-- **Animations are CSS + IntersectionObserver + lottie-web**, not Framer Motion
-  (not installed) — keeps islands minimal per the "island only when needed" rule.
-- DESIGN.md was rewritten into a **token-doc format** (YAML frontmatter = source
-  of truth for `global.css`).
-
-## Open questions / risks
-- Headline final pick (① "A barbarian misses nothing." vs ② the cycling "Command
-  the campaign…" currently live).
-- Nav wordmark hugs the left curve of the pill (cosmetic; parked — fix with
-  asymmetric padding, e.g. `px-4 py-3`).
-- `npm audit`: 3 high (transitive `path-to-regexp` via `@astrojs/vercel`) — left
-  as-is; the "fix" downgrades the adapter. Not runtime-exploitable for a static site.
+- **Video backgrounds = opaque, keyed onto `#0c0a09` + a CSS edge feather — NOT
+  alpha.** Cross-browser transparent video is unreliable: Safari's
+  `hevc_videotoolbox` alpha silently encodes **opaque yuv420p** (→ black box),
+  and VP9-alpha webm is Chrome/Firefox-only. On the flat-dark sections the
+  keyed+feather clip looks identical and plays everywhere.
+- **NEVER overwrite a user-dropped asset.** I destroyed a dropped source with
+  `mv` this session — process to NEW filenames, leave the source. (Saved to the
+  memory system: `no-overwrite-dropped-assets`.)
+- **Nav smoothness** — can't transition `width:max-content`/`max-width:0`; the
+  fix is animating `max-width` to a JS-**measured** content width (`--nav-hug`),
+  with links inline in both states so there's no layout-reflow snap.
+- **Sliding pill** beats per-chip fades for the active state (one element,
+  position/width transition).
 
 ## Files & commands in play
-- Page: `src/pages/index.astro` (Header → Hero → Bento → FAQ → CTA → Footer).
-- Components: `src/components/{Header,Hero,Bento,FAQ,CTA,Footer}.astro` +
-  islands `HeroWord.tsx`, `FaqAccordion.tsx`, `WaitlistForm.tsx`; shadcn
-  `components/ui/accordion.tsx`.
-- Server route: `src/pages/api/waitlist.ts` (`prerender = false` → Vercel fn).
-- Theme/anim: `src/styles/global.css`. Lottie: `public/animations/lightning.json`.
-- Hero asset slots + specs/IP/prompt: `public/hero/README.md`.
-- Env: `.env.example` documents `KV_REST_API_URL`/`_TOKEN`; real `.env` gitignored.
-- Skills: `build-ui` + `frontend-design` (UI), `shadcn` (components),
-  `automate-browser` (browser verify).
-- Commands: `npm run dev` (:4321) · `npm run build` · `npm run preview`. Typecheck
-  via `npx tsc --noEmit --ignoreDeprecations 6.0` (no `@astrojs/check` installed).
+- Components: `src/components/{Header,Hero,FAQ,CTA,Footer}.astro`.
+- Assets: `public/video/conan-horse.{mp4,png}`, `public/video/conan-battle-dark.mp4`,
+  `public/hero/hero-poster.jpg`. Source (untracked): `conan-horse-dark-to-gif.mp4`.
+- Run: `npm run dev` (:4321) · `npm run build`. Verify visually with the
+  **automate-browser** skill (headless Chromium screenshots).
+- ffmpeg recipe (key checkerboard → `#0c0a09`, the working pattern):
+  `color=0x0c0a09…[bg];[0:v]colorkey=0xe6e6e6:0.30:0.12[fg];[bg][fg]overlay,format=yuv420p`.
 
 ## Git state
-Branch `main`. This session pushed: FAQ (shadcn accordion), CTA band, waitlist
-UI, Vercel KV wiring, the video-hero scaffold, then the hero app-frame rework —
-plus these doc updates (CLAUDE.md / DESIGN.md / HANDOFF.md). Build green,
-browser-verified. Commit the hero rework + doc updates if not already done.
+Branch `main`, **clean** except untracked `public/video/conan-horse-dark-to-gif.mp4`
+(user's FAQ source — intentionally not committed). Everything else committed +
+pushed this session.
 
 ## Don't redo
-- `motion` IS installed but intentionally unused — CSS/IO/lottie cover current
-  needs; reach for it only when those genuinely can't.
-- **Aceternity UI Pro was evaluated for the hero and declined** — we chose a
-  video loop + framed app screenshot. Don't re-introduce the flickering-bulb hero.
-- Don't lift the app's cool/green tokens or conan-icon — design intentionally diverged.
-- Don't use the COMPUTE hero video URL or any Frazetta/'82-poster/Arnold art.
-  The hero loop must be original/evocative — **no Conan/Arnold/franchise IP**.
-- Folder is `public/animations/` (the earlier `animatons` typo is fixed).
+- **Alpha/transparent video** for these sections — Safari HEVC-alpha = opaque
+  yuv420p; VP9-alpha = Chrome/FF only. Use keyed-`#0c0a09` + feather.
+- **GIF** for the rider — larger, 256-colour, 1-bit jagged transparency; worse
+  than the mp4 on every axis.
+- Don't re-introduce the fire-glow hero layer or the per-chip nav background.
+- Don't `mv`/overwrite dropped source files.

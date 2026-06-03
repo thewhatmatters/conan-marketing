@@ -1,1 +1,1 @@
-conan.sh landing — Geist locked; next: FAQ + CTA band
+conan.sh: nav+hero video+FAQ rider polished & shipped; logo placeholder pending
