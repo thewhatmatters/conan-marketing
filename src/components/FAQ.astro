@@ -68,12 +68,12 @@ const faqs = [
         >.
       </p>
 
-      <!-- Lore beat: the rider as a TRUE-alpha cut-out (no baked background, so
-           no box — the page shows straight through). Source order matters:
-           Safari/iOS gets the HEVC .mov (video/quicktime so non-Safari skips the
-           container), Chrome/FF/Edge get the VP9 .webm, and the opaque .mp4 is a
-           last-resort fallback. Transparent .png poster covers blocked playback.
-           autoplay + muted + playsinline + loop = reliable inline autoplay. -->
+      <!-- Lore beat: the rider. Cross-browser transparent video is unreliable
+           (Safari's HEVC-alpha wouldn't encode — flattens to black; VP9 webm
+           alpha is Chrome/FF-only), so we use ONE universal opaque clip keyed
+           onto #0c0a09 and feather its edges into the section so the rectangle
+           dissolves. Looks identical to a cut-out on this dark section and
+           plays everywhere. autoplay + muted + playsinline + loop = inline. -->
       <div class="relative z-0 -mt-10 w-full max-w-[400px] lg:-mt-16">
         <video
           id="faq-video"
@@ -86,10 +86,14 @@ const faqs = [
           poster="/video/conan-horse.png"
           aria-hidden="true"
         >
-          <source src="/video/conan-horse.mov" type="video/quicktime" />
-          <source src="/video/conan-horse.webm" type="video/webm" />
           <source src="/video/conan-horse.mp4" type="video/mp4" />
         </video>
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0"
+          style="box-shadow: inset 0 0 26px 16px #0c0a09;"
+        >
+        </div>
       </div>
     </div>
 
