@@ -67,9 +67,11 @@ const downloadHref = "#download";
       (Apple silicon)
     </p>
 
-    <!-- Platform handling / waitlist -->
+    <!-- Platform handling / waitlist. `id="waitlist"` is the nav "Get notified"
+         target; scroll-mt clears the sticky header on jump + scroll-spy. -->
     <div
-      class="cta-col mt-14 flex w-full max-w-md flex-col items-center gap-4 border-t border-border/40 pt-10"
+      id="waitlist"
+      class="cta-col mt-14 flex w-full max-w-md scroll-mt-28 flex-col items-center gap-4 border-t border-border/40 pt-10"
       style="--d: 300ms"
     >
       <p class="text-sm leading-relaxed text-muted-foreground">
