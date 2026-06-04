@@ -6,10 +6,13 @@
 ---
 
 <footer id="closing" class="footer relative isolate overflow-hidden bg-background">
-  <!-- Giant CONAN wordmark — behind the figure, anchored to the footer's bottom. -->
+  <!-- Giant CONAN wordmark — behind the figure, anchored to the footer's bottom.
+       Drifts up slightly as the section scrolls through the viewport (parallax,
+       set by the script below; static under reduced-motion). -->
   <div
+    id="conan-parallax"
     aria-hidden="true"
-    class="pointer-events-none absolute inset-x-0 bottom-0 z-0 overflow-hidden"
+    class="pointer-events-none absolute inset-x-0 bottom-0 z-0 overflow-hidden will-change-transform"
   >
     <span
       class="block translate-y-[0.16em] select-none bg-gradient-to-b from-ember/60 via-ember/30 to-transparent bg-clip-text text-center font-display text-[clamp(4.5rem,23vw,22rem)] font-bold leading-[0.8] tracking-tight text-transparent"
@@ -43,3 +46,40 @@
   >
   </div>
 </footer>
+
+<script>
+  // Parallax: the CONAN wordmark drifts UP as the closing section travels through
+  // the viewport. rAF-throttled scroll → transform on the wrapper (cheap, GPU).
+  // Skipped under reduced-motion (stays at its resting position).
+  const wrap = document.getElementById("conan-parallax");
+  const section = document.getElementById("closing");
+  if (
+    wrap &&
+    section &&
+    !matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    const MAX = 90; // px of upward drift across the full scroll-through
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // 0 when the section's top is at the viewport bottom → 1 once it's fully
+      // scrolled past the top.
+      const progress = Math.min(
+        1,
+        Math.max(0, (vh - rect.top) / (vh + rect.height)),
+      );
+      wrap.style.transform = `translateY(${-progress * MAX}px)`;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+  }
+</script>

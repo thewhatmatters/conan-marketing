@@ -10,9 +10,9 @@ preserved under "Previous handoff" sections below.
 
 ## Git state
 - Branch `main` (trunk-based; `main` auto-deploys to www.conan.sh via Vercel).
-- The big polish batch landed in `cac92ed` (pushed); the 10MB source
-  `conan-footer.png` + unused `halftone.png` were then deleted (never committed).
-  The scroll-spy change (§6) is being committed + pushed now. Tree clean after.
+- Pushed so far: `cac92ed` (big polish batch), `e5f78ac` (§6 scroll-spy). The
+  10MB source `conan-footer.png` + unused `halftone.png` were deleted (never
+  committed). The parallax (§7) is being committed + pushed now. Tree clean after.
 - Dev server: `npm run dev` → http://localhost:4321/ . `npm run build` is green;
   `/`, `/terms`, `/privacy` all prerender.
 
@@ -90,6 +90,12 @@ preserved under "Previous handoff" sections below.
 - Spy refactor (`Header.astro`): tracks each link → target element via
   `data-spy || hashOf(href)`, no id round-trip. Features/FAQ unchanged; still
   no-ops on pages without those targets (legal pages).
+
+### 7. CONAN wordmark parallax (`Footer.astro`)
+- The giant CONAN wordmark drifts **up** (max `90px`) as the closing section
+  scrolls through the viewport — rAF-throttled scroll → `translateY` on the
+  `#conan-parallax` wrapper (`will-change-transform`). Disabled under
+  reduced-motion. Verified: 0 → −36 → −67 → −71px across scroll depths.
 
 ## Open threads / next steps
 - **Legal copy is placeholder** — replace all `.todo` DRAFT blocks with real
