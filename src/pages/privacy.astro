@@ -1,0 +1,170 @@
+---
+// Privacy Policy — scaffolded structure with DRAFT placeholders (.todo). The
+// substance hinges on a real contrast from CLAUDE.md: the APP runs locally and
+// sends NO telemetry (reads ~/.claude on-device, nothing leaves the Mac), while
+// the WEBSITE does collect minimal data — waitlist email (Vercel/Upstash KV)
+// and payments via Polar (Merchant of Record). Replace .todo blocks with
+// counsel-reviewed text.
+import LegalLayout from "../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  active="privacy"
+  title="Privacy Policy"
+  description="What Conan and conan.sh collect — and what they deliberately don't."
+  updated="[DRAFT — set on publish]"
+>
+  <p>
+    This Privacy Policy explains how WhatMatters ("we", "us") handles
+    information in connection with the Conan application and the conan.sh
+    website. The short version: the app is built to keep your work on your
+    machine, and the website collects only the minimum needed to run a waitlist
+    and sell Premium.
+  </p>
+
+  <section id="overview">
+    <h2>1. Overview</h2>
+    <p>
+      There are two surfaces to distinguish. The <strong>Conan app</strong> runs
+      entirely on your Mac and sends us no telemetry. The <strong>conan.sh
+      website</strong> collects limited data when you join the waitlist or
+      purchase Premium. This policy covers both.
+    </p>
+  </section>
+
+  <section id="collect">
+    <h2>2. Data we collect (website)</h2>
+    <h3>Waitlist</h3>
+    <p>
+      If you join the Windows/Linux waitlist, we collect the <strong>email
+      address</strong> you submit, so we can notify you when those platforms are
+      available. This is stored in our key-value store (Vercel/Upstash KV).
+    </p>
+    <h3>Purchases</h3>
+    <p>
+      When you buy Premium, payment is processed by <strong>Polar.sh</strong> as
+      Merchant of Record. Polar collects the information needed to complete the
+      sale (e.g. billing details); we receive purchase/entitlement confirmation
+      but <strong>do not store your full payment-card details</strong>.
+    </p>
+    <span class="todo"
+      >Enumerate every field actually collected at checkout and what Polar shares
+      back to us (name, email, country, order id). Confirm whether we store the
+      buyer's email for license delivery/support.</span
+    >
+  </section>
+
+  <section id="app">
+    <h2>3. The app: local-only</h2>
+    <p>
+      Conan reads Claude Code's local session data in <strong>~/.claude</strong>
+      to visualize your activity. This processing happens on your device. Conan
+      does not transmit your code, prompts, or session contents to us or any
+      third party, and the app sends <strong>no analytics or telemetry</strong>.
+    </p>
+    <span class="todo"
+      >Confirm there is genuinely zero outbound app traffic except (a) signed
+      auto-update checks and (b) license validation, and describe exactly what
+      each of those sends (e.g. version, license key — no personal data).</span
+    >
+  </section>
+
+  <section id="use">
+    <h2>4. How we use data</h2>
+    <ul>
+      <li>to email you about Windows/Linux availability if you joined the waitlist;</li>
+      <li>to fulfill and support your Premium purchase;</li>
+      <li>to operate, secure, and improve the website.</li>
+    </ul>
+    <p>We do not sell your personal information.</p>
+    <span class="todo">Confirm we never use waitlist emails for unrelated marketing without consent.</span>
+  </section>
+
+  <section id="processors">
+    <h2>5. Sharing & processors</h2>
+    <p>We share data only with service providers that help us run the Service:</p>
+    <ul>
+      <li><strong>Polar.sh</strong> — payments / Merchant of Record;</li>
+      <li><strong>Vercel</strong> — hosting and the KV store that holds waitlist emails;</li>
+      <li><strong>[Email provider]</strong> — to send waitlist notifications.</li>
+    </ul>
+    <span class="todo"
+      >List the actual email/notification provider and any analytics vendor. Link
+      each processor's DPA/privacy terms. Confirm no other third parties receive
+      data.</span
+    >
+  </section>
+
+  <section id="retention">
+    <h2>6. Data retention</h2>
+    <p>
+      We keep waitlist emails until the relevant platform launches and you have
+      been notified, or until you ask us to remove you. Purchase records are
+      retained as required for tax and accounting purposes.
+    </p>
+    <span class="todo">Set concrete retention periods per data type and legal requirements.</span>
+  </section>
+
+  <section id="rights">
+    <h2>7. Your rights</h2>
+    <p>
+      Depending on where you live (e.g. under GDPR or CCPA), you may have rights
+      to access, correct, delete, or port your personal data, and to object to
+      certain processing. To exercise these, email <a
+        href="mailto:hello@whatmatters.so">hello@whatmatters.so</a
+      >.
+    </p>
+    <span class="todo"
+      >Confirm the rights statement matches the regimes you serve (GDPR/UK
+      GDPR/CCPA), and add a legal-basis table if you target the EU/UK.</span
+    >
+  </section>
+
+  <section id="cookies">
+    <h2>8. Cookies & analytics</h2>
+    <span class="todo"
+      >State whether the site uses cookies and/or analytics at all. If it's
+      cookieless and runs no third-party analytics, say so plainly (a strong
+      trust signal consistent with the app's no-telemetry stance). If analytics
+      are added later, disclose the vendor and add a cookie/consent banner if
+      required.</span
+    >
+  </section>
+
+  <section id="children">
+    <h2>9. Children's privacy</h2>
+    <p>
+      The Service is not directed to children, and we do not knowingly collect
+      personal information from them.
+    </p>
+    <span class="todo">Confirm the age threshold to match the Terms.</span>
+  </section>
+
+  <section id="intl">
+    <h2>10. International users</h2>
+    <p>
+      If you access the Service from outside the country where our providers
+      operate, your information may be processed in other countries with
+      different data-protection laws.
+    </p>
+    <span class="todo">Name the processing locations and any transfer mechanism (e.g. SCCs) if serving the EU/UK.</span>
+  </section>
+
+  <section id="changes">
+    <h2>11. Changes</h2>
+    <p>
+      We may update this policy; the "Last updated" date above will reflect any
+      changes, and we will notify you of material changes as required.
+    </p>
+  </section>
+
+  <section id="contact">
+    <h2>12. Contact</h2>
+    <p>
+      Questions about your privacy? Email <a href="mailto:hello@whatmatters.so"
+        >hello@whatmatters.so</a
+      >.
+    </p>
+    <span class="todo">Confirm the contact (and, if you appoint one, a Data Protection Officer / EU representative).</span>
+  </section>
+</LegalLayout>

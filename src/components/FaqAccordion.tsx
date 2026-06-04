@@ -9,7 +9,9 @@ import {
 // `items` (keeps prose in the .astro per project convention); this island only
 // owns the single-open interaction. Gold hover/open accent + larger trigger type
 // are deliberate dark-pulp overrides per DESIGN.md §Component stylings.
-type FaqItem = { q: string; a: string };
+// `a` is plain text; `aHtml` (optional) allows inline markup like links — used
+// for the Terms/Privacy answer. Exactly one of the two is provided per item.
+type FaqItem = { q: string; a?: string; aHtml?: string };
 
 export default function FaqAccordion({ items }: { items: FaqItem[] }) {
   return (
@@ -20,7 +22,11 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
             {item.q}
           </AccordionTrigger>
           <AccordionContent className="max-w-2xl pb-5 text-[15px] leading-relaxed text-muted-foreground">
-            {item.a}
+            {item.aHtml ? (
+              <span dangerouslySetInnerHTML={{ __html: item.aHtml }} />
+            ) : (
+              item.a
+            )}
           </AccordionContent>
         </AccordionItem>
       ))}

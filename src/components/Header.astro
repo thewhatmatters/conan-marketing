@@ -5,14 +5,17 @@
 //     narrows, rounds its corners, and gains a translucent blurred bg + border.
 // No island: a tiny passive scroll listener toggles `data-scrolled`; the rest
 // is CSS transitions driven off the group-data variant.
+// Absolute "/#section" hrefs so the nav works from any page (incl. /terms,
+// /privacy) — on the homepage they still scroll same-document; off it they
+// navigate home and scroll. Route-only links (Legal) stay path-based.
 const navLinks = [
-  { label: "Features", href: "#features" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Get notified", href: "#waitlist" },
+  { label: "Features", href: "/#features" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Get notified", href: "/#waitlist" },
 ];
 
 // TODO: point at the latest release .dmg once published.
-const downloadHref = "#download";
+const downloadHref = "/#download";
 ---
 
 <header
@@ -138,8 +141,17 @@ const downloadHref = "#download";
   const nav = header?.querySelector("nav") as HTMLElement | null;
   const navUl = nav?.querySelector("ul") as HTMLElement | null;
   const pill = document.getElementById("nav-pill");
+  // Derive the "#section" hash from a link's href ("/#features" → "#features";
+  // route-only links like "Legal" → /terms have none). The spy uses hash links
+  // only, so querySelector never chokes on a path, and on pages without those
+  // sections (the legal pages) it simply finds nothing and no-ops.
+  const hashOf = (a: HTMLAnchorElement) => {
+    const href = a.getAttribute("href") || "";
+    const i = href.indexOf("#");
+    return i >= 0 ? href.slice(i) : null;
+  };
   const spyLinks = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>("#site-header ul a"),
+    document.querySelectorAll<HTMLAnchorElement>('#site-header ul a[href*="#"]'),
   );
   let activeLink: HTMLAnchorElement | null = null;
 
@@ -210,12 +222,15 @@ const downloadHref = "#download";
   // holds the final one lit through the page bottom.) Above the first section's
   // top → none active (hero stays clean). On click we set it instantly too.
   const sections = spyLinks
-    .map((a) => document.querySelector(a.getAttribute("href") || "#"))
+    .map((a) => {
+      const h = hashOf(a);
+      return h ? document.querySelector(h) : null;
+    })
     .filter((el): el is Element => !!el);
   const setActive = (id: string | null) => {
     activeLink = null;
     spyLinks.forEach((a) => {
-      const on = a.getAttribute("href") === (id && `#${id}`);
+      const on = hashOf(a) === (id && `#${id}`);
       a.setAttribute("data-active", String(on));
       if (on) activeLink = a;
     });
@@ -241,9 +256,10 @@ const downloadHref = "#download";
     window.addEventListener("scroll", updateActive, { passive: true });
     window.addEventListener("resize", updateActive);
     spyLinks.forEach((a) =>
-      a.addEventListener("click", () =>
-        setActive((a.getAttribute("href") || "").slice(1)),
-      ),
+      a.addEventListener("click", () => {
+        const h = hashOf(a);
+        setActive(h ? h.slice(1) : null);
+      }),
     );
   }
 </script>

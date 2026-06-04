@@ -19,52 +19,16 @@ const downloadHref = "#download";
   <video
     id="hero-video"
     class="pointer-events-none absolute inset-0 -z-20 h-full w-full translate-y-16 scale-90 object-cover"
-    autoplay
     muted
     loop
     playsinline
-    preload="metadata"
+    preload="none"
     poster="/video/conan-battle-dark-new-keyed.jpg"
     aria-hidden="true"
   >
     <source src="/video/conan-battle-dark-new-keyed.mp4" type="video/mp4" />
   </video>
 
-  <!-- Radial darken/fade over the loop: subdues the footage and adds depth —
-       lighter toward the figure (right), darker at the edges. Sits above the
-       video (-z-15) but below the content. `hero-veil` keeps it transparent on
-       load (clean video) then fades it in after the headline rises. -->
-  <div
-    aria-hidden="true"
-    class="hero-veil pointer-events-none absolute inset-0 -z-[15]"
-    style="background: radial-gradient(90% 85% at 62% 42%, rgba(12,10,9,0.05), rgba(12,10,9,0.38) 100%);"
-  >
-  </div>
-
-  <!-- Edge vignette. -->
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0 -z-10"
-    style="background: radial-gradient(120% 95% at 50% 35%, transparent 52%, rgba(0,0,0,0.65) 100%);"
-  >
-  </div>
-  <!-- Faint warm grid (12 × 8). -->
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0 -z-10 opacity-[0.06]"
-    style="background-image:
-      linear-gradient(to right, var(--bone) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--bone) 1px, transparent 1px);
-      background-size: 8.3333% 12.5%;"
-  >
-  </div>
-  <!-- Left readability scrim for the left-aligned headline. -->
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0 -z-10"
-    style="background: linear-gradient(to right, rgba(12,10,9,0.85), rgba(12,10,9,0.30) 45%, transparent 78%);"
-  >
-  </div>
   <!-- Subdue scrim: calms the background loop so the framed screenshot in front
        stays the focus, and darkens toward the bottom where the frame sits. -->
   <div
@@ -191,19 +155,21 @@ const downloadHref = "#download";
 </section>
 
 <script>
-  // The video carries the `autoplay` attribute (reliable inline autoplay on
-  // iOS). Here we only special-case reduced-motion (pause to the poster frame)
-  // and give a belt-and-suspenders .play() nudge for engines that need it.
+  // The loop plays ONLY on larger screens with motion allowed. With no
+  // `autoplay` attribute and `preload="none"`, the .mp4 is never fetched until
+  // we call .play() — so on phones (and reduced-motion) nothing downloads and
+  // the poster .jpg stands in (saves ~1.3MB of mobile bandwidth). On desktop we
+  // bump preload and play; a JS .play() of a muted/playsinline video is allowed
+  // without a gesture there.
   const video = document.getElementById("hero-video") as HTMLVideoElement | null;
   if (video) {
-    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      video.removeAttribute("autoplay");
-      video.pause();
-    } else {
-      const play = () => video.play().catch(() => {});
-      if (video.readyState >= 2) play();
-      else video.addEventListener("loadeddata", play, { once: true });
+    const allow =
+      !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+      matchMedia("(min-width: 768px)").matches;
+    if (allow) {
+      video.preload = "auto";
+      video.play().catch(() => {});
     }
+    // else: leave the poster frame; the video is never loaded.
   }
 </script>

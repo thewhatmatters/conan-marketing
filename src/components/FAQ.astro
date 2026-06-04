@@ -42,6 +42,11 @@ const faqs = [
     q: "What are the system requirements?",
     a: "macOS 13 or later on Apple silicon, with Claude Code installed.",
   },
+  {
+    q: "Where are the Terms and Privacy Policy?",
+    aHtml:
+      'Read the <a href="/terms" class="text-gold underline underline-offset-4 hover:no-underline">Terms of Service</a> and <a href="/privacy" class="text-gold underline underline-offset-4 hover:no-underline">Privacy Policy</a> in full. The short of it: your work stays on your Mac — Conan sends no telemetry — and the site collects only what it needs to run the waitlist and your purchase.',
+  },
 ];
 ---
 
@@ -78,11 +83,10 @@ const faqs = [
         <video
           id="faq-video"
           class="block aspect-square w-full object-contain"
-          autoplay
           muted
           loop
           playsinline
-          preload="metadata"
+          preload="none"
           poster="/video/conan-horse.png"
           aria-hidden="true"
         >
@@ -113,11 +117,18 @@ const faqs = [
 </section>
 
 <script>
-  // Honour reduced-motion for the rider loop: pause to the poster frame.
+  // The rider loop plays ONLY on larger screens with motion allowed. With no
+  // `autoplay` and `preload="none"`, the .mp4 is never fetched on phones (or
+  // under reduced-motion) — the poster (conan-horse.png) stands in.
   const faqVideo = document.getElementById("faq-video") as HTMLVideoElement | null;
-  if (faqVideo && matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    faqVideo.removeAttribute("autoplay");
-    faqVideo.pause();
+  if (faqVideo) {
+    const allow =
+      !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+      matchMedia("(min-width: 768px)").matches;
+    if (allow) {
+      faqVideo.preload = "auto";
+      faqVideo.play().catch(() => {});
+    }
   }
 
   const faq = document.querySelector(".faq");

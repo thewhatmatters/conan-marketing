@@ -1,1 +1,1 @@
-conan.sh: nav+hero video+FAQ rider polished & shipped; logo placeholder pending
+Legal pages + footer barbarian graphic + closing CTA rework — shipped to main

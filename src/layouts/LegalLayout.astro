@@ -1,0 +1,149 @@
+---
+// Shared shell for the legal documents (/terms, /privacy). Two real, separately
+// linkable pages render into ONE layout so they read as a single page with a
+// sidebar switcher — the cohesive UX without losing canonical URLs (Apple's
+// privacy field / Polar checkout can link a single doc; each is crawled on its
+// own). Zero JS: the "toggle" is just two routes sharing this layout, and the
+// section list (TOC) is passed per-page. Slim header (no landing scroll-spy) so
+// these content pages stay self-contained.
+import Layout from "./Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  active: "terms" | "privacy";
+  title: string;
+  description?: string;
+  updated: string;
+}
+
+const { active, title, description, updated } = Astro.props;
+
+const docs = [
+  { key: "terms", label: "Terms of Service", href: "/terms" },
+  { key: "privacy", label: "Privacy Policy", href: "/privacy" },
+];
+---
+
+<Layout title={title} description={description}>
+  <!-- Same global nav as the landing page (fixed); pad the content below it. -->
+  <Header />
+
+  <main class="shell pb-20 pt-28 lg:pb-28 lg:pt-36">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
+      <!-- Sidebar: doc switcher + in-doc table of contents -->
+      <aside class="lg:col-span-4 xl:col-span-3">
+        <div class="lg:sticky lg:top-28">
+          <p
+            class="mb-4 flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] text-muted-foreground"
+          >
+            <span class="h-px w-6 bg-gold/70"></span>
+            Legal
+          </p>
+
+          <!-- Document switcher (the two real routes) -->
+          <nav class="flex flex-col gap-1" aria-label="Legal documents">
+            {
+              docs.map((d) => (
+                <a
+                  href={d.href}
+                  aria-current={d.key === active ? "page" : undefined}
+                  class:list={[
+                    "flex items-center gap-3 border-l-2 px-3 py-2 text-sm transition-colors",
+                    d.key === active
+                      ? "border-ember bg-card text-foreground"
+                      : "border-transparent text-muted-foreground hover:border-border hover:text-foreground",
+                  ]}
+                >
+                  {d.label}
+                </a>
+              ))
+            }
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Document body -->
+      <article class="legal-body lg:col-span-8 lg:col-start-5 xl:col-span-9 xl:col-start-4">
+        <h1
+          class="font-display text-[clamp(1.9rem,4vw,2.75rem)] font-bold tracking-tight text-foreground"
+        >
+          {title}
+        </h1>
+        <p class="mt-3 text-sm text-muted-foreground">
+          Last updated {updated}
+        </p>
+        <div class="mt-10 max-w-[68ch]">
+          <slot />
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<!-- Typography for the slotted legal content. `is:global` (scoped under
+     .legal-body via :where, low specificity) because Astro scoped styles don't
+     reach slotted child markup. Only legal pages mount this layout. -->
+<style is:global>
+  .legal-body :where(h2) {
+    margin: 2.75rem 0 0.85rem;
+    scroll-margin-top: 6.5rem;
+    font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--foreground);
+  }
+  .legal-body :where(h3) {
+    margin: 1.75rem 0 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+  .legal-body :where(p, li) {
+    color: var(--muted-foreground);
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+  .legal-body :where(p) {
+    margin: 0 0 1rem;
+  }
+  .legal-body :where(ul) {
+    margin: 0 0 1.25rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .legal-body :where(li) {
+    margin-bottom: 0.4rem;
+  }
+  .legal-body :where(a) {
+    color: var(--gold);
+    text-underline-offset: 3px;
+  }
+  .legal-body :where(a:hover) {
+    text-decoration: underline;
+  }
+  .legal-body :where(strong) {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+  /* TODO marker — bracketed copy that still needs counsel-reviewed text. Made
+     deliberately obvious so nothing placeholder ships unnoticed. */
+  .legal-body :where(.todo) {
+    display: block;
+    margin: 0.5rem 0 1.25rem;
+    border-left: 2px solid var(--ember);
+    border-radius: 0 6px 6px 0;
+    background: rgba(217, 119, 6, 0.07);
+    padding: 0.6rem 0.85rem;
+    font-size: 0.85rem;
+    color: var(--muted-foreground);
+  }
+  .legal-body :where(.todo)::before {
+    content: "DRAFT · ";
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ember);
+  }
+</style>

@@ -1,93 +1,45 @@
 ---
-// Footer: dark "ink & fire" ground with a subtle ember glow at the top edge,
-// fuller link columns + social + trust strip, and a giant CONAN wordmark
-// bleeding off the bottom.
-const columns = [
-  {
-    title: "Product",
-    links: [
-      { label: "Features", href: "#features" },
-      { label: "Pricing", href: "#pricing" },
-      { label: "FAQ", href: "#faq" },
-      { label: "Download for Mac", href: "#download" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "WhatMatters", href: "https://whatmatters.so" },
-      { label: "Terms", href: "#" },
-      { label: "Privacy", href: "#" },
-    ],
-  },
-  {
-    title: "Other platforms",
-    links: [{ label: "Windows & Linux? Notify me →", href: "#download" }],
-  },
-];
-
+// Footer: dark "ink & fire" ground with a subtle ember glow at the top edge, a
+// compact brand mark + trust strip, the bottom-tethered barbarian art, and a
+// giant CONAN wordmark behind it. Nav links were removed (they live in the
+// header; Terms/Privacy live in the FAQ).
 ---
 
 <footer class="footer relative isolate overflow-hidden bg-background">
-  <!-- Subtle ember glow at the top edge — warm "ink & fire" accent. -->
+  <!-- Giant CONAN wordmark — behind the figure, anchored to the footer's bottom. -->
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-56"
-    style="background: radial-gradient(70% 100% at 50% 0%, rgba(217,119,6,0.16), rgba(127,29,29,0.08) 45%, transparent 75%);"
+    class="pointer-events-none absolute inset-x-0 bottom-0 z-0 overflow-hidden"
   >
-  </div>
-
-  <!-- Columns -->
-  <div class="shell relative z-10 pt-20 lg:pt-24">
-    <div class="grid grid-cols-2 gap-10 md:grid-cols-4 lg:gap-12">
-      <!-- Brand + social -->
-      <div class="col-span-2 flex flex-col gap-4 md:col-span-1">
-        <a href="/" class="flex items-baseline gap-1.5">
-          <span class="text-lg font-semibold uppercase tracking-[0.2em] text-foreground"
-            >Conan</span
-          >
-          <span class="text-xs text-muted-foreground">.sh</span>
-        </a>
-        <p class="max-w-[18ch] text-xs leading-relaxed text-muted-foreground">
-          A barbarian misses nothing.
-        </p>
-      </div>
-
-      <!-- Link columns -->
-      {
-        columns.map((col) => (
-          <nav class="flex flex-col gap-3">
-            <p class="text-[11px] uppercase tracking-[0.2em] text-gold">
-              {col.title}
-            </p>
-            {col.links.map((l) => (
-              <a
-                href={l.href}
-                class="text-sm text-muted-foreground transition-colors hover:text-gold"
-              >
-                {l.label}
-              </a>
-            ))}
-          </nav>
-        ))
-      }
-    </div>
-
-    <!-- Trust strip -->
-    <div class="mt-16 border-t border-border/40 pt-6">
-      <p class="text-[11px] leading-relaxed text-muted-foreground">
-        © 2026 WhatMatters · Not affiliated with Anthropic · Not affiliated with
-        Conan Properties Int'l · Payments by Polar (Merchant of Record)
-      </p>
-    </div>
-  </div>
-
-  <!-- Giant wordmark, bleeding off the bottom (decorative). -->
-  <div class="relative z-0 mt-12 overflow-hidden lg:mt-16" aria-hidden="true">
     <span
-      class="block translate-y-[0.16em] select-none bg-gradient-to-b from-ember/35 via-ember/15 to-transparent bg-clip-text text-center font-display text-[clamp(4.5rem,23vw,22rem)] font-bold leading-[0.8] tracking-tight text-transparent"
+      class="block translate-y-[0.16em] select-none bg-gradient-to-b from-ember/60 via-ember/30 to-transparent bg-clip-text text-center font-display text-[clamp(4.5rem,23vw,22rem)] font-bold leading-[0.8] tracking-tight text-transparent"
     >
       CONAN
     </span>
+  </div>
+
+  <!-- Bottom-tethered barbarian — kept in NORMAL FLOW so it sets the footer's
+       height (the figure is the only content). Sits above the wordmark. Uses the
+       processed asset: cropped to drop the editor's baked transparency
+       checkerboard in the base dust + tight-trimmed margins + resized from the
+       9MB source (conan-footer.png) to a 144KB webp. The coin hoard is now the
+       image's bottom edge, so the figure seats flush to the footer bottom. -->
+  <div class="relative z-[5] flex justify-center px-6 pt-14 lg:pt-16">
+    <img
+      src="/footer/conan-footer-web.webp"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none block w-[820px] max-w-full select-none object-contain"
+    />
+  </div>
+
+  <!-- Bottom blend: a gradient overlay ramping to the page background so the
+       figure + wordmark dissolve into the bottom edge — the hero-loop technique.
+       Sits above both (z-6). Tune: height + gradient stops. -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 bottom-0 z-[6] h-80"
+    style="background: linear-gradient(to bottom, transparent, rgba(12,10,9,0.45) 58%, #0c0a09 92%);"
+  >
   </div>
 </footer>

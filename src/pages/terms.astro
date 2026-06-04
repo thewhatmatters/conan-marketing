@@ -1,0 +1,182 @@
+---
+// Terms of Service — scaffolded structure with clearly-flagged DRAFT placeholders
+// (.todo) reflecting the real facts from CLAUDE.md (Polar = Merchant of Record,
+// $39 one-time, freemium, lifetime 1.x updates, not affiliated). Replace the
+// .todo blocks with counsel-reviewed / Polar-template binding language before
+// launch.
+import LegalLayout from "../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  active="terms"
+  title="Terms of Service"
+  description="The terms governing your use of Conan and conan.sh."
+  updated="[DRAFT — set on publish]"
+>
+  <p>
+    These Terms of Service ("Terms") govern your access to and use of the Conan
+    desktop application and the conan.sh website (together, the "Service"),
+    provided by WhatMatters ("we", "us"). By downloading, installing, or using
+    the Service, you agree to these Terms.
+  </p>
+  <span class="todo"
+    >Confirm legal entity name/form (e.g. "WhatMatters, [LLC/Ltd]"), the effective
+    date, and whether a separate EULA covers the installed app vs. these
+    website Terms.</span
+  >
+
+  <section id="agreement">
+    <h2>1. Agreement to terms</h2>
+    <p>
+      By using the Service you confirm you can form a binding contract and agree
+      to be bound by these Terms and our <a href="/privacy">Privacy Policy</a>.
+      If you do not agree, do not use the Service.
+    </p>
+    <span class="todo">Add age requirement (e.g. 13+/16+/18+) per counsel.</span>
+  </section>
+
+  <section id="service">
+    <h2>2. The service</h2>
+    <p>
+      Conan is a macOS-native desktop application that observes and visualizes
+      Claude Code. It does not replace Claude Code or run any model itself; you
+      run Claude Code yourself and Conan adds an observability layer around it.
+      Conan runs locally on your Mac and reads Claude Code's local session data.
+    </p>
+    <span class="todo"
+      >Confirm system-requirement language (macOS 13+, Apple silicon, Claude Code
+      required) and that availability/features may change.</span
+    >
+  </section>
+
+  <section id="license">
+    <h2>3. License & acceptable use</h2>
+    <p>
+      Conan is offered as one application on a freemium basis: a free download
+      with core functionality, and a one-time <strong>$39</strong> purchase that
+      unlocks Premium features. Subject to these Terms, we grant you a personal,
+      non-exclusive, non-transferable, revocable license to install and use
+      Conan. Your purchase includes all updates within the 1.x release line, with
+      no per-device limit and no subscription.
+    </p>
+    <p>You agree not to:</p>
+    <ul>
+      <li>reverse-engineer, decompile, or attempt to extract source code, except where this restriction is prohibited by law;</li>
+      <li>resell, sublicense, rent, or redistribute the Service or license keys;</li>
+      <li>circumvent the Premium gate or any license/entitlement check;</li>
+      <li>use the Service unlawfully or to infringe others' rights.</li>
+    </ul>
+    <span class="todo"
+      >Confirm exact license scope (personal + commercial use?), device/seat
+      terms, and whether license keys are per-purchase or per-user.</span
+    >
+  </section>
+
+  <section id="purchases">
+    <h2>4. Purchases & payments</h2>
+    <p>
+      Premium is sold for a one-time price of $39 through <strong>Polar.sh</strong>,
+      which acts as the <strong>Merchant of Record</strong> for the transaction.
+      Polar processes your payment, handles applicable taxes, and issues your
+      receipt; we do not store your full payment-card details. Your purchase is
+      governed by Polar's terms in addition to these Terms.
+    </p>
+    <span class="todo"
+      >Confirm refund handling with Polar (refunds are intentionally not surfaced
+      as a marketing section — the free tier is the try-before-you-buy — but the
+      binding refund/cancellation terms still belong here). State currency, tax
+      treatment, and chargeback policy.</span
+    >
+  </section>
+
+  <section id="ip">
+    <h2>5. Intellectual property</h2>
+    <p>
+      The Service, including its software, design, and content, is owned by
+      WhatMatters and protected by intellectual-property laws. These Terms grant
+      you a license to use the Service, not any ownership of it.
+    </p>
+    <p>
+      Conan is an independent product. It is <strong>not affiliated with,
+      endorsed by, or sponsored by Anthropic</strong> (maker of Claude Code), and
+      is <strong>not affiliated with Conan Properties International</strong>.
+      "Claude" and "Claude Code" are trademarks of Anthropic; all other marks are
+      the property of their respective owners.
+    </p>
+    <span class="todo"
+      >Have counsel review the trademark/affiliation disclaimers and any
+      nominative-fair-use language around the "Conan" name and Claude Code.</span
+    >
+  </section>
+
+  <section id="third-party">
+    <h2>6. Third-party services</h2>
+    <p>
+      The Service works alongside third-party software and services — including
+      Claude Code (Anthropic) and Polar.sh (payments). We are not responsible for
+      third-party services, and your use of them is governed by their own terms.
+    </p>
+  </section>
+
+  <section id="disclaimer">
+    <h2>7. Disclaimers</h2>
+    <p>
+      The Service is provided "as is" and "as available," without warranties of
+      any kind, whether express or implied, including merchantability, fitness
+      for a particular purpose, and non-infringement. We do not warrant that the
+      Service will be uninterrupted, error-free, or secure.
+    </p>
+    <span class="todo">Confirm final warranty-disclaimer wording with counsel.</span>
+  </section>
+
+  <section id="liability">
+    <h2>8. Limitation of liability</h2>
+    <p>
+      To the maximum extent permitted by law, WhatMatters will not be liable for
+      any indirect, incidental, special, consequential, or punitive damages, or
+      any loss of data, profits, or revenue, arising from your use of the Service.
+    </p>
+    <span class="todo"
+      >Insert a liability cap (e.g. limited to amounts paid in the prior 12
+      months) and any jurisdiction-specific carve-outs.</span
+    >
+  </section>
+
+  <section id="termination">
+    <h2>9. Termination</h2>
+    <p>
+      We may suspend or terminate your access to the Service if you breach these
+      Terms. You may stop using the Service at any time. Provisions that by their
+      nature should survive termination will survive.
+    </p>
+  </section>
+
+  <section id="changes">
+    <h2>10. Changes to these terms</h2>
+    <p>
+      We may update these Terms from time to time. When we do, we will revise the
+      "Last updated" date above, and material changes will be communicated as
+      required. Continued use of the Service after changes take effect
+      constitutes acceptance.
+    </p>
+  </section>
+
+  <section id="law">
+    <h2>11. Governing law</h2>
+    <p>These Terms are governed by the laws set out below, without regard to conflict-of-law rules.</p>
+    <span class="todo"
+      >Specify governing jurisdiction and venue/dispute-resolution (e.g.
+      arbitration) per WhatMatters' location and counsel.</span
+    >
+  </section>
+
+  <section id="contact">
+    <h2>12. Contact</h2>
+    <p>
+      Questions about these Terms? Email <a href="mailto:hello@whatmatters.so"
+        >hello@whatmatters.so</a
+      >.
+    </p>
+    <span class="todo">Confirm the correct legal/contact address and a postal address if required.</span>
+  </section>
+</LegalLayout>
