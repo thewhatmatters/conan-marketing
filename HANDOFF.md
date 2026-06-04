@@ -10,7 +10,9 @@ preserved under "Previous handoff" sections below.
 
 ## Git state
 - Branch `main` (trunk-based; `main` auto-deploys to www.conan.sh via Vercel).
-- This session's work is being committed + pushed now (per user request).
+- The big polish batch landed in `cac92ed` (pushed); the 10MB source
+  `conan-footer.png` + unused `halftone.png` were then deleted (never committed).
+  The scroll-spy change (§6) is being committed + pushed now. Tree clean after.
 - Dev server: `npm run dev` → http://localhost:4321/ . `npm run build` is green;
   `/`, `/terms`, `/privacy` all prerender.
 
@@ -78,6 +80,16 @@ preserved under "Previous handoff" sections below.
 - **No glow anywhere** in this closing area — CTA fire glow, CTA vignette, and the
   footer's top ember glow were ALL removed (user: "NO GLOW EFFECT"). CTA top
   border removed too. The graphic + CTA read as one seamless dark section.
+
+### 6. Nav scroll-spy: "Get notified" = the whole closing section
+- The spy now **decouples a link's active-region from its click target**. Nav
+  links carry an optional `spy` selector (rendered as `data-spy`): "Get notified"
+  still clicks through to the form (`#waitlist`), but its active region is
+  `#closing` (id on the `<footer>`), so it highlights across the **entire**
+  closing section (graphic + "Take up the steel" + form). Verified.
+- Spy refactor (`Header.astro`): tracks each link → target element via
+  `data-spy || hashOf(href)`, no id round-trip. Features/FAQ unchanged; still
+  no-ops on pages without those targets (legal pages).
 
 ## Open threads / next steps
 - **Legal copy is placeholder** — replace all `.todo` DRAFT blocks with real

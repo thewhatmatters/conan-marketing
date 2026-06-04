@@ -1,1 +1,1 @@
-Legal pages + footer barbarian graphic + closing CTA rework — shipped to main
+Closing section + legal pages shipped; nav spy = "Get notified" across it

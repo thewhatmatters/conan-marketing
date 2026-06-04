@@ -8,10 +8,13 @@
 // Absolute "/#section" hrefs so the nav works from any page (incl. /terms,
 // /privacy) — on the homepage they still scroll same-document; off it they
 // navigate home and scroll. Route-only links (Legal) stay path-based.
+// `spy` (optional) overrides the scroll-spy active-region element while the
+// href stays the click target — so "Get notified" highlights across the whole
+// closing section (#closing) yet still jumps to the waitlist form (#waitlist).
 const navLinks = [
   { label: "Features", href: "/#features" },
   { label: "FAQ", href: "/#faq" },
-  { label: "Get notified", href: "/#waitlist" },
+  { label: "Get notified", href: "/#waitlist", spy: "#closing" },
 ];
 
 // TODO: point at the latest release .dmg once published.
@@ -75,6 +78,7 @@ const downloadHref = "/#download";
           <li>
             <a
               href={l.href}
+              data-spy={l.spy}
               class="relative z-10 -mx-4 inline-flex items-center px-4 py-2 text-sm text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground data-[active=true]:text-foreground"
             >
               {l.label}
@@ -215,51 +219,43 @@ const downloadHref = "/#download";
     .querySelectorAll("#site-header ul a")
     .forEach((a) => a.addEventListener("click", () => playBolt()));
 
-  // Scroll-spy: active = the LAST section whose top has crossed the viewport
-  // centre line. (An earlier centre-straddle test left short end sections — the
-  // bottom waitlist form — unable to reach centre at max scroll, so they never
-  // lit. Top-passed-centre keeps each section active across its whole span and
-  // holds the final one lit through the page bottom.) Above the first section's
-  // top → none active (hero stays clean). On click we set it instantly too.
-  const sections = spyLinks
-    .map((a) => {
-      const h = hashOf(a);
-      return h ? document.querySelector(h) : null;
-    })
-    .filter((el): el is Element => !!el);
-  const setActive = (id: string | null) => {
-    activeLink = null;
-    spyLinks.forEach((a) => {
-      const on = hashOf(a) === (id && `#${id}`);
-      a.setAttribute("data-active", String(on));
-      if (on) activeLink = a;
-    });
+  // Scroll-spy: active = the LAST target whose top has crossed the viewport
+  // centre line (top-passed-centre keeps each section active across its whole
+  // span and holds the final one lit to the page bottom). Each link's
+  // active-region element is its `data-spy` override (e.g. "Get notified" →
+  // #closing, the whole closing section) or its href hash. On pages without a
+  // target (the legal pages for hash links) it simply finds nothing and no-ops.
+  const targetOf = (a: HTMLAnchorElement) => {
+    const sel = a.dataset.spy || hashOf(a);
+    return sel ? document.querySelector(sel) : null;
+  };
+  const targets = spyLinks
+    .map((a) => ({ link: a, el: targetOf(a) }))
+    .filter((t): t is { link: HTMLAnchorElement; el: Element } => !!t.el);
+  const setActiveLink = (link: HTMLAnchorElement | null) => {
+    activeLink = link;
+    spyLinks.forEach((a) => a.setAttribute("data-active", String(a === link)));
     movePill();
   };
-  if (sections.length) {
-    // Pick the section with the greatest top that has passed the centre line
-    // (order-independent; no break-on-DOM-order assumption).
+  if (targets.length) {
     const updateActive = () => {
       const line = window.scrollY + window.innerHeight * 0.5;
-      let activeId: string | null = null;
+      let active: HTMLAnchorElement | null = null;
       let best = -Infinity;
-      for (const s of sections) {
-        const top = s.getBoundingClientRect().top + window.scrollY;
+      for (const t of targets) {
+        const top = t.el.getBoundingClientRect().top + window.scrollY;
         if (top <= line && top > best) {
           best = top;
-          activeId = s.id;
+          active = t.link;
         }
       }
-      setActive(activeId);
+      setActiveLink(active);
     };
     updateActive();
     window.addEventListener("scroll", updateActive, { passive: true });
     window.addEventListener("resize", updateActive);
     spyLinks.forEach((a) =>
-      a.addEventListener("click", () => {
-        const h = hashOf(a);
-        setActive(h ? h.slice(1) : null);
-      }),
+      a.addEventListener("click", () => setActiveLink(a)),
     );
   }
 </script>
