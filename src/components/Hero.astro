@@ -144,7 +144,10 @@ const downloadHref = "#download";
             poster="/video/conan-hero.jpg"
             aria-label="The Conan app observing a live Claude Code session — timeline, context, and usage"
           >
-            <source src="/video/conan-hero.webm" type="video/webm" />
+            <!-- H.264 mp4 only. A VP9 webm was dropped: on some Mac GPUs Chrome
+                 hardware-decodes VP9 to BLACK frames while still reporting
+                 "playing" (currentTime advances), so the loop looked broken in
+                 prod. H.264 has none of that — same proven codec as the bg loop. -->
             <source src="/video/conan-hero.mp4" type="video/mp4" />
           </video>
         </div>
