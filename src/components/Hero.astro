@@ -7,7 +7,7 @@ const downloadHref = "#download";
 ---
 
 <section
-  class="relative isolate flex min-h-screen flex-col overflow-hidden pb-0 pt-32 lg:pt-40"
+  class="relative isolate flex min-h-screen flex-col overflow-hidden pb-20 pt-32 lg:pb-28 lg:pt-40"
 >
   <!-- Background loop. `autoplay muted playsinline loop` is the canonical combo
        for reliable INLINE autoplay on iOS/Safari (a JS-only .play() is flaky
@@ -97,17 +97,15 @@ const downloadHref = "#download";
       subscription
     </p>
 
-    <!-- Framed app screenshot — composited in front of the loop, bleeding off
-         the bottom into the next section (top corners rounded, no bottom edge).
-         Graceful: if the image is missing it removes itself and the empty frame
-         (window chrome + dark panel) stands in until a real capture is dropped
-         into public/hero/ (see README there). -->
+    <!-- Framed app loop — a fully contained window (all four corners rounded)
+         composited in front of the background loop, with room beneath it before
+         the next section. -->
     <div
       class="hero-rise relative z-10 mt-14 lg:mt-20"
       style="animation-delay: 600ms;"
     >
       <div
-        class="relative mx-auto w-full overflow-hidden rounded-t-2xl border border-b-0 border-border bg-card p-1.5 shadow-[0_-10px_80px_-20px] shadow-ember/40 lg:rounded-t-3xl lg:p-2"
+        class="relative mx-auto w-full overflow-hidden rounded-2xl border border-border bg-card p-1.5 shadow-[0_-10px_80px_-20px] shadow-ember/40 lg:rounded-3xl lg:p-2"
       >
         <!-- Ember corner-glow streaks (recolored from the Aceternity example). -->
         <div
@@ -126,28 +124,29 @@ const downloadHref = "#download";
         >
         </div>
 
-        <!-- Inner panel -->
+        <!-- Inner panel — 16:9 to match the source clip exactly so object-cover
+             fills it with NO crop (the 16:10 box was clipping the loop's sides). -->
         <div
-          class="relative aspect-[16/10] overflow-hidden rounded-t-xl bg-gradient-to-b from-card to-background lg:rounded-t-2xl"
+          class="relative aspect-video overflow-hidden rounded-xl bg-gradient-to-b from-card to-background lg:rounded-2xl"
         >
-          <!-- Faux window chrome (reads as an app frame even before the capture). -->
-          <div
-            class="absolute inset-x-0 top-0 z-10 flex items-center gap-2 border-b border-border/60 bg-card/60 px-4 py-3 backdrop-blur"
+          <!-- App capture loop — the clip carries its own window chrome/toolbar,
+               so no faux chrome here. Same bandwidth-aware pattern as the bg loop: no
+               autoplay + preload="none" so phones/reduced-motion never fetch the
+               clip and the poster still stands in. Panel is 16:9 to match the
+               source exactly, so object-cover fills it with no crop. -->
+          <video
+            id="hero-frame-video"
+            class="absolute inset-0 h-full w-full rounded-xl object-cover object-top lg:rounded-2xl"
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="/video/conan-hero.jpg"
+            aria-label="The Conan app observing a live Claude Code session — timeline, context, and usage"
           >
-            <span class="h-2.5 w-2.5 rounded-full bg-oxblood/80"></span>
-            <span class="h-2.5 w-2.5 rounded-full bg-ember/80"></span>
-            <span class="h-2.5 w-2.5 rounded-full bg-gold/80"></span>
-            <span class="ml-3 text-[11px] text-muted-foreground">
-              conan — observing claude code
-            </span>
-          </div>
-          <img
-            src="/hero/app-screenshot.webp"
-            alt="The Conan app observing a live Claude Code session — timeline, context, and usage"
-            class="absolute inset-0 h-full w-full object-cover object-top"
-            loading="eager"
-            onerror="this.remove()"
-          />
+            <source src="/video/conan-hero.webm" type="video/webm" />
+            <source src="/video/conan-hero.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
     </div>
@@ -161,15 +160,18 @@ const downloadHref = "#download";
   // the poster .jpg stands in (saves ~1.3MB of mobile bandwidth). On desktop we
   // bump preload and play; a JS .play() of a muted/playsinline video is allowed
   // without a gesture there.
-  const video = document.getElementById("hero-video") as HTMLVideoElement | null;
-  if (video) {
-    const allow =
-      !matchMedia("(prefers-reduced-motion: reduce)").matches &&
-      matchMedia("(min-width: 768px)").matches;
-    if (allow) {
+  const videos = [
+    document.getElementById("hero-video"),
+    document.getElementById("hero-frame-video"),
+  ].filter(Boolean) as HTMLVideoElement[];
+  const allow =
+    !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+    matchMedia("(min-width: 768px)").matches;
+  if (allow) {
+    for (const video of videos) {
       video.preload = "auto";
       video.play().catch(() => {});
     }
-    // else: leave the poster frame; the video is never loaded.
   }
+  // else: leave the poster frames; the videos are never loaded.
 </script>
