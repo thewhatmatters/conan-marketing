@@ -6,9 +6,52 @@ import Bento from "../components/Bento.astro";
 import FAQ from "../components/FAQ.astro";
 import CTA from "../components/CTA.astro";
 import Footer from "../components/Footer.astro";
+import { faqs } from "../data/faqs.ts";
+
+// Structured data (JSON-LD) — helps both classic rich results and generative
+// engines (ChatGPT/Perplexity/Claude/AI Overviews) extract clean facts about
+// the product and answer questions verbatim from the FAQ.
+const softwareLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://conan.sh/#app",
+  name: "Conan",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "macOS 13 or later (Apple silicon)",
+  url: "https://conan.sh/",
+  description:
+    "Conan is a native macOS app that wraps Claude Code in a live HUD — every prompt, tool call, skill, and token, surfaced as it happens.",
+  offers: {
+    "@type": "Offer",
+    price: "39",
+    priceCurrency: "USD",
+    description: "One-time purchase, no subscription. Free tier available.",
+  },
+  publisher: { "@id": "https://conan.sh/#org" },
+};
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a ?? "" },
+  })),
+};
 ---
 
 <Layout>
+  <script
+    type="application/ld+json"
+    slot="head"
+    set:html={JSON.stringify(softwareLd)}
+  />
+  <script
+    type="application/ld+json"
+    slot="head"
+    set:html={JSON.stringify(faqLd)}
+  />
   <Header />
   <main>
     <Hero />

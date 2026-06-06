@@ -7,30 +7,100 @@
 // (the app's emerald/blue/amber/violet/pink chart series → warm --chart-1..5;
 // see global.css). Reveals on scroll via a tiny IntersectionObserver (.is-in).
 import TimelineFeed from "./TimelineFeed.tsx";
+import PulseChart from "./PulseChart.tsx";
+import SkillsMcp from "./SkillsMcp.tsx";
 
-// Segmented context bar — category → warm color + share (%). Sums to 83%; the
-// remaining 17% shows the muted track as "free" context, like the app.
+// Segmented context bar — category → warm color + token share, mirroring the
+// app's ContextHeader breakdown (system/tools/memory/skills/messages + a free
+// remainder). Warm color mapping mirrors the app's CAT_COLOR (system→chart-4,
+// tools→chart-2, memory→chart-1, skills→chart-5, messages→primary). Used
+// segments sum to 62% (621k of 1.0M); the remaining 38% is the muted "free"
+// track. Each segment carries a hover tooltip ("Skills · 140k · 14%"), like the
+// app's mouse-tracking pill.
 const ctxSegments = [
-  { label: "system", cls: "bg-chart-3", pct: 8 },
-  { label: "skills", cls: "bg-chart-1", pct: 9 },
-  { label: "mcp", cls: "bg-chart-2", pct: 9 },
-  { label: "tools", cls: "bg-chart-4", pct: 15 },
-  { label: "memory", cls: "bg-chart-5", pct: 12 },
-  { label: "messages", cls: "bg-bone/80", pct: 30 },
+  { label: "System", cls: "bg-chart-4", pct: 6, tok: "60k" },
+  { label: "Tools", cls: "bg-chart-2", pct: 11, tok: "110k" },
+  { label: "Memory", cls: "bg-chart-1", pct: 8, tok: "80k" },
+  { label: "Skills", cls: "bg-chart-5", pct: 14, tok: "140k" },
+  { label: "Messages", cls: "bg-primary", pct: 23, tok: "230k" },
+  { label: "Free", cls: "bg-muted-foreground/25", pct: 38, tok: "—" },
 ];
 
-// Skills (left) + MCP servers (right) — status rows, not a pill cloud.
-const skillRows = [
-  { name: "frontend-design", fired: "just now", hot: true },
-  { name: "automate-browser", fired: "2m ago", hot: true },
-  { name: "generate-prd", fired: "14m ago", hot: false },
-  { name: "handoff", fired: "1h ago", hot: false },
+// Skills — VS Code-extensions-style cards (name + clamped description + last-
+// fired stamp + on-disk path), mirroring the app's SkillsWidget. Split into
+// User (your own ~/.claude + project skills) and System (plugin + built-in),
+// toggled by a sub-tab; counts mirror the app's group totals.
+const skillsUser = [
+  {
+    name: "frontend-design",
+    desc: "Create distinctive, production-grade frontend interfaces with high design quality — avoids the generic AI look.",
+    fired: "just now",
+    path: "~/.claude/skills/frontend-design",
+  },
+  {
+    name: "automate-browser",
+    desc: "Drive a real Chromium browser via Playwright with a persistent login profile — navigate, fill forms, screenshot, scrape.",
+    fired: "2m ago",
+    path: "~/.claude/skills/automate-browser",
+  },
+  {
+    name: "scan-trends",
+    desc: "Deep research engine that scans a recent time window (default 30 days; configurable via --days, e.g. last day or last 7 days) across 6+ sources — Reddit, X/Twitter, YouTube, Hacker News, Polymarket, and the web.",
+    fired: "7d ago",
+    path: "~/.claude/skills/scan-trends",
+  },
+  {
+    name: "handoff",
+    desc: "Write a resume-ready HANDOFF.md capturing the session's state so a fresh session picks up sharp, not context-rotted.",
+    fired: "1h ago",
+    path: "~/.claude/skills/handoff",
+  },
 ];
+// System skills = plugin + built-in. Paths live under the agent-skills plugin
+// cache (the long hash dir truncates in the card, like the app).
+const SYS_PATH = "~/.claude/plugins/cache/anthropic-agent-skills/example-skills/da20cf38";
+const skillsSystem = [
+  {
+    name: "internal-comms",
+    desc: "A set of resources to help write all kinds of internal communications, using the formats my company likes to use. Claude should use this whenever asked.",
+    path: `${SYS_PATH}/internal-comms`,
+  },
+  {
+    name: "mcp-builder",
+    desc: "Guide for creating high-quality MCP (Model Context Protocol) servers that let LLMs interact with external services through well-designed tools.",
+    path: `${SYS_PATH}/mcp-builder`,
+  },
+  {
+    name: "pdf",
+    desc: "Use this skill whenever the user wants to do anything with PDF files — reading or extracting text/tables, combining or merging, filling forms, OCR.",
+    path: `${SYS_PATH}/pdf`,
+  },
+  {
+    name: "pptx",
+    desc: "Use this skill any time a .pptx file is involved — creating slide decks, pitch decks, or presentations; reading or editing existing ones.",
+    path: `${SYS_PATH}/pptx`,
+  },
+  {
+    name: "skill-creator",
+    desc: "Create new skills, modify and improve existing skills, and measure skill performance. Use when creating a skill from scratch, editing, or optimizing.",
+    path: `${SYS_PATH}/skill-creator`,
+  },
+  {
+    name: "slack-gif-creator",
+    desc: "Knowledge and utilities for creating animated GIFs optimized for Slack — constraints, validation tools, and animation concepts.",
+    path: `${SYS_PATH}/slack-gif-creator`,
+  },
+];
+
+// MCP servers (right) — name + endpoint + live health, mirroring the app's
+// McpWidget (`MCP servers · N` + ↻ refresh). Connected rides a warm "live" dot
+// (no green — the site owns its warm identity); needs-auth rides ember.
 const mcpRows = [
-  { name: "playwright", status: "connected", dot: "bg-chart-1" },
-  { name: "filesystem", status: "connected", dot: "bg-chart-1" },
-  { name: "memory", status: "connected", dot: "bg-chart-1" },
-  { name: "fetch", status: "needs auth", dot: "bg-ember" },
+  { name: "playwright", url: "http://localhost:8931/mcp", status: "Connected", ok: true },
+  { name: "context7", url: "https://mcp.context7.com/mcp", status: "Connected", ok: true },
+  { name: "memory", url: "stdio · server-memory", status: "Connected", ok: true },
+  { name: "figma", url: "https://mcp.figma.com/mcp", status: "Connected", ok: true },
+  { name: "linear", url: "https://mcp.linear.app/sse", status: "needs auth", ok: false },
 ];
 
 // Radio equalizer — non-round per-bar duration/delay pairs (from the app's
@@ -41,6 +111,25 @@ const eq = [
   { dur: "1.09s", delay: "560ms" },
   { dur: "1.51s", delay: "100ms" },
   { dur: "0.77s", delay: "410ms" },
+];
+
+// Radio stations (from the gateway's station list) — rendered as a Claude Code
+// reply inside a faked terminal below the live "Claude Radio" bar, so the tile
+// shows the conan-change-radio skill in action.
+const radioStations = [
+  { name: "Claude FM", tags: "focus · ambient · chill · build", note: "the default" },
+  {
+    name: "System Of A Down — Symphonic Orchestra Instrumentals",
+    tags: "epic · cinematic · instrumental · rock · symphonic",
+  },
+  {
+    name: "Dr. Dre — Symphonic Orchestra Instrumentals",
+    tags: "epic · cinematic · instrumental · hip-hop · symphonic",
+  },
+  {
+    name: "Linkin Park — Symphonic Orchestra Instrumentals",
+    tags: "epic · cinematic · instrumental · rock · symphonic",
+  },
 ];
 ---
 
@@ -53,13 +142,14 @@ const eq = [
         What it watches
       </p>
       <h2 class="font-display text-[clamp(1.75rem,4vw,3.25rem)] font-bold leading-[0.98] tracking-tight text-foreground">
-        Nothing escapes the watch.
+        <span class="block">Nothing escapes</span>
+        <span class="block">the watch.</span>
       </h2>
     </div>
 
     <!-- Comic-panel grid -->
     <div
-      class="bento grid grid-cols-1 gap-4 lg:grid-cols-12 lg:auto-rows-[minmax(210px,auto)] lg:gap-5"
+      class="bento grid grid-cols-1 gap-4 lg:grid-cols-12 lg:auto-rows-[minmax(226px,auto)] lg:gap-5"
     >
       <!-- 01 — Timeline (LARGE) -->
       <article
@@ -84,12 +174,12 @@ const eq = [
           <!-- Live event stream — events arrive at the top and push the rest
                down (React island; uses Motion for the enter/exit + layout
                shift, and degrades to a static list under reduced-motion). -->
-          <div class="relative h-[344px]">
+          <div class="relative h-[392px]">
             <TimelineFeed client:visible />
           </div>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-auto pt-4">
           <p class="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-gold">
             01 · Timeline
           </p>
@@ -119,31 +209,58 @@ const eq = [
             </span>
           </div>
 
-          <div
-            class="hud-wipe flex h-2.5 w-full overflow-hidden rounded-full bg-muted"
-            style="--d: 240ms"
-          >
-            {
-              ctxSegments.map((s) => (
-                <span class={`h-full ${s.cls}`} style={`width: ${s.pct}%`} />
-              ))
-            }
+          <!-- Breakdown bar — colored fill clipped to a pill, with a separate
+               (un-clipped) hover overlay so each segment can surface a tooltip
+               above the bar. Tooltips anchor left/center/right by position so
+               they never spill past the tile edge. -->
+          <div class="group/bar relative">
+            <div
+              class="hud-wipe flex h-3 w-full overflow-hidden rounded-full bg-muted"
+              style="--d: 240ms"
+            >
+              {
+                ctxSegments.map((s) => (
+                  <span class={`h-full ${s.cls}`} style={`width: ${s.pct}%`} />
+                ))
+              }
+            </div>
+            <div class="absolute inset-0 flex">
+              {
+                ctxSegments.map((s, i) => {
+                  const align =
+                    i === 0
+                      ? "left-0"
+                      : i === ctxSegments.length - 1
+                        ? "right-0"
+                        : "left-1/2 -translate-x-1/2";
+                  return (
+                    <div class="group/seg relative h-full" style={`width: ${s.pct}%`}>
+                      <div
+                        class={`pointer-events-none absolute bottom-full z-20 mb-2 flex items-center gap-1.5 whitespace-nowrap rounded-md bg-foreground px-2.5 py-1 text-[11px] text-background opacity-0 shadow-md transition-opacity duration-150 group-hover/seg:opacity-100 ${align}`}
+                      >
+                        <span class={`h-2 w-2 rounded-full ${s.cls}`} />
+                        <span class="font-medium">{s.label}</span>
+                        <span class="tabular-nums opacity-80">{s.tok}</span>
+                        <span class="tabular-nums opacity-60">{s.pct}%</span>
+                      </div>
+                    </div>
+                  );
+                })
+              }
+            </div>
           </div>
 
           <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-muted-foreground">
-            <span class="flex items-center gap-1">
-              <span class="h-1.5 w-1.5 rounded-sm bg-bone/80"></span>messages 30%
-            </span>
-            <span class="flex items-center gap-1">
-              <span class="h-1.5 w-1.5 rounded-sm bg-chart-4"></span>tools 15%
-            </span>
-            <span class="flex items-center gap-1">
-              <span class="h-1.5 w-1.5 rounded-sm bg-chart-5"></span>memory 12%
-            </span>
-            <span class="ml-auto flex items-center gap-1.5">
-              <span class="rounded bg-ember/15 px-1.5 py-0.5 text-ember">Auto ✓</span>
-              <span>↻ /context</span>
-            </span>
+            {
+              ctxSegments
+                .filter((s) => s.label !== "Free")
+                .map((s) => (
+                  <span class="flex items-center gap-1">
+                    <span class={`h-1.5 w-1.5 rounded-sm ${s.cls}`} />
+                    {s.label.toLowerCase()} {s.pct}%
+                  </span>
+                ))
+            }
           </div>
         </div>
 
@@ -155,7 +272,7 @@ const eq = [
             Know the cost of every move
           </h3>
           <p class="text-sm leading-relaxed text-muted-foreground">
-            Watch the context window fill — system, tools, memory, messages — and
+            Watch the context window fill — system, tools, memory, skills — and
             tokens burn, in real time.
           </p>
         </div>
@@ -166,73 +283,7 @@ const eq = [
         class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-5"
         style="--d: 180ms"
       >
-        <div class="flex flex-1 flex-col">
-          <div class="mb-2 flex items-center gap-2 text-[10px]">
-            <span class="live-dot h-1.5 w-1.5 rounded-full bg-ember"></span>
-            <span class="font-medium uppercase tracking-wider text-ember">Live</span>
-            <span class="text-muted-foreground/60">from /usage</span>
-            <span class="ml-auto font-mono text-muted-foreground">15m</span>
-          </div>
-
-          <div class="hud-wipe relative min-h-[72px] flex-1" style="--d: 260ms">
-            <svg
-              viewBox="0 0 320 90"
-              preserveAspectRatio="none"
-              class="absolute inset-0 h-full w-full"
-            >
-              <defs>
-                <linearGradient id="pulseEmber" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="var(--ember)" stop-opacity="0.35"></stop>
-                  <stop offset="100%" stop-color="var(--ember)" stop-opacity="0"></stop>
-                </linearGradient>
-                <linearGradient id="pulseGold" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="var(--gold)" stop-opacity="0.30"></stop>
-                  <stop offset="100%" stop-color="var(--gold)" stop-opacity="0"></stop>
-                </linearGradient>
-              </defs>
-              <!-- gridlines -->
-              <line x1="0" y1="24" x2="320" y2="24" stroke="var(--border)" stroke-width="1"></line>
-              <line x1="0" y1="52" x2="320" y2="52" stroke="var(--border)" stroke-width="1"></line>
-              <line x1="0" y1="80" x2="320" y2="80" stroke="var(--border)" stroke-width="1"></line>
-              <!-- tools band (ember) -->
-              <path
-                d="M0,66 L18,64 L36,70 L54,38 L72,66 L90,28 L108,62 L126,66 L144,22 L162,58 L180,64 L198,46 L216,66 L234,70 L252,54 L270,68 L288,40 L306,62 L320,60 L320,90 L0,90 Z"
-                fill="url(#pulseEmber)"></path>
-              <polyline
-                points="0,66 18,64 36,70 54,38 72,66 90,28 108,62 126,66 144,22 162,58 180,64 198,46 216,66 234,70 252,54 270,68 288,40 306,62 320,60"
-                fill="none"
-                stroke="var(--ember)"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                style="filter: drop-shadow(0 0 4px var(--ember));"></polyline>
-              <!-- prompts band (gold) -->
-              <path
-                d="M0,80 L40,78 L72,74 L108,80 L144,68 L180,78 L216,76 L252,80 L288,72 L320,78 L320,90 L0,90 Z"
-                fill="url(#pulseGold)"></path>
-              <polyline
-                points="0,80 40,78 72,74 108,80 144,68 180,78 216,76 252,80 288,72 320,78"
-                fill="none"
-                stroke="var(--gold)"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"></polyline>
-            </svg>
-          </div>
-
-          <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-muted-foreground">
-            <span class="flex items-center gap-1">
-              <span class="h-1.5 w-1.5 rounded-sm bg-ember"></span>138 tools
-            </span>
-            <span class="flex items-center gap-1">
-              <span class="h-1.5 w-1.5 rounded-sm bg-gold"></span>6 prompts
-            </span>
-            <span class="flex items-center gap-1">
-              <span class="h-1.5 w-1.5 rounded-sm bg-chart-5"></span>18 session
-            </span>
-            <span class="ml-auto font-mono">624.2k new · 38.7M cache</span>
-          </div>
-        </div>
+        <PulseChart client:visible />
 
         <div class="mt-6">
           <p class="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-gold">
@@ -250,60 +301,20 @@ const eq = [
 
       <!-- 04 — Skills + MCP (status rows) -->
       <article
-        class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-8"
+        class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-6"
         style="--d: 120ms"
       >
-        <div class="flex flex-1 gap-6 sm:gap-8">
-          <!-- Skills -->
-          <div class="min-w-0 flex-1">
-            <p class="mb-1.5 text-[10px] uppercase tracking-wider text-muted-foreground/70">
-              Skills
-            </p>
-            <div>
-              {
-                skillRows.map((s, i) => (
-                  <div
-                    class={`flex items-center gap-2 border-b border-border/50 py-1.5 ${i === skillRows.length - 1 ? "border-0" : ""}`}
-                  >
-                    <span
-                      class={`h-1.5 w-1.5 shrink-0 rounded-full ${s.hot ? "bg-chart-1" : "bg-muted-foreground/40"}`}
-                    />
-                    <span class="truncate text-[12px] font-medium text-foreground/90">
-                      {s.name}
-                    </span>
-                    <span class="ml-auto shrink-0 text-[10px] text-muted-foreground/70">
-                      {s.fired}
-                    </span>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-
-          <!-- MCP servers -->
-          <div class="min-w-0 flex-1">
-            <p class="mb-1.5 text-[10px] uppercase tracking-wider text-muted-foreground/70">
-              MCP servers
-            </p>
-            <div>
-              {
-                mcpRows.map((m, i) => (
-                  <div
-                    class={`flex items-center gap-2 border-b border-border/50 py-1.5 ${i === mcpRows.length - 1 ? "border-0" : ""}`}
-                  >
-                    <span class="truncate text-[12px] font-medium text-foreground/90">
-                      {m.name}
-                    </span>
-                    <span class={`ml-auto h-1.5 w-1.5 shrink-0 rounded-full ${m.dot}`} />
-                    <span class="shrink-0 text-[10px] text-muted-foreground">
-                      {m.status}
-                    </span>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        </div>
+        <!-- Skills / MCP as interactive tabs (React island) — toggle between
+             the two lists, VS Code-style tab bar, bottom-faded panel. Skills
+             carries a User/System sub-toggle. -->
+        <SkillsMcp
+          client:visible
+          skillsUser={skillsUser}
+          skillsSystem={skillsSystem}
+          servers={mcpRows}
+          userCount={18}
+          systemCount={17}
+        />
 
         <div class="mt-6">
           <p class="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-gold">
@@ -321,11 +332,16 @@ const eq = [
 
       <!-- 05 — Radio (bar) -->
       <article
-        class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-4"
+        class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-6"
         style="--d: 210ms"
       >
-        <div class="flex flex-1 items-center">
-          <div class="flex w-full items-center gap-2.5 rounded-lg border border-border/60 bg-background/40 px-3 py-2">
+        <!-- Live "Claude Radio" bar on top, with a faked Claude Code terminal
+             below it listing the stations (the conan-change-radio skill reply).
+             Fixed terminal height (doesn't force the tile taller) + the caption
+             uses mt-auto below, tethering it to the bottom like the other cards. -->
+        <div class="flex flex-col gap-3">
+          <!-- current station — the live bar -->
+          <div class="flex w-full shrink-0 items-center gap-2.5 rounded-lg border border-border/60 bg-background/40 px-3 py-2">
             <!-- play/pause (lucide square-pause) -->
             <svg
               viewBox="0 0 24 24"
@@ -353,13 +369,65 @@ const eq = [
               }
             </div>
             <!-- station -->
-            <span class="truncate text-[11px] text-foreground/80">
-              lofi — beats to raid to
+            <span class="truncate text-[11px] font-medium text-foreground/90">
+              Claude Radio
             </span>
+          </div>
+
+          <!-- faked terminal: a Claude Code reply listing the stations -->
+          <div
+            class="relative h-[284px] overflow-hidden rounded-lg border border-border/60 bg-background/50 px-3 py-2.5 font-mono text-[10px] leading-snug [-webkit-mask-image:linear-gradient(to_bottom,#000_70%,transparent)] [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]"
+          >
+            <!-- user prompt -->
+            <p class="text-foreground/90">
+              <span class="text-ember">❯</span> What stations are available on Conan
+              radio and can I add my own
+            </p>
+            <!-- assistant reply (⏺ marker + indented body) -->
+            <div class="mt-3 flex gap-2">
+              <span class="shrink-0 text-ember">⏺</span>
+              <div class="min-w-0 space-y-2 text-muted-foreground">
+                <p class="text-foreground/85">The curated stations on Conan Radio:</p>
+                <ul class="space-y-1">
+                  {
+                    radioStations.map((s) => (
+                      <li>
+                        <span class="text-ember/70">-</span>{" "}
+                        <span class="text-foreground/90">{s.name}</span> — {s.tags}
+                        {s.note && <span class="text-gold"> ({s.note})</span>}
+                      </li>
+                    ))
+                  }
+                </ul>
+                <p class="text-foreground/85">
+                  Can you add your own? Sort of — two different things:
+                </p>
+                <ul class="space-y-1">
+                  <li>
+                    <span class="text-ember/70">-</span> The curated list above is owned
+                    by the Conan gateway (compiled into the signed sidecar binary that
+                    ships in the app), so you can't add to that named list by editing
+                    anything.
+                  </li>
+                  <li>
+                    <span class="text-ember/70">-</span> But you can play any stream you
+                    want. The radio accepts any YouTube URL, youtu.be short link,
+                    youtube.com/live/… link, or bare 11-character video ID — I can point
+                    the radio at it for you. That change is session-only: it lives in the
+                    gateway's memory and reverts to the default when you restart Conan.
+                  </li>
+                </ul>
+                <p>
+                  So if you've got a station/stream in mind, just paste the link and I'll
+                  switch it on. I can also pick from the curated set by vibe (“something
+                  epic/focus”) or shuffle a random one. Want me to put something on?
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="mt-6">
+        <div class="mt-auto pt-6">
           <p class="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-gold">
             05 · Radio
           </p>

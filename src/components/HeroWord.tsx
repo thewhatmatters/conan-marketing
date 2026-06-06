@@ -1,33 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 
-// Cycling headline word with a per-letter blur-in, colored by a warm fire
-// gradient that settles to bone. Ported from the COMPUTE hero, recolored to the
-// Conan pulp palette. This is the hero's "unforgettable" micro-moment.
+// Cycling headline word with a per-letter blur-in. Each word blurs in as ONE
+// color — ember (--primary), the same orange as the Download CTA — then settles
+// to the headline color (--foreground), so it flashes warm and resolves into
+// the line. No multi-hue gradient. This is the hero's "unforgettable" moment.
 const WORDS = ["hand", "steel", "watch", "eye"];
 const STAGGER = 45; // ms between letters
 const DURATION = 500; // per-letter blur+fade
 const HOLD = 2500; // ms each word is shown
 
-// bone → gold → ember → blood → bone (seamless ends)
-const GRADIENT = ["#ece3d0", "#c8962b", "#d97706", "#ef4444", "#ece3d0"];
-const SETTLE = "#ece3d0"; // bone — matches the headline once settled
+const COLOR_ACTIVE = "var(--primary)"; // ember — matches the Download CTA
+const COLOR_SETTLE = "var(--foreground)"; // headline color, once resolved
 
 type LetterState = { opacity: number; blur: number };
-
-function hex2rgb(hex: string): [number, number, number] {
-  return [
-    parseInt(hex.slice(1, 3), 16),
-    parseInt(hex.slice(3, 5), 16),
-    parseInt(hex.slice(5, 7), 16),
-  ];
-}
 
 function BlurWord({ word, trigger }: { word: string; trigger: number }) {
   const letters = word.split("");
   const [states, setStates] = useState<LetterState[]>(
     letters.map(() => ({ opacity: 0, blur: 20 })),
   );
-  const [showGradient, setShowGradient] = useState(true);
+  // true while the word is ember; flips to settle into the headline color.
+  const [active, setActive] = useState(true);
   const frames = useRef<number[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -38,7 +31,7 @@ function BlurWord({ word, trigger }: { word: string; trigger: number }) {
     timers.current = [];
 
     setStates(letters.map(() => ({ opacity: 0, blur: 20 })));
-    setShowGradient(true);
+    setActive(true);
 
     letters.forEach((_, i) => {
       const t = setTimeout(() => {
@@ -58,8 +51,9 @@ function BlurWord({ word, trigger }: { word: string; trigger: number }) {
       timers.current.push(t);
     });
 
-    const hold = STAGGER * letters.length + DURATION + 200;
-    timers.current.push(setTimeout(() => setShowGradient(false), hold));
+    // Once the letters have blurred in (+ a brief beat), settle ember → headline.
+    const settleAt = STAGGER * letters.length + DURATION + 250;
+    timers.current.push(setTimeout(() => setActive(false), settleAt));
 
     return () => {
       frames.current.forEach(cancelAnimationFrame);
@@ -71,15 +65,6 @@ function BlurWord({ word, trigger }: { word: string; trigger: number }) {
   return (
     <>
       {letters.map((char, i) => {
-        const ci = (i / Math.max(letters.length - 1, 1)) * (GRADIENT.length - 1);
-        const lo = Math.floor(ci);
-        const hi = Math.min(lo + 1, GRADIENT.length - 1);
-        const t = ci - lo;
-        const [r1, g1, b1] = hex2rgb(GRADIENT[lo]);
-        const [r2, g2, b2] = hex2rgb(GRADIENT[hi]);
-        const r = Math.round(r1 + (r2 - r1) * t);
-        const g = Math.round(g1 + (g2 - g1) * t);
-        const b = Math.round(b1 + (b2 - b1) * t);
         const st = states[i] ?? { opacity: 0, blur: 20 };
         return (
           <span
@@ -88,8 +73,8 @@ function BlurWord({ word, trigger }: { word: string; trigger: number }) {
               display: "inline-block",
               opacity: st.opacity,
               filter: `blur(${st.blur}px)`,
-              color: showGradient ? `rgb(${r},${g},${b})` : SETTLE,
-              transition: "color 0.4s ease",
+              color: active ? COLOR_ACTIVE : COLOR_SETTLE,
+              transition: "color 0.45s ease",
             }}
           >
             {char}

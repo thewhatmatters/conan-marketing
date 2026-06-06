@@ -2,14 +2,60 @@
 import "../styles/global.css";
 
 interface Props {
+  /** Page title; the site name is appended automatically. Omit on the homepage
+   *  to use the full default title. */
   title?: string;
   description?: string;
+  /** OG/Twitter share image, site-root-relative (e.g. "/og-image.png"). */
+  image?: string;
 }
 
+const SITE_NAME = "Conan";
+const DEFAULT_TITLE = "Conan — a live HUD for Claude Code on macOS";
+const DEFAULT_DESCRIPTION =
+  "Conan is a native macOS app that wraps Claude Code in a live HUD — every prompt, tool call, skill, and token, surfaced as it happens. One-time $39, no subscription.";
+
 const {
-  title = "Conan — a barbarian misses nothing",
-  description = "A macOS-native desktop app that wraps and observes Claude Code.",
+  title,
+  description = DEFAULT_DESCRIPTION,
+  // Interim share image (a real frame of the product) until the branded
+  // 1200×630 /og-image.png is dropped in. Swap the default when it lands.
+  image = "/hero/hero-poster.jpg",
 } = Astro.props;
+
+// Sub-pages pass a short title ("Privacy Policy") → "Privacy Policy — Conan".
+// The homepage passes none → the full default title (already brand-led).
+const pageTitle = title ? `${title} — ${SITE_NAME}` : DEFAULT_TITLE;
+
+// Absolute URLs for canonical + OG (crawlers want fully-qualified). Astro.site
+// is "https://conan.sh"; fall back gracefully if it's unset.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+
+// Sitewide entity graph (JSON-LD) — a WebSite + the publishing Organization,
+// stable @ids that page-level schema (e.g. the homepage SoftwareApplication)
+// links back to. Helps AI engines and classic rich results resolve "Conan"
+// as a known entity. Rendered on every page.
+const siteLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://conan.sh/#website",
+      name: SITE_NAME,
+      url: "https://conan.sh/",
+      description: DEFAULT_DESCRIPTION,
+      publisher: { "@id": "https://conan.sh/#org" },
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://conan.sh/#org",
+      name: "WhatMatters",
+      url: "https://whatmatters.so",
+      brand: { "@type": "Brand", name: "Conan" },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -19,8 +65,33 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+
+    <!-- Primary meta -->
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0c0a09" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Conan — a live HUD for Claude Code on macOS" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Sitewide entity graph -->
+    <script type="application/ld+json" set:html={JSON.stringify(siteLd)} />
+
+    <!-- Per-page head extras (JSON-LD, etc.) -->
+    <slot name="head" />
   </head>
   <body>
     <slot />

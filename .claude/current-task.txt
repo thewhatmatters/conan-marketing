@@ -1,1 +1,1 @@
-Bento: animate tiles (Timeline done) — Context next; redesign uncommitted
+Bento HUD tiles + SEO/GEO + hero/footer polish — shipped

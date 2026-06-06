@@ -84,13 +84,22 @@ is the source of truth. Major changes from the original plan below:
   gradient. **Download for Mac CTA** + "View on GitHub" + a price caption
   beneath (`$39 once, no subscription`). The old Free/$39/macOS metric strip was
   removed 2026-05-31.
-- **`Bento.astro`** — 5-tile **comic-panel grid** (numbered 01–05) whose "live
-  HUD" visuals mirror the real app panels (recreated from `../conan/ui/src`,
-  warm-translated via `--chart-1..5` tokens): a **live streaming Timeline**
-  (`TimelineFeed.tsx` React island — events stream in, skill-fired rows play the
-  `lightning.json` lottie over a static ⚡), a **segmented context bar**, a
-  **stacked pulse area chart**, **Skills/MCP status rows**, and a **radio bar**.
-  Scroll-revealed via IntersectionObserver. id=`features`.
+- **`Bento.astro`** — 5-tile **comic-panel grid** (01–05) whose "live HUD"
+  visuals mirror the real app panels (recreated from `../conan/ui/src`,
+  warm-translated via `--chart-1..5`). Three are React islands; data for the
+  static ones lives in the `.astro` frontmatter. Tiles:
+  1. **Timeline** (`TimelineFeed.tsx`, island) — events stream in; skill-fired
+     rows play `lightning.json` over a static ⚡. Fixed-height feed + bottom mask.
+  2. **Context** — segmented usage bar with **per-segment hover tooltips**
+     (CSS); legend system/tools/memory/skills/messages.
+  3. **Pulse** (`PulseChart.tsx`, island) — 3 line series + **hover tooltip** +
+     **15m/1h/6h/24h** range buttons. Deterministic, TZ-free, hydration-safe.
+  4. **Skills & MCP** (`SkillsMcp.tsx`, island) — **Skills | MCP tabs** + a
+     **User/System** sub-toggle; VS-Code-style ember active accent; faded panel.
+  5. **Radio** — live "Claude Radio" bar + a **faked Claude Code terminal**
+     (❯/⏺) listing the curated stations. Caption `mt-auto` (bottom-tethered).
+  Tiles 04/05 are a **6/6** split. Scroll-revealed via IntersectionObserver.
+  id=`features`.
 - **`Footer.astro`** — compact; carries the required "not affiliated" trust line.
 - **`FAQ.astro` + `FaqAccordion.tsx`** — 9 trust-first Q&As (copy in `.astro`
   frontmatter from the story doc) in a **shadcn Accordion** island (single-open).

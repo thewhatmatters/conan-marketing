@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^5.0.6",
+    "@astrojs/sitemap": "^3.7.3",
     "@astrojs/vercel": "^10.0.8",
     "@fontsource-variable/geist": "^5.2.9",
     "@vercel/kv": "^3.0.0",

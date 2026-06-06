@@ -1,0 +1,36 @@
+# Conan
+
+> Conan is a native macOS desktop app that wraps and observes Claude Code,
+> giving developers a live HUD over their agent sessions — a streaming timeline
+> of every prompt, tool call, and skill; live context and token usage; a
+> throughput pulse; the skills and MCP servers in play; and built-in radio.
+
+Conan runs entirely on your Mac and reads Claude Code's local session data in
+`~/.claude` — no telemetry, nothing about your code or prompts leaves your
+machine. It does not replace Claude Code or run the model itself; it adds the
+cockpit around it, reading the activity Claude Code already writes to disk, so
+the agent runs at full speed.
+
+Pricing: one app, freemium. The free download is a genuinely useful live
+observer (terminal, Context, Usage, a basic Timeline). Premium unlocks the
+insight layer — skill-scoring rows, Plan/Loop/Build rows, expandable tool
+payloads, longer Pulse history, Skills' last-fired times, the MCP auth
+watchdog, and Claude Radio — for **$39 once**: no subscription, no per-device
+limit, lifetime updates within the 1.x line. Sold via Polar.sh.
+
+Platform: macOS 13 or later on Apple silicon. Windows and Linux are not yet
+available — a waitlist on the site collects interest.
+
+Conan is built by WhatMatters and is **not** affiliated with or endorsed by
+Anthropic, nor with Conan Properties International (the "Conan the Barbarian"
+franchise). "Conan" here refers to the macOS app for observing Claude Code.
+
+## Pages
+
+- [Home](https://conan.sh/): What Conan is, the feature HUD (Timeline, Context, Pulse, Skills & MCP, Radio), FAQ, and download
+- [Terms of Service](https://conan.sh/terms): Terms governing use of Conan and conan.sh
+- [Privacy Policy](https://conan.sh/privacy): What the app and site collect — and what they deliberately don't
+
+## Optional
+
+- [Claude Code](https://www.anthropic.com/claude-code): The Anthropic coding agent that Conan observes

@@ -17,3 +17,6 @@ build/
 .env
 .env.local
 .env.*.local
+
+# local session handoff archives (PreCompact hook)
+.claude/handoff-archive/

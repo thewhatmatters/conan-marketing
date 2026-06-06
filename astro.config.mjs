@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
+import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 // Static-first marketing site. Individual server routes (e.g. /api/waitlist)
@@ -11,7 +12,7 @@ export default defineConfig({
   site: "https://conan.sh",
   output: "static",
   adapter: vercel(),
-  integrations: [react()],
+  integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
   },

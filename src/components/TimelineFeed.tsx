@@ -230,8 +230,8 @@ export default function TimelineFeed() {
       ref={wrapRef}
       className="relative h-full overflow-hidden"
       style={{
-        maskImage: "linear-gradient(to bottom, #000 88%, transparent)",
-        WebkitMaskImage: "linear-gradient(to bottom, #000 88%, transparent)",
+        maskImage: "linear-gradient(to bottom, #000 84%, transparent)",
+        WebkitMaskImage: "linear-gradient(to bottom, #000 84%, transparent)",
       }}
     >
       <div

@@ -1,0 +1,7 @@
+# conan.sh — all crawlers welcome, including AI / generative engines
+# (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot-Extended, …).
+# We want Conan to be discoverable and citable by AI assistants.
+User-agent: *
+Allow: /
+
+Sitemap: https://conan.sh/sitemap-index.xml

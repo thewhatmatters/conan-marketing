@@ -58,19 +58,24 @@
     section &&
     !matchMedia("(prefers-reduced-motion: reduce)").matches
   ) {
-    const MAX = 90; // px of upward drift across the full scroll-through
+    // The wordmark rises from START (px below, clipped under the footer's
+    // bottom edge) up to END (px above its base rest) as the section scrolls
+    // in — a big, clearly-rising travel. END is negative so it settles ~20%
+    // higher than the base position, lifting more of CONAN into view.
+    const START = 180;
+    const END = -64;
     let ticking = false;
     const update = () => {
       ticking = false;
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight;
-      // 0 when the section's top is at the viewport bottom → 1 once it's fully
-      // scrolled past the top.
-      const progress = Math.min(
-        1,
-        Math.max(0, (vh - rect.top) / (vh + rect.height)),
-      );
-      wrap.style.transform = `translateY(${-progress * MAX}px)`;
+      // 0 when the section's top is at the viewport bottom → 1 by the time its
+      // top has risen ~70% up the viewport. Normalized this way (not the full
+      // scroll-through) so the wordmark fully rises while the footer sits at the
+      // page bottom — where the section can never scroll fully past the top.
+      const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh * 0.7)));
+      // Rise from +START (low, clipped) up to END (settled, lifted).
+      wrap.style.transform = `translateY(${END + (START - END) * (1 - progress)}px)`;
     };
     const onScroll = () => {
       if (!ticking) {
