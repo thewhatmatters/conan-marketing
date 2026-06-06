@@ -37,6 +37,16 @@
   --color-gold: var(--gold);
   --color-bone: var(--bone);
 
+  /* Warm-translated chart series (mirrors the Conan app's --chart-1..5, but in
+     the site's warm family instead of the app's emerald/blue/amber/violet/pink).
+     Used by the Bento "live HUD" mocks so they read like real app panels while
+     staying on-brand. straw → gold → ember → burnt → oxblood. */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
   /* Geist for body + display — one typeface throughout (no mono). */
   --font-sans: "Geist Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Geist Variable", system-ui, -apple-system, sans-serif;
@@ -69,6 +79,12 @@
   --ember: #c2410c;
   --gold: #a67414;
   --bone: #1c1208;
+  /* Warm chart series (light): straw → gold → ember → burnt → oxblood. */
+  --chart-1: #b45309;
+  --chart-2: #a67414;
+  --chart-3: #ca8a04;
+  --chart-4: #c2410c;
+  --chart-5: #7f1d1d;
   --radius: 0.625rem;
 }
 
@@ -94,6 +110,13 @@
   --ember: #d97706; /* orange fire — energy, hover glow, "live" pulse */
   --gold: #c8962b; /* bronze/brass — premium ($39), title shimmer */
   --bone: #ece3d0; /* parchment — light accents on dark */
+  /* Warm chart series (dark, canonical): straw → gold → ember → burnt → oxblood.
+     Five separable warm hues for the Bento HUD mocks (context bar, pulse, badges). */
+  --chart-1: #e0a42b; /* straw-gold  */
+  --chart-2: #d97706; /* ember       */
+  --chart-3: #f0c674; /* pale straw  */
+  --chart-4: #b45309; /* burnt amber */
+  --chart-5: #a3341f; /* oxblood-orange */
 }
 
 body {
@@ -204,16 +227,6 @@ body::after {
     transform: translateY(0);
   }
 }
-@keyframes ring-fill {
-  from {
-    stroke-dashoffset: 263.9;
-  }
-}
-@keyframes pulse-travel {
-  to {
-    stroke-dashoffset: -266;
-  }
-}
 @keyframes eq-bounce {
   0%,
   100% {
@@ -238,12 +251,35 @@ body::after {
   animation: bento-row 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--d, 0ms);
 }
-.bento.is-in .ring-fg {
-  animation: ring-fill 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+/* HUD reveal: the segmented context bar + the pulse area chart wipe in
+   left→right when the section enters view (reads like time advancing). */
+@keyframes hud-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
-.pulse-blip {
-  stroke-dasharray: 14 252;
-  animation: pulse-travel 2.4s linear infinite;
+.hud-wipe {
+  clip-path: inset(0 100% 0 0);
+}
+.bento.is-in .hud-wipe {
+  animation: hud-wipe 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--d, 200ms);
+}
+/* "LIVE" indicator dot — slow breathing pulse. */
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.live-dot {
+  animation: live-pulse 1.6s ease-in-out infinite;
 }
 .eq-bar {
   transform-origin: bottom;
@@ -255,10 +291,13 @@ body::after {
   .tl-row {
     opacity: 1;
   }
+  .hud-wipe {
+    clip-path: none;
+  }
   .bento.is-in .bento-tile,
   .bento.is-in .tl-row,
-  .bento.is-in .ring-fg,
-  .pulse-blip,
+  .bento.is-in .hud-wipe,
+  .live-dot,
   .eq-bar {
     animation: none;
   }

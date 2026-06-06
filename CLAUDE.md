@@ -84,9 +84,13 @@ is the source of truth. Major changes from the original plan below:
   gradient. **Download for Mac CTA** + "View on GitHub" + a price caption
   beneath (`$39 once, no subscription`). The old Free/$39/macOS metric strip was
   removed 2026-05-31.
-- **`Bento.astro`** — 5-tile **comic-panel grid** (numbered 01–05), hand-built
-  "live" visuals (timeline stream, context ring, pulse line, tool chips, radio
-  EQ), scroll-revealed via IntersectionObserver. id=`features`.
+- **`Bento.astro`** — 5-tile **comic-panel grid** (numbered 01–05) whose "live
+  HUD" visuals mirror the real app panels (recreated from `../conan/ui/src`,
+  warm-translated via `--chart-1..5` tokens): a **live streaming Timeline**
+  (`TimelineFeed.tsx` React island — events stream in, skill-fired rows play the
+  `lightning.json` lottie over a static ⚡), a **segmented context bar**, a
+  **stacked pulse area chart**, **Skills/MCP status rows**, and a **radio bar**.
+  Scroll-revealed via IntersectionObserver. id=`features`.
 - **`Footer.astro`** — compact; carries the required "not affiliated" trust line.
 - **`FAQ.astro` + `FaqAccordion.tsx`** — 9 trust-first Q&As (copy in `.astro`
   frontmatter from the story doc) in a **shadcn Accordion** island (single-open).

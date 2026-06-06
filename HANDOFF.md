@@ -1,143 +1,103 @@
 # Handoff — conan.sh marketing site
 
-_Last updated: 2026-06-03 (session 2)_
+_Updated 2026-06-06 · session refresh checkpoint_
 
 ## Goal
-Polish pass on the landing page: hero cleanup, asset/video hygiene, a Terms +
-Privacy legal section, and a reworked closing section (barbarian footer graphic
-+ final CTA). Baseline system: `CLAUDE.md` + `DESIGN.md`. Prior session notes
-preserved under "Previous handoff" sections below.
+Polish the landing page's **Bento** section so each tile mirrors the real Conan
+app HUD (warm-translated to the site palette), and bring the tiles to life with
+animation — starting with the **Timeline** tile (a live streaming event feed).
+Also shipped a hero-video swap earlier this session.
+
+## Current state
+
+**Shipped & pushed earlier this session** (HEAD `65d17bd`):
+- Hero app-window frame now plays the **`conan-hero` screencast** (H.264 mp4
+  only — VP9 webm was dropped because it hardware-decodes to BLACK on some Mac
+  GPUs while reporting "playing"; see [[hero-video-mp4-only-vp9-black]]). 16:9
+  panel, all-4-corners rounded, faux chrome removed.
+
+**Done & verified in-browser, NOT yet committed** (working tree dirty):
+- **Full Bento redesign** (`src/components/Bento.astro`) — 5 tiles rebuilt from
+  the app's real components in `../conan/ui/src`, warm-translated:
+  1. **Timeline** (col-span-7) — now a **live streaming React island**
+     (`src/components/TimelineFeed.tsx`, `client:visible`): events arrive at top,
+     push the rest down, oldest fades off. Badge kinds PROMPT/PRETOOL/POSTTOOL/
+     STOP/NOTIF/EVENT/SKILL/SKILL?, subtext lines, `+392k` token tails. **Skill-
+     fired rows play the app's `lightning.json` lottie OVER a persistent static
+     ⚡** (overlay, not swap) via `lottie-web`; only LIVE rows animate, historical
+     + reduced-motion show the static glyph.
+  2. **Context** (col-span-5) — segmented multi-color usage bar + `62% ·
+     claude-opus-4-8 · 621k/1.0M` + legend + `Auto ✓`. **STILL STATIC — this is
+     the next animation target.**
+  3. **Pulse** (col-span-5) — stacked gradient area chart + LIVE legend.
+  4. **Skills & MCP** (col-span-7) — two columns of status rows.
+  5. **Radio** (col-span-4) — play icon + warm 5-bar EQ + station.
+- **Warm `--chart-1..5` tokens** added to `src/styles/global.css` (straw → gold
+  → ember → burnt → oxblood) so tiles use `chart-N` classes like the app.
+- **Layout tuned**: `auto-rows` is `minmax(210px,auto)` (was `1fr`, which
+  inflated every tile). Timeline feed is a **fixed `h-[344px]`** (≈12 rows) with
+  a **16px gap** (`mt-4`) above the `01 · TIMELINE` header; inner container is
+  `flex flex-col` (NOT `flex-1`). Timeline tile measures ~563px, balanced
+  against Context+Pulse stacked.
+- Build green (`npm run build`); reduced-motion + hydration verified clean
+  (zero console errors); dev server restarted clean after a Vite re-optimize.
+
+## Next steps
+1. **Animate the Context tile** — user asked for this next, then said "Wait" (no
+   style chosen yet). Re-offer the 3 options: (a) **live fill + compact loop**
+   [recommended] — % climbs & bar grows, then snaps back on a `/context compact`
+   with a flash, loops; (b) gentle breathing fill; (c) one-shot fill on scroll.
+   Build as an island mirroring TimelineFeed (mounted-gate for hydration safety,
+   reduced-motion → static).
+2. **Commit the uncommitted stack** (see Git state) when the user says so — and
+   in the SAME commit, **update `CLAUDE.md`'s "Current state" bento description**
+   (it still says "context ring, pulse line, tool chips, radio EQ" — now stale).
+3. Optionally animate the other tiles (Pulse scroll-in spikes, Skills blink-fire).
+
+## Key decisions (and why)
+- **Warm-translated, not faithful emerald.** User kept CLAUDE.md's "NO green /
+  site is the warm poster" rule — recreate app *patterns* but tint warm.
+- **No Remotion for bento.** Tiles stay hand-built HTML/CSS/SVG + React islands:
+  instant, themeable, hover-interactive. Remotion is for video deliverables only.
+- **Source of truth = `../conan/ui/src` components on disk**, not asking the
+  Conan agent (the real tokens/structure are right there).
+- **Timeline streaming uses a React island + Motion** (`AnimatePresence`,
+  `popLayout`, `layout`) — the sanctioned "needs motion + client state" case.
+- **Hydration safety pattern**: gate the animated branch on a post-mount flag so
+  SSR + first client paint render the SAME static list (else reduced-motion or
+  motion's inline styles diverge → hydration mismatch). Reuse for any new island.
+- **Feed height is FIXED, not `flex-1`.** `flex-1` lets the feed balloon to fill
+  the row-span and made the tile 788px. Fixed height is the controllable lever.
+
+## Files & commands in play
+- `src/components/Bento.astro` — the 5-tile grid (modified, uncommitted).
+- `src/components/TimelineFeed.tsx` — live feed island (new, uncommitted).
+- `src/styles/global.css` — `--chart-1..5` tokens + bento reveal CSS (`hud-wipe`,
+  `live-dot`); dropped dead `ring-fill`/`pulse-travel` keyframes (modified).
+- Reference: `../conan/ui/src/components/{Timeline,ContextHeader,PulseChart,
+  SkillsWidget,McpWidget,RadioBar,SkillFiredLottie}.tsx`.
+- Asset: `public/animations/lightning.json` (shared with Header).
+- `npm run dev` → http://localhost:4321/ (bento at `/#features`); `npm run build`.
+- Browser verify via the `automate-browser` skill (WebKit engine now installed
+  for Safari emulation). Headless Chromium software-decodes video — sample pixel
+  brightness, don't trust `paused`/`currentTime` (VP9-black lesson).
 
 ## Git state
-- Branch `main` (trunk-based; `main` auto-deploys to www.conan.sh via Vercel).
-- Pushed so far: `cac92ed` (big polish batch), `e5f78ac` (§6 scroll-spy). The
-  10MB source `conan-footer.png` + unused `halftone.png` were deleted (never
-  committed). The parallax (§7) is being committed + pushed now. Tree clean after.
-- Dev server: `npm run dev` → http://localhost:4321/ . `npm run build` is green;
-  `/`, `/terms`, `/privacy` all prerender.
-
-## What got done this session (all verified in-browser via automate-browser)
-
-### 1. Hero (`src/components/Hero.astro`)
-- **Brightened the video** — removed the hero-veil (radial 0.38), edge vignette
-  (0.65), left readability scrim (0.85), and the faint warm grid overlay.
-  **Kept** the subdue scrim + bottom blend + edge feather (the graceful
-  bottom-dissolve into the next section). The footage now reads clearly.
-- `.hero-veil` keyframes in `global.css` are now **dead CSS** (harmless; can be
-  cleaned in a pass).
-- Tried a halftone overlay (`public/halftone.png`) over the video — **abandoned**:
-  a dot sheet over footage just adds noise; halftone only reads as print over a
-  light ground / when authored into art. `halftone.png` left in `public/` unused.
-
-### 2. Video folder cleanup + mobile fallback
-- `public/video/` trimmed 8→4 files. Deleted (tracked, recoverable via
-  `git checkout`): `conan-battle-dark.mp4`, `conan-horse-dark.mp4`,
-  `conan-battle-dark-new.mp4`. Deleted (untracked) the 6.3MB
-  `conan-horse-dark-to-gif.mp4`. **Kept:** `conan-battle-dark-new-keyed.mp4`+`.jpg`
-  (hero), `conan-horse.mp4`+`.png` (FAQ rider).
-- **Mobile poster fallback** (Hero + FAQ): videos now have NO `autoplay` and
-  `preload="none"`; a script plays them only on `≥768px` + motion-allowed. On
-  phones the `.mp4` is never fetched (verified: 0 mp4 requests at 390px) — poster
-  image stands in. Reduced-motion still gets the poster.
-
-### 3. Legal pages — NEW
-- **`src/layouts/LegalLayout.astro`** — shared shell: mounts the global
-  `<Header />` + a sticky sidebar **Terms↔Privacy switcher** + `<Footer />`.
-  Two real routes share it (cohesive UX, but distinct linkable/SEO/compliance
-  URLs — Apple/Polar can link `/privacy` directly). Active doc = square (no
-  rounded) tab w/ ember left-bar + flat card fill. In-doc TOC was added then
-  **removed** per request. Body typography via `is:global` scoped to `.legal-body`.
-- **`src/pages/terms.astro`** + **`src/pages/privacy.astro`** — scaffolded with
-  real facts (Polar = Merchant of Record, $39 one-time/freemium/lifetime-1.x,
-  not-affiliated, app=local/no-telemetry vs site=waitlist-email+Polar). Every spot
-  needing binding legal text is a `DRAFT ·` ember-bordered `.todo` block — **must
-  be replaced with counsel-reviewed copy before launch.**
-- FAQ has a "Where are the Terms and Privacy Policy?" item linking to both
-  (verified: links resolve to `/terms`, `/privacy`).
-
-### 4. Header made page-aware (`src/components/Header.astro`)
-- Nav hrefs are now absolute (`/#features`, `/#faq`, `/#waitlist`, download
-  `/#download`) so they work from the legal pages too.
-- Scroll-spy derives the `#hash` from each href and **no-ops** on pages without
-  those sections (legal pages) — no errors. Scoped to `a[href*="#"]`.
-- A "Legal" nav link + render-time active state were added then **removed** ("just
-  doesn't flow well"). Legal is reachable via the FAQ item only now.
-
-### 5. Closing section: footer graphic + CTA (the big rework)
-- **`Footer.astro`** is now a **pure barbarian graphic** (no nav, no brand mark,
-  no trust strip — all removed per request). It renders the figure (in normal
-  flow, sets the height) + the giant **CONAN** wordmark behind it
-  (`from-ember/60`) + a bottom-blend gradient that dissolves into `#0c0a09`.
-- **Asset:** user dropped `public/footer/conan-footer.png` (first version had the
-  editor's transparency **checkerboard** baked into the semi-transparent base
-  dust — same failure mode as the keyed videos). User re-exported a clean PNG.
-  Processed via ImageMagick → **`public/footer/conan-footer-web.webp`** (trimmed
-  margins + resized 1600w, **158KB** from a 10MB source). The footer `<img>` uses
-  the `.webp`; the original `.png` is left untouched (no-overwrite rule).
-- **Order swapped** (`index.astro`): the barbarian graphic (`<Footer />`) now
-  renders **above** the final CTA (`<CTA />`), so the page closes with: graphic →
-  "Miss nothing" → "Take up the steel" → Download → waitlist.
-- **No glow anywhere** in this closing area — CTA fire glow, CTA vignette, and the
-  footer's top ember glow were ALL removed (user: "NO GLOW EFFECT"). CTA top
-  border removed too. The graphic + CTA read as one seamless dark section.
-
-### 6. Nav scroll-spy: "Get notified" = the whole closing section
-- The spy now **decouples a link's active-region from its click target**. Nav
-  links carry an optional `spy` selector (rendered as `data-spy`): "Get notified"
-  still clicks through to the form (`#waitlist`), but its active region is
-  `#closing` (id on the `<footer>`), so it highlights across the **entire**
-  closing section (graphic + "Take up the steel" + form). Verified.
-- Spy refactor (`Header.astro`): tracks each link → target element via
-  `data-spy || hashOf(href)`, no id round-trip. Features/FAQ unchanged; still
-  no-ops on pages without those targets (legal pages).
-
-### 7. CONAN wordmark parallax (`Footer.astro`)
-- The giant CONAN wordmark drifts **up** (max `90px`) as the closing section
-  scrolls through the viewport — rAF-throttled scroll → `translateY` on the
-  `#conan-parallax` wrapper (`will-change-transform`). Disabled under
-  reduced-motion. Verified: 0 → −36 → −67 → −71px across scroll depths.
-
-## Open threads / next steps
-- **Legal copy is placeholder** — replace all `.todo` DRAFT blocks with real
-  counsel/Polar-template text before launch; set the "Last updated" dates.
-- **"Not affiliated" disclaimer** — removing the footer trust strip removed the
-  at-a-glance affiliation/copyright line that `CLAUDE.md`/`DESIGN.md` ask to keep
-  visible. It now lives only in the FAQ answer + Terms page. Confirm that's
-  acceptable or reinstate a slim disclaimer somewhere.
-- **`Footer.astro` is a misnomer** now (it's a graphic banner above the CTA, and
-  there's no semantic page-footer at the very bottom). Optional tidy: fold the
-  graphic into the CTA as one component.
-- **Dead CSS:** `.hero-veil` keyframes in `global.css` are unused.
-- **Carried over:** real circular logo (swap the "C" `<span>` in `Header.astro`);
-  wire real Download `.dmg` / Polar checkout URLs (still `/#download` stubs);
-  favicon, OG/SEO meta, KV creds for the waitlist.
+Branch `main` (trunk-based; auto-deploys to www.conan.sh via Vercel). Uncommitted:
+```
+ M src/components/Bento.astro
+ M src/styles/global.css
+?? src/components/TimelineFeed.tsx
+```
+**Left uncommitted on purpose** — user hasn't asked to commit yet. Commit (with
+the CLAUDE.md doc fix) only on explicit ask; do NOT push beyond a normal `main`
+commit without confirmation.
 
 ## Don't redo
-- **Halftone-over-video / dot-sheet-as-texture is a dead end** — needs a light
-  ground or authored-into-art; don't re-overlay `public/halftone.png`.
-- **No alpha/transparent video or baked-checkerboard assets** — flatten/key onto
-  `#0c0a09` and feather, or crop the checker band out (as done for the footer PNG).
-- **Never overwrite a user-dropped source** — process to NEW filenames
-  (`conan-footer.png` → `conan-footer-web.webp`).
-- **No glow** in the CTA/footer closing section (explicitly rejected, repeatedly).
-
----
-
-## Previous handoff (2026-06-03, session 1)
-
-Goal: hero battle-clip keying + nav "Get notified" + scroll-spy fix. HEAD then
-`f341809`. Key context: the dropped `conan-battle-dark-new.mp4` had the editor's
-transparency checkerboard + dark side-bars baked in; keyed to `…-new-keyed.mp4`
-via ffmpeg + ImageMagick edge flood-fill + a numpy pocket-clear pass. (That source
-mp4 was deleted in session 2's cleanup — recoverable from git history if re-keying
-is ever needed.) Toolbox: numpy + ImageMagick + ffmpeg, no PIL/scipy/cv2.
-
-## Previous handoff (2026-06-02)
-
-Public marketing landing page for conan.sh (sells Conan, the macOS app observing
-Claude Code). Single Astro page, dark "ink & fire" pulp aesthetic. Decisions
-(durable): video backgrounds = opaque keyed onto `#0c0a09` + CSS feather, NOT
-alpha (cross-browser transparent video unreliable); nav compacts on scroll to a
-JS-measured `--nav-hug` width with a sliding pill. Components:
-`src/components/{Header,Hero,Bento,FAQ,CTA,Footer}.astro`. `npm run dev` (:4321);
-verify with the automate-browser skill.
+- **No VP9/webm video** anywhere — H.264 mp4 only (Mac GPU black-frame bug).
+- **Don't make the timeline feed `flex-1`** — it balloons the tile to ~788px.
+  Use a fixed `h-[…]`.
+- **Don't render the animated island branch during SSR** — gate on a mounted
+  flag or you get hydration mismatches.
+- The Context bar's signature is the **segmented multi-color bar**, NOT a ring
+  (the ring was the old design, already replaced).

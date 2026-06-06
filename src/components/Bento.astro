@@ -1,8 +1,47 @@
 ---
-// Benefits bento — an asymmetric comic-panel grid (5 tiles). Heavy ink gutters,
-// numbered panels, gold accents, and hand-built "live" product visuals (no
-// screenshots yet). Reveals on scroll via a tiny IntersectionObserver (.is-in).
-const skills = ["filesystem", "git", "playwright", "memory", "fetch", "sqlite"];
+// Benefits bento — an asymmetric comic-panel grid (5 tiles). Each tile carries a
+// hand-built "live HUD" mock that mirrors the REAL Conan app panels (timeline
+// rows + tool badges, the segmented context bar, the pulse area chart, the
+// skills/MCP status rows, the radio bar) — recreated from the app's actual
+// components in ../conan/ui/src, then warm-translated into the site's palette
+// (the app's emerald/blue/amber/violet/pink chart series → warm --chart-1..5;
+// see global.css). Reveals on scroll via a tiny IntersectionObserver (.is-in).
+import TimelineFeed from "./TimelineFeed.tsx";
+
+// Segmented context bar — category → warm color + share (%). Sums to 83%; the
+// remaining 17% shows the muted track as "free" context, like the app.
+const ctxSegments = [
+  { label: "system", cls: "bg-chart-3", pct: 8 },
+  { label: "skills", cls: "bg-chart-1", pct: 9 },
+  { label: "mcp", cls: "bg-chart-2", pct: 9 },
+  { label: "tools", cls: "bg-chart-4", pct: 15 },
+  { label: "memory", cls: "bg-chart-5", pct: 12 },
+  { label: "messages", cls: "bg-bone/80", pct: 30 },
+];
+
+// Skills (left) + MCP servers (right) — status rows, not a pill cloud.
+const skillRows = [
+  { name: "frontend-design", fired: "just now", hot: true },
+  { name: "automate-browser", fired: "2m ago", hot: true },
+  { name: "generate-prd", fired: "14m ago", hot: false },
+  { name: "handoff", fired: "1h ago", hot: false },
+];
+const mcpRows = [
+  { name: "playwright", status: "connected", dot: "bg-chart-1" },
+  { name: "filesystem", status: "connected", dot: "bg-chart-1" },
+  { name: "memory", status: "connected", dot: "bg-chart-1" },
+  { name: "fetch", status: "needs auth", dot: "bg-ember" },
+];
+
+// Radio equalizer — non-round per-bar duration/delay pairs (from the app's
+// RadioBar) so the bars look driven by a live signal, not a marching wave.
+const eq = [
+  { dur: "0.83s", delay: "0ms" },
+  { dur: "1.27s", delay: "230ms" },
+  { dur: "1.09s", delay: "560ms" },
+  { dur: "1.51s", delay: "100ms" },
+  { dur: "0.77s", delay: "410ms" },
+];
 ---
 
 <section id="features" class="relative py-24 lg:py-32">
@@ -20,37 +59,37 @@ const skills = ["filesystem", "git", "playwright", "memory", "fetch", "sqlite"];
 
     <!-- Comic-panel grid -->
     <div
-      class="bento grid grid-cols-1 gap-4 lg:grid-cols-12 lg:auto-rows-[minmax(232px,1fr)] lg:gap-5"
+      class="bento grid grid-cols-1 gap-4 lg:grid-cols-12 lg:auto-rows-[minmax(210px,auto)] lg:gap-5"
     >
       <!-- 01 — Timeline (LARGE) -->
       <article
         class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-7 lg:row-span-2"
         style="--d: 0ms"
       >
-        <div class="flex-1">
-          <div class="space-y-2.5">
-            {
-              [
-                { t: "14:02:51", a: "edited", f: "src/radio/RadioBar.tsx" },
-                { t: "14:02:53", a: "ran", f: "npm run typecheck" },
-                { t: "14:03:07", a: "read", f: "ui/src/index.css" },
-                { t: "14:03:14", a: "wrote", f: "Bento.astro" },
-                { t: "14:03:20", a: "called", f: "mcp · playwright" },
-              ].map((row, i) => (
-                <div
-                  class="tl-row flex items-center gap-3 rounded-lg border border-border/60 bg-background/40 px-3 py-2"
-                  style={`--d: ${220 + i * 90}ms`}
-                >
-                  <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-ember shadow-[0_0_8px] shadow-ember/80" />
-                  <span class="text-[11px] text-muted-foreground">{row.t}</span>
-                  <span class="text-[11px] text-gold">{row.a}</span>
-                  <span class="truncate text-[11px] text-foreground/80">{row.f}</span>
-                </div>
-              ))
-            }
+        <div class="flex flex-col">
+          <!-- HUD header: title + filter chips -->
+          <div class="mb-3 flex items-center justify-between">
+            <div class="flex items-center gap-2 text-[11px]">
+              <span class="font-medium text-foreground/80">Timeline</span>
+              <span class="text-muted-foreground/50">·</span>
+              <span class="text-muted-foreground">Term 1</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="rounded-full border border-ember/40 bg-ember/10 px-2 py-0.5 text-[10px] text-ember">All</span>
+              <span class="rounded-full border border-border px-2 py-0.5 text-[10px] text-muted-foreground">Hooks</span>
+              <span class="hidden rounded-full border border-border px-2 py-0.5 text-[10px] text-muted-foreground sm:inline">Skills</span>
+            </div>
+          </div>
+
+          <!-- Live event stream — events arrive at the top and push the rest
+               down (React island; uses Motion for the enter/exit + layout
+               shift, and degrades to a static list under reduced-motion). -->
+          <div class="relative h-[344px]">
+            <TimelineFeed client:visible />
           </div>
         </div>
-        <div class="mt-6">
+
+        <div class="mt-4">
           <p class="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-gold">
             01 · Timeline
           </p>
@@ -64,36 +103,50 @@ const skills = ["filesystem", "git", "playwright", "memory", "fetch", "sqlite"];
         </div>
       </article>
 
-      <!-- 02 — Context + Usage -->
+      <!-- 02 — Context (segmented bar) -->
       <article
         class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-5"
         style="--d: 90ms"
       >
-        <div class="flex flex-1 items-center gap-5">
-          <div class="relative h-24 w-24 shrink-0">
-            <svg viewBox="0 0 100 100" class="h-full w-full -rotate-90">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="var(--border)" stroke-width="7"></circle>
-              <circle
-                class="ring-fg"
-                cx="50"
-                cy="50"
-                r="42"
-                fill="none"
-                stroke="var(--ember)"
-                stroke-width="7"
-                stroke-linecap="round"
-                stroke-dasharray="263.9"
-                stroke-dashoffset="84.5"></circle>
-            </svg>
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
-              <span class="font-display text-2xl font-bold text-foreground">68%</span>
-            </div>
+        <div class="flex flex-1 flex-col justify-center gap-3">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="h-2 w-2 shrink-0 rounded-full bg-ember"></span>
+            <span class="font-semibold tabular-nums text-foreground">62%</span>
+            <span class="text-muted-foreground/50">·</span>
+            <span class="truncate text-foreground/80">claude-opus-4-8</span>
+            <span class="ml-auto shrink-0 font-mono tabular-nums text-muted-foreground">
+              621k / 1.0M
+            </span>
           </div>
-          <div class="text-xs leading-relaxed text-muted-foreground">
-            <div class="text-foreground/80">47.2k <span class="text-muted-foreground">/ 200k tokens</span></div>
-            <div class="mt-1 text-gold">$0.41 this session</div>
+
+          <div
+            class="hud-wipe flex h-2.5 w-full overflow-hidden rounded-full bg-muted"
+            style="--d: 240ms"
+          >
+            {
+              ctxSegments.map((s) => (
+                <span class={`h-full ${s.cls}`} style={`width: ${s.pct}%`} />
+              ))
+            }
+          </div>
+
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-muted-foreground">
+            <span class="flex items-center gap-1">
+              <span class="h-1.5 w-1.5 rounded-sm bg-bone/80"></span>messages 30%
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="h-1.5 w-1.5 rounded-sm bg-chart-4"></span>tools 15%
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="h-1.5 w-1.5 rounded-sm bg-chart-5"></span>memory 12%
+            </span>
+            <span class="ml-auto flex items-center gap-1.5">
+              <span class="rounded bg-ember/15 px-1.5 py-0.5 text-ember">Auto ✓</span>
+              <span>↻ /context</span>
+            </span>
           </div>
         </div>
+
         <div class="mt-6">
           <p class="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-gold">
             02 · Context
@@ -102,33 +155,85 @@ const skills = ["filesystem", "git", "playwright", "memory", "fetch", "sqlite"];
             Know the cost of every move
           </h3>
           <p class="text-sm leading-relaxed text-muted-foreground">
-            Watch the context window fill and tokens burn — in real time.
+            Watch the context window fill — system, tools, memory, messages — and
+            tokens burn, in real time.
           </p>
         </div>
       </article>
 
-      <!-- 03 — Pulse -->
+      <!-- 03 — Pulse (stacked area chart) -->
       <article
         class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-5"
         style="--d: 180ms"
       >
-        <div class="flex flex-1 items-center">
-          <svg viewBox="0 0 320 80" preserveAspectRatio="none" class="h-16 w-full">
-            <polyline
-              points="0,40 56,40 78,40 90,16 104,64 118,40 168,40 188,40 202,10 218,70 234,40 320,40"
-              fill="none"
-              stroke="var(--border)"
-              stroke-width="2"></polyline>
-            <polyline
-              class="pulse-blip"
-              points="0,40 56,40 78,40 90,16 104,64 118,40 168,40 188,40 202,10 218,70 234,40 320,40"
-              fill="none"
-              stroke="var(--ember)"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              style="filter: drop-shadow(0 0 5px var(--ember));"></polyline>
-          </svg>
+        <div class="flex flex-1 flex-col">
+          <div class="mb-2 flex items-center gap-2 text-[10px]">
+            <span class="live-dot h-1.5 w-1.5 rounded-full bg-ember"></span>
+            <span class="font-medium uppercase tracking-wider text-ember">Live</span>
+            <span class="text-muted-foreground/60">from /usage</span>
+            <span class="ml-auto font-mono text-muted-foreground">15m</span>
+          </div>
+
+          <div class="hud-wipe relative min-h-[72px] flex-1" style="--d: 260ms">
+            <svg
+              viewBox="0 0 320 90"
+              preserveAspectRatio="none"
+              class="absolute inset-0 h-full w-full"
+            >
+              <defs>
+                <linearGradient id="pulseEmber" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--ember)" stop-opacity="0.35"></stop>
+                  <stop offset="100%" stop-color="var(--ember)" stop-opacity="0"></stop>
+                </linearGradient>
+                <linearGradient id="pulseGold" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--gold)" stop-opacity="0.30"></stop>
+                  <stop offset="100%" stop-color="var(--gold)" stop-opacity="0"></stop>
+                </linearGradient>
+              </defs>
+              <!-- gridlines -->
+              <line x1="0" y1="24" x2="320" y2="24" stroke="var(--border)" stroke-width="1"></line>
+              <line x1="0" y1="52" x2="320" y2="52" stroke="var(--border)" stroke-width="1"></line>
+              <line x1="0" y1="80" x2="320" y2="80" stroke="var(--border)" stroke-width="1"></line>
+              <!-- tools band (ember) -->
+              <path
+                d="M0,66 L18,64 L36,70 L54,38 L72,66 L90,28 L108,62 L126,66 L144,22 L162,58 L180,64 L198,46 L216,66 L234,70 L252,54 L270,68 L288,40 L306,62 L320,60 L320,90 L0,90 Z"
+                fill="url(#pulseEmber)"></path>
+              <polyline
+                points="0,66 18,64 36,70 54,38 72,66 90,28 108,62 126,66 144,22 162,58 180,64 198,46 216,66 234,70 252,54 270,68 288,40 306,62 320,60"
+                fill="none"
+                stroke="var(--ember)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="filter: drop-shadow(0 0 4px var(--ember));"></polyline>
+              <!-- prompts band (gold) -->
+              <path
+                d="M0,80 L40,78 L72,74 L108,80 L144,68 L180,78 L216,76 L252,80 L288,72 L320,78 L320,90 L0,90 Z"
+                fill="url(#pulseGold)"></path>
+              <polyline
+                points="0,80 40,78 72,74 108,80 144,68 180,78 216,76 252,80 288,72 320,78"
+                fill="none"
+                stroke="var(--gold)"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></polyline>
+            </svg>
+          </div>
+
+          <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-muted-foreground">
+            <span class="flex items-center gap-1">
+              <span class="h-1.5 w-1.5 rounded-sm bg-ember"></span>138 tools
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="h-1.5 w-1.5 rounded-sm bg-gold"></span>6 prompts
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="h-1.5 w-1.5 rounded-sm bg-chart-5"></span>18 session
+            </span>
+            <span class="ml-auto font-mono">624.2k new · 38.7M cache</span>
+          </div>
         </div>
+
         <div class="mt-6">
           <p class="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-gold">
             03 · Pulse
@@ -137,28 +242,69 @@ const skills = ["filesystem", "git", "playwright", "memory", "fetch", "sqlite"];
             Feel the session's heartbeat
           </h3>
           <p class="text-sm leading-relaxed text-muted-foreground">
-            A live pulse of activity — spikes when Claude works, calm when it waits.
+            A live pulse of throughput — spikes when Claude works, calm when it
+            waits.
           </p>
         </div>
       </article>
 
-      <!-- 04 — Skills + MCP -->
+      <!-- 04 — Skills + MCP (status rows) -->
       <article
         class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-8"
         style="--d: 120ms"
       >
-        <div class="flex flex-1 flex-wrap content-start gap-2">
-          {
-            skills.map((s) => (
-              <span class="rounded-full border border-border bg-background/40 px-3 py-1.5 text-xs text-foreground/80">
-                {s}
-              </span>
-            ))
-          }
-          <span class="rounded-full border border-gold/40 bg-gold/10 px-3 py-1.5 text-xs text-gold">
-            + 9 more
-          </span>
+        <div class="flex flex-1 gap-6 sm:gap-8">
+          <!-- Skills -->
+          <div class="min-w-0 flex-1">
+            <p class="mb-1.5 text-[10px] uppercase tracking-wider text-muted-foreground/70">
+              Skills
+            </p>
+            <div>
+              {
+                skillRows.map((s, i) => (
+                  <div
+                    class={`flex items-center gap-2 border-b border-border/50 py-1.5 ${i === skillRows.length - 1 ? "border-0" : ""}`}
+                  >
+                    <span
+                      class={`h-1.5 w-1.5 shrink-0 rounded-full ${s.hot ? "bg-chart-1" : "bg-muted-foreground/40"}`}
+                    />
+                    <span class="truncate text-[12px] font-medium text-foreground/90">
+                      {s.name}
+                    </span>
+                    <span class="ml-auto shrink-0 text-[10px] text-muted-foreground/70">
+                      {s.fired}
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- MCP servers -->
+          <div class="min-w-0 flex-1">
+            <p class="mb-1.5 text-[10px] uppercase tracking-wider text-muted-foreground/70">
+              MCP servers
+            </p>
+            <div>
+              {
+                mcpRows.map((m, i) => (
+                  <div
+                    class={`flex items-center gap-2 border-b border-border/50 py-1.5 ${i === mcpRows.length - 1 ? "border-0" : ""}`}
+                  >
+                    <span class="truncate text-[12px] font-medium text-foreground/90">
+                      {m.name}
+                    </span>
+                    <span class={`ml-auto h-1.5 w-1.5 shrink-0 rounded-full ${m.dot}`} />
+                    <span class="shrink-0 text-[10px] text-muted-foreground">
+                      {m.status}
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
         </div>
+
         <div class="mt-6">
           <p class="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-gold">
             04 · Skills &amp; MCP
@@ -167,29 +313,52 @@ const skills = ["filesystem", "git", "playwright", "memory", "fetch", "sqlite"];
             See every tool it wields
           </h3>
           <p class="max-w-md text-sm leading-relaxed text-muted-foreground">
-            Skills and MCP servers, surfaced and observable — know exactly what's in play.
+            Skills and MCP servers, surfaced and observable — know exactly what's
+            in play.
           </p>
         </div>
       </article>
 
-      <!-- 05 — Radio (SMALL / wink) -->
+      <!-- 05 — Radio (bar) -->
       <article
         class="bento-tile group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-[0_0_50px_-14px] hover:shadow-ember/40 lg:col-span-4"
         style="--d: 210ms"
       >
-        <div class="flex flex-1 items-center gap-3">
-          <div class="flex h-12 items-end gap-1">
-            {
-              [0, 1, 2, 3, 4].map((i) => (
-                <span
-                  class="eq-bar w-1.5 rounded-full bg-gradient-to-t from-gold to-ember"
-                  style={`height: 100%; animation-delay: ${i * 0.14}s`}
-                />
-              ))
-            }
+        <div class="flex flex-1 items-center">
+          <div class="flex w-full items-center gap-2.5 rounded-lg border border-border/60 bg-background/40 px-3 py-2">
+            <!-- play/pause (lucide square-pause) -->
+            <svg
+              viewBox="0 0 24 24"
+              class="h-4 w-4 shrink-0"
+              fill="none"
+              stroke="var(--ember)"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <line x1="9.5" y1="8" x2="9.5" y2="16"></line>
+              <line x1="14.5" y1="8" x2="14.5" y2="16"></line>
+            </svg>
+            <!-- equalizer -->
+            <div class="flex h-4 items-end gap-[2px]">
+              {
+                eq.map((bar) => (
+                  <span
+                    class="eq-bar w-[2px] rounded-sm bg-gradient-to-t from-gold to-ember"
+                    style={`height: 100%; animation-duration: ${bar.dur}; animation-delay: ${bar.delay}`}
+                  />
+                ))
+              }
+            </div>
+            <!-- station -->
+            <span class="truncate text-[11px] text-foreground/80">
+              lofi — beats to raid to
+            </span>
           </div>
-          <span class="text-[11px] text-muted-foreground">lo-fi beats to raid to</span>
         </div>
+
         <div class="mt-6">
           <p class="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-gold">
             05 · Radio
