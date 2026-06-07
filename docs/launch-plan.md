@@ -87,16 +87,19 @@ across the major platforms; correct title/description; no clipped text.
 
 Sharpen the positioning before we put it in front of a launch audience. Some
 inputs already exist in [landing-page-story.md](landing-page-story.md)
-(competitive notes, e.g. **opcode**) and CLAUDE.md ($39 one-time, freemium).
+(competitive notes, e.g. **opcode**) and CLAUDE.md ($29 one-time, freemium).
 
 - [x] **Strengths / Weaknesses / Opportunities / Threats** for Conan as built
       (native macOS HUD over Claude Code; live observability wedge).
 - [x] **Competitor scan:** opcode and newer Claude Code GUIs / observability
       tools; how each positions + prices; where Conan wins/loses.
-- [x] **Price-point validation:** sanity-check **$39 one-time** vs comparables and
-      willingness-to-pay; confirm freemium gate reads right.
-- [ ] **Act on findings** — feed copy/pricing changes back into the story doc &
-      site (see "key takeaways" below).
+- [x] **Price-point validation:** sanity-checked pricing vs comparables and
+      willingness-to-pay; confirmed the freemium gate reads right.
+- [x] **Decision (2026-06-07): price set to $29 one-time** (down from $39) — see
+      note below. Site + docs updated.
+- [ ] **Sync the price everywhere else** — set the **Polar** product to $29 and
+      update the **product repo** (`../conan`) so site/checkout/app all agree.
+- [ ] **Act on remaining findings** — apply the positioning/gate takeaways below.
 
 **Research:** ✅ done 2026-06-07 →
 [research-conan-swot-competitive-pricing.md](research-conan-swot-competitive-pricing.md)
@@ -105,14 +108,16 @@ inputs already exist in [landing-page-story.md](landing-page-story.md)
 **Key takeaways (act on these):**
 - The competitive threat is **"free," not "expensive"** — the core wedge is
   commoditized by free OSS (Claude HUD ~18k installs, ccusage 10k+★, opcode) and
-  Anthropic's own desktop context indicator. **$39 one-time is the right price —
-  keep it.** The lever is free-tier strength + Premium framing, not the number.
+  Anthropic's own desktop context indicator. The research found $39 defensible,
+  but given the free competition the owner chose **$29 one-time** to lower the
+  "why pay vs free?" friction (under the $30 threshold, still in the indie band).
+  The decisive lever remains free-tier strength + Premium framing, not the price.
 - **Differentiate on experience + brand**, not the (now table-stakes) "see your
   agent" claim or "local/no-telemetry" (rivals say the same). Lead on
   **always-on** (vs official hover-only indicator) + **unified breadth** + taste.
 - **Fix the gate:** Premium should unlock the **insight layer** (history, trends,
   **cost-spike detection** — Claude Code spend can spike 10–500×), NOT radio.
-- **Validate WTP directly** with the new updates list ($29 vs $39 vs $49).
+- Price **decided: $29** (poll no longer needed; revisit post-launch if data warrants).
 
 **Acceptance:** ✅ SWOT + competitor table + defensible price recommendation with
 launch-copy implications — delivered. Remaining: apply the takeaways to copy/gating.

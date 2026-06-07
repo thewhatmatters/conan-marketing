@@ -28,7 +28,7 @@ center** ([opcode README](https://github.com/winfunc/opcode)).
   Windows? → join the list" line under the hero CTA (email capture). Honest
   "macOS first" framing + a waitlist is the standard indie pattern
   ([waitlist examples](https://getlaunchlist.com/blog/waitlist-landing-page-examples-that-convert)).
-- **Price story:** one-time $39, *"free updates within 1.x"* — sell it as
+- **Price story:** one-time $29, *"free updates within 1.x"* — sell it as
   *fully delivered value at first launch, no subscription* — the exact framing
   the Setapp monetisation guide says works for one-time apps
   ([Setapp](https://setapp.com/app-reviews/app-monetisation-strategies)).

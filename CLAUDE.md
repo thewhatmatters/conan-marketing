@@ -21,7 +21,7 @@ Windows/Linux **waitlist** email capture (the app is macOS-first).
 
 Primary actions on the page:
 - **Download for Mac** → links to the latest GitHub Release `.dmg`.
-- **Buy Premium ($39 one-time)** → Polar checkout URL (added when checkout is live).
+- **Buy Premium ($29 one-time)** → Polar checkout URL (added when checkout is live).
 - **Waitlist** (Windows/Linux) → POST to `/api/waitlist` → Upstash KV.
 
 ## Decided tech stack (2026-05-30)
@@ -55,10 +55,10 @@ Primary actions on the page:
   Geist/Geist Mono font setup. Keep the marketing site visually consistent with
   the app so download→app feels like one product.
 - **Pricing / business facts** (keep in sync with `../conan/CLAUDE.md`):
-  **$39 one-time, lifetime updates within 1.x, no subscription, no trial, no
+  **$29 one-time, lifetime updates within 1.x, no subscription, no trial, no
   per-device limit.** Sold via **Polar.sh** (Merchant of Record). It's **one app,
   freemium** — a free, scaled-back-but-functional download (some features, e.g.
-  radio playback, are gated), and **$39 unlocks Premium** (the insight layer). Not
+  radio playback, are gated), and **$29 unlocks Premium** (the insight layer). Not
   separate tiers/products — so the page has **no pricing table** (decided
   2026-05-31); the CTA band carries the price and `#pricing` anchors to it.
 - **Refunds are NOT surfaced on the page** (decided 2026-05-30) — the free tier
@@ -85,7 +85,7 @@ is the source of truth. Major changes from the original plan below:
   display headline "Command the campaign, / by your own [hand·steel·watch·eye]"
   where the last word cycles with a per-letter blur-in colored by a warm fire
   gradient. **Download for Mac CTA** + "View on GitHub" + a price caption
-  beneath (`$39 once, no subscription`). The old Free/$39/macOS metric strip was
+  beneath (`$29 once, no subscription`). The old Free/$29/macOS metric strip was
   removed 2026-05-31.
 - **`Bento.astro`** — 5-tile **comic-panel grid** (01–05) whose "live HUD"
   visuals mirror the real app panels (recreated from `../conan/ui/src`,
@@ -161,7 +161,7 @@ poster).
 2. ~~**Layout shell**~~ ✅ base layout + nav + compact footer. (SEO/OG meta TODO.)
 3. **Sections** — Hero ✅ (video loop + app frame) · Bento ✅ · **FAQ ✅** ·
    **Final CTA band ✅** · Footer 🟡 (minimal — fuller columns TODO).
-   **Pricing ✅ — no table by design** (one app + $39 unlock, not tiers);
+   **Pricing ✅ — no table by design** (one app + $29 unlock, not tiers);
    the `#pricing` nav/footer link anchors to the CTA band, which carries the price.
 4. **Waitlist** ✅ — `WaitlistForm` + `/api/waitlist` → **Vercel KV**; the
    conan-license store is connected across all envs, **persists on prod**

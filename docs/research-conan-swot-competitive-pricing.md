@@ -6,11 +6,18 @@
 **For:** [docs/launch-plan.md](launch-plan.md) task #4
 **Mode:** deep-research SCRIPTS (Tavily) + WebFetch
 
+> **⚑ Decision (2026-06-07) — supersedes the pricing verdict below.** This report
+> concluded "$39 is defensible — keep it." After reviewing it (notably that
+> opcode ships a free cost-analytics dashboard and the wedge is broadly free),
+> the owner chose to **price at $29 one-time** to reduce the "why pay vs free?"
+> friction (under the $30 threshold, still in the indie band). The §4 analysis is
+> retained unedited as the reasoning record; the live price is **$29**.
+
 > **Scope.** Conan = a native macOS app that wraps Claude Code in an always-on
 > live HUD (timeline, context, usage/pulse, skills & MCP, radio), reading
-> `~/.claude` on-device, freemium with a **$39 one-time** Premium unlock. This
-> report assesses where it stands in the 2026 Claude Code tooling ecosystem and
-> whether $39 is the right price.
+> `~/.claude` on-device, freemium with a one-time Premium unlock. This report
+> assesses where it stands in the 2026 Claude Code tooling ecosystem and whether
+> the price is right.
 
 ---
 

@@ -22,7 +22,7 @@
 | **Launch date** | A **Tue–Thu**, ~3–4 weeks out (lets the updates list grow + assets land) | Mon/Fri underperform on PH ([Demand Curve](https://www.demandcurve.com/playbooks/product-hunt-launch)) |
 | **Self-hunt vs hunter** | **Self-hunt** unless a well-followed hunter volunteers | Hunter prestige matters less in 2026; maker authenticity matters more |
 | **Demo video** | **Yes — a 30–60s screen capture** of the live HUD | Demo videos are the single biggest converter on PH + r/SideProject ([SaaSCity](https://saascity.io/blog/best-subreddits-promote-startup-2026)) |
-| **Launch offer** | Optional **"launch price $39 → $49"** anchor (no discount below $39) | Keeps the $39 decision; adds urgency without cheapening |
+| **Launch offer** | Optional **"launch price $29 → $39"** anchor (no discount below $29) | Preserves the $29 price; adds urgency without cheapening |
 | **Blocking pre-reqs** | Real **Download URL**, **OG image**, **favicon**, **Resend** live | Don't launch with `#` stubs — see launch-plan P0s |
 
 **Hard gate:** do **not** launch until the Download link works, the site has a
@@ -49,7 +49,7 @@ in the comments. Lead instead with what's defensible:
 **Have answers ready** (you WILL get these, especially on HN/Reddit):
 - *"Why pay when Claude HUD/ccusage/opcode are free?"* → honest: those are great
   CLIs/plugins; Conan is a native, always-on, designed HUD; free tier to judge
-  for yourself; $39 one-time, no sub.
+  for yourself; $29 one-time, no sub.
 - *"Isn't this just a wrapper?"* → it's an observer over your local `~/.claude`;
   no telemetry, your data never leaves the Mac.
 - *"macOS only?"* → yes, today; Windows/Linux on the waitlist.
@@ -73,7 +73,7 @@ in the comments. Lead instead with what's defensible:
 > Conan is a native macOS app that wraps Claude Code in a live HUD — every
 > prompt, tool call, skill, and token, surfaced as it happens. Watch context
 > fill, catch cost spikes, and see what your agent is actually doing. Free to
-> use; $39 once unlocks Premium. No subscription.
+> use; $29 once unlocks Premium. No subscription.
 
 **Gallery shot list (5–6, first one is the thumbnail):**
 1. Hero — the full HUD over a live session (the money shot).
@@ -95,7 +95,7 @@ in the comments. Lead instead with what's defensible:
 > a context-window gauge, a usage+cost pulse, and a skills/MCP browser. It reads
 > `~/.claude` on-device — no telemetry, nothing leaves your Mac.
 >
-> It's free to use; a one-time $39 unlocks Premium (no subscription, lifetime
+> It's free to use; a one-time $29 unlocks Premium (no subscription, lifetime
 > 1.x updates). macOS-first — Windows/Linux folks can grab the waitlist.
 >
 > There are great free CLI tools in this space (ccusage, Claude HUD) — Conan's
@@ -162,7 +162,7 @@ HN punishes marketing voice — be **plain, technical, first-person**.
   > renders it as a live HUD: streaming event timeline, context-window gauge,
   > usage/cost pulse, and a skills/MCP browser. All on-device, no telemetry.
   >
-  > It's free to use; $39 one-time unlocks the deeper views (no subscription).
+  > It's free to use; $29 one-time unlocks the deeper views (no subscription).
   > macOS-only right now. Known neighbors: ccusage and the Claude HUD plugin (both
   > great, both CLI/terminal) — Conan's angle is an always-on native GUI.
   >
@@ -192,7 +192,7 @@ Disclose you're the maker **up front**. Tailor each post; lead with value.
 > (maker here). I kept losing track of which tools Claude Code fired, how full my
 > context was, and what a session cost. Conan reads your local `~/.claude` data
 > and shows it as a live HUD — timeline, context gauge, usage/cost pulse,
-> skills/MCP — all on-device, no telemetry. Free to use; $39 one-time for the
+> skills/MCP — all on-device, no telemetry. Free to use; $29 one-time for the
 > deeper views. macOS-only for now (Windows/Linux waitlist on the site). Would
 > love feedback from people who live in Claude Code: what's missing? [demo GIF]
 
@@ -205,7 +205,7 @@ Voice can carry the brand here. 5 tweets:
    + the hero GIF.
 2. The pain → the HUD (timeline / context / cost / skills) — one line each.
 3. The money line: "Catch a 10–500× cost spike before it bites." + pulse shot.
-4. Honesty + model: "Local, no telemetry. Free to use, $39 once, no subscription."
+4. Honesty + model: "Local, no telemetry. Free to use, $29 once, no subscription."
 5. **CTA:** "macOS today, Windows/Linux on the waitlist → conan.sh" + PH link +
    "we're live on Product Hunt, an upvote helps 🙏".
 - Tag/reply relevant Claude Code & Mac-dev-tool voices (genuinely, not spammy).

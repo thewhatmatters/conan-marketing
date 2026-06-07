@@ -20,7 +20,7 @@ colors:
   accent-foreground: "#f0e8d6"
   oxblood: "#7f1d1d"           # blood-red — hero fire grounds, drama, danger
   ember: "#d97706"             # orange fire — energy, hover glows, "live" pulse
-  gold: "#c8962b"              # bronze/brass — premium ($39), title shimmer, lore eyebrows
+  gold: "#c8962b"              # bronze/brass — premium ($29), title shimmer, lore eyebrows
   bone: "#ece3d0"              # parchment — light accents on dark
   destructive: "#ef4444"       # errors/validation — rare, functional
   destructive-foreground: "#1c1208"
@@ -209,7 +209,7 @@ earned, bone for text, deep warm black for everything else.
   accents, the "live" pulse. Carries a faint glow on buttons. Use with intent.
 - **Oxblood (`#7f1d1d`):** blood-red. The dramatic ground of the hero/CTA fire
   glow, and the danger/error mood. Atmospheric, rarely a fill.
-- **Gold (`#c8962b`):** bronze/brass — the *earned* accent: Premium `$39`, lore
+- **Gold (`#c8962b`):** bronze/brass — the *earned* accent: Premium `$29`, lore
   eyebrows, the wordmark/title shimmer, hover state on ghost buttons.
 - **Destructive (`#ef4444`):** validation/error only. Brighter than oxblood so
   it reads as functional alarm, not mood.
@@ -359,14 +359,14 @@ Rounded but product-first, not playful.
   screenshot** (window chrome + ember/gold corner-glow) composites in front,
   bleeding off the bottom into the bento. Headline = "Command the campaign, by
   your own [cycling word]"; **Download for Mac** CTA + "View on GitHub" + a
-  price caption ($39 once, no subscription) beneath. **Don't use the word
+  price caption ($29 once, no subscription) beneath. **Don't use the word
   "Free" as a label** anywhere on the page (decided 2026-05-31).
   Graceful until assets land (fire-glow / empty chrome frame stand in).
 - **FAQ** — shadcn **Accordion** (React island), single-open, near page end.
 - **CTA band** — full-width section before the footer, fire glow reprise: H2
   "Take up the steel.", ember download button, micro-line "Miss nothing."
-  **Also carries the price** ("Premium $39, once") — the `#pricing` nav/footer
-  link anchors here. **No pricing table by design** (one app + a $39 unlock,
+  **Also carries the price** ("Premium $29, once") — the `#pricing` nav/footer
+  link anchors here. **No pricing table by design** (one app + a $29 unlock,
   not tiers).
 - **Footer** — columns (Product / Resources / Company·Legal / Social) + a trust
   strip (`© WhatMatters` · `Not affiliated with Anthropic` · `Not affiliated with
@@ -375,7 +375,7 @@ Rounded but product-first, not playful.
 - **WaitlistForm** (island) — email input + submit → `/api/waitlist`; inline
   success ("By steel — you're on the list.") / error states; honeypot for spam.
 - **DownloadButton** — links to latest GitHub Release `.dmg`; caption
-  `$39 once, no subscription · macOS 13+ (Apple silicon)` (price in gold).
+  `$29 once, no subscription · macOS 13+ (Apple silicon)` (price in gold).
 - **Card / input / chip** — quiet warm containers: `bg-card`, panel border,
   `rounded-2xl` (card) / `rounded-md` (input). Chips are pill-shaped, gold
   eyebrow type. Iconography minimal and monochrome unless color is functional.
