@@ -138,11 +138,19 @@ for the hero, not adopted; we went with a video loop + app frame instead.)
 **`frontend-design` + `build-ui` skills** drive UI work; `automate-browser`
 verifies in a real browser.
 
+**Live on Vercel at `www.conan.sh`** (auto-deploys from `main`). The **waitlist
+persists for real** (2026-06-07): the Vercel **KV/Upstash store from
+`conan-license` is connected to this project across all envs**, so
+`KV_REST_API_URL`/`_TOKEN` are injected automatically — verified end-to-end on
+prod (POST → SADD → confirmed in the set). `vercel env pull` writes them to a
+gitignored local `.env` for dev. NOTE: the conan-license secrets are **Sensitive
+(unreadable via CLI)** — don't try to `env pull` them to copy; connect the store
+to the project in the dashboard instead.
+
 **Not yet built:** fuller footer columns, real
-Download/Buy URLs (Header/Hero/CTA are `#`/`#download` stubs), the actual hero
-**assets** (slots are wired, files pending), favicon (still placeholder), OG/SEO
-meta, **Vercel connection + `conan.sh` domain**, and the **KV creds** in env to
-make the waitlist actually persist.
+Download/Buy URLs (Header/Hero/CTA are `#`/`#download` stubs), favicon (still
+placeholder), and a real branded OG image (`/og-image.png` — interim is the hero
+poster).
 
 ## Build plan (scaffold → ship)
 1. ~~**Scaffold**~~ ✅ Astro + TS + React + Vercel adapter + Tailwind v4 + lottie.
@@ -152,13 +160,14 @@ make the waitlist actually persist.
    **Final CTA band ✅** · Footer 🟡 (minimal — fuller columns TODO).
    **Pricing ✅ — no table by design** (one app + $39 unlock, not tiers);
    the `#pricing` nav/footer link anchors to the CTA band, which carries the price.
-4. **Waitlist** 🟡 — `WaitlistForm` + `/api/waitlist` → **Vercel KV** built &
-   graceful; ⬜ add `KV_REST_API_*` creds to env (reuse conan-license store).
+4. **Waitlist** ✅ — `WaitlistForm` + `/api/waitlist` → **Vercel KV**; the
+   conan-license store is connected across all envs, **persists on prod**
+   (verified 2026-06-07).
 5. **Download/Buy wiring** ⬜ — DMG link to GitHub Release; Buy → Polar URL (both
    currently `#` stubs in Header/Hero).
 6. **Motion polish** 🟡 — scroll reveals + hover lift + "live" touches done via
    CSS/IO/lottie; respect `prefers-reduced-motion` (honored). Refine later.
-7. **Ship** 🟡 — pushed to GitHub `main`. **Connect Vercel + point `conan.sh`** ⬜.
+7. **Ship** ✅ — live at **`www.conan.sh`**, auto-deploys from `main`.
 
 ## Commands (after scaffold)
 ```bash
