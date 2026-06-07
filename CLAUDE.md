@@ -10,6 +10,9 @@ every Claude Code session here — keep it accurate.
 >    canonical copy/positioning (hero, bento, FAQ, footer, voice & lore kit).
 > 2. Read [DESIGN.md](DESIGN.md) — the visual system + motion guidelines.
 > 3. Then build/iterate per the **Build plan** below.
+> 4. For go-to-market, see [docs/launch-plan.md](docs/launch-plan.md) — the
+>    launch readiness checklist (Resend, favicon, OG image, icon, SWOT, Product
+>    Hunt, distribution).
 
 ## What we're building
 A single, fast, animated marketing landing page. Structure (from the story doc):
