@@ -89,20 +89,33 @@ Sharpen the positioning before we put it in front of a launch audience. Some
 inputs already exist in [landing-page-story.md](landing-page-story.md)
 (competitive notes, e.g. **opcode**) and CLAUDE.md ($39 one-time, freemium).
 
-- [ ] **Strengths / Weaknesses / Opportunities / Threats** for Conan as built
+- [x] **Strengths / Weaknesses / Opportunities / Threats** for Conan as built
       (native macOS HUD over Claude Code; live observability wedge).
-- [ ] **Competitor scan:** opcode and any newer Claude Code GUIs / observability
+- [x] **Competitor scan:** opcode and newer Claude Code GUIs / observability
       tools; how each positions + prices; where Conan wins/loses.
-- [ ] **Price-point validation:** sanity-check **$39 one-time** vs comparables and
-      willingness-to-pay; confirm freemium gate (free functional tier → $39
-      Premium insight layer) reads right for the launch audience.
-- [ ] Write up findings → feed any copy/pricing changes back into the story doc.
+- [x] **Price-point validation:** sanity-check **$39 one-time** vs comparables and
+      willingness-to-pay; confirm freemium gate reads right.
+- [ ] **Act on findings** — feed copy/pricing changes back into the story doc &
+      site (see "key takeaways" below).
 
-**Acceptance:** a short written SWOT + competitor table + a defensible
-price-point recommendation (keep $39 or adjust), with launch-copy implications.
+**Research:** ✅ done 2026-06-07 →
+[research-conan-swot-competitive-pricing.md](research-conan-swot-competitive-pricing.md)
+(28 cited sources, deep-research exhaustive).
 
-> Tip: the `deep-research` skill can fan-out the competitor/pricing scan; the
-> `generate-prd`/`render-html` skills can format the writeup.
+**Key takeaways (act on these):**
+- The competitive threat is **"free," not "expensive"** — the core wedge is
+  commoditized by free OSS (Claude HUD ~18k installs, ccusage 10k+★, opcode) and
+  Anthropic's own desktop context indicator. **$39 one-time is the right price —
+  keep it.** The lever is free-tier strength + Premium framing, not the number.
+- **Differentiate on experience + brand**, not the (now table-stakes) "see your
+  agent" claim or "local/no-telemetry" (rivals say the same). Lead on
+  **always-on** (vs official hover-only indicator) + **unified breadth** + taste.
+- **Fix the gate:** Premium should unlock the **insight layer** (history, trends,
+  **cost-spike detection** — Claude Code spend can spike 10–500×), NOT radio.
+- **Validate WTP directly** with the new updates list ($29 vs $39 vs $49).
+
+**Acceptance:** ✅ SWOT + competitor table + defensible price recommendation with
+launch-copy implications — delivered. Remaining: apply the takeaways to copy/gating.
 
 ---
 
