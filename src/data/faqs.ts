@@ -28,7 +28,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What do I get before I buy?",
-    a: "The download is a genuinely useful live observer out of the box — terminal, Context, Usage, and a basic Timeline. Premium ($39) unlocks the insight layer: skill-scoring rows, Plan/Loop/Build rows, expandable tool payloads, longer Pulse history, Skills' last-fired times, the MCP auth watchdog, and Claude Radio. The gate is depth of insight, never your live data.",
+    a: "The download is a genuinely useful live observer out of the box — terminal, Context, Usage, and a basic Timeline. Premium ($29) unlocks the insight layer: skill-scoring rows, Plan/Loop/Build rows, expandable tool payloads, longer Pulse history, Skills' last-fired times, the MCP auth watchdog, and Claude Radio. The gate is depth of insight, never your live data.",
   },
   {
     q: "macOS only? What about Windows and Linux?",
