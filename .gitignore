@@ -20,3 +20,4 @@ build/
 
 # local session handoff archives (PreCompact hook)
 .claude/handoff-archive/
+.vercel
