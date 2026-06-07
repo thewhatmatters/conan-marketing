@@ -1,96 +1,92 @@
 # Handoff — conan.sh marketing site
 
-_Updated 2026-06-07 · hero video swap + waitlist→email + launch GTM docs + price drop to $29_
+_Updated 2026-06-07 · real Mac download wired across nav/hero/CTA · launch-plan
+Download item checked off · about to commit the whole session_
 
 ## Goal
-Finish launch-readiness housekeeping on the conan.sh marketing site: swap the
-hero video, make the "Get notified" form actually work (store + notify), and
-stand up the go-to-market plan (competitive/pricing research + Product Hunt &
-distribution playbooks). Pricing was revisited and dropped to **$29**.
+Wire the **real Mac download link** the user handed over, restoring the
+"Download for Mac" CTA and the "Get notified" nav link (both had been routed to
+the waitlist as an interim while no `.dmg` existed). Then checkpoint + commit
+all the still-uncommitted work from this + the prior session.
 
-## Current state — all DONE, verified, BUILDS GREEN, committed + pushed to `main`
+The download URL (version-agnostic, always newest release asset):
+`https://github.com/thewhatmatters/conan/releases/latest/download/Conan_aarch64.dmg`
 
-### 1. Hero video swapped (`src/components/Hero.astro`)
-- Replaced the framed app-capture loop with the user's new clip → compressed
-  (H.264, audio stripped, faststart, CRF 24) from 30 MB → **8.4 MB**, 60s,
-  1920×1080. Generated a fresh poster. Files: `public/video/conan-hero.mp4` +
-  `conan-hero.jpg` (old `conan-hero-new.mp4` source deleted). No markup change —
-  Hero already points at those paths. Verified playing in-browser (automate-browser).
-- **Keep H.264 mp4 only** — VP9/webm black-frame bug on Mac GPUs [[hero-video-mp4-only-vp9-black]].
+## Current state — DONE, BUILDS GREEN (`npm run build`), UNCOMMITTED
 
-### 2. Waitlist / "Get notified" form — now LIVE & persisting
-- **Was silently dropping every prod signup** (no env vars set). Fixed by
-  connecting the **shared conan-license Vercel KV/Upstash store** to the
-  `conan-marketing` project across all envs (user did the dashboard connect).
-  Emails persist to the Redis set `waitlist:emails` (SADD dedupes). Verified
-  end-to-end on **prod** (POST → confirmed in store → test entry cleaned up).
-  See memory [[waitlist-kv-wiring]] — **conan-license secrets are Sensitive /
-  unreadable via CLI; connect the store in the dashboard, don't copy creds.**
-- Local dev: `vercel env pull .env --environment=development` (gitignored `.env`).
-- **Reframed** the form from "Windows/Linux waitlist" → **general Conan news &
-  updates** ("Dispatches from the forge" lead, "Send word →" button, "By steel —
-  you'll hear from us." success, + "Occasional Conan news. Unsubscribe anytime.").
-  Updated `CTA.astro`, `WaitlistForm.tsx`, and `privacy.astro` (named Resend as
-  the email processor, fixed retention clause).
-- **Forwarding to `hello@conan.sh`** is coded in `src/pages/api/waitlist.ts`
-  (Resend, fires on NEW signups only, best-effort, graceful until key set).
-  ⬜ **OPEN (user):** create Resend account + API key, **verify conan.sh domain**,
-  add `RESEND_API_KEY` to Vercel, redeploy, send a live test. Env vars documented
-  in `.env.example` (`RESEND_API_KEY`, `WAITLIST_NOTIFY_TO`, `WAITLIST_FROM`).
+### This session — download wiring (the new work)
+- **`Header.astro`**: primary button restored to **"Download for Mac"** →
+  `downloadHref` (the release `.dmg`). Re-added **"Get notified"** as a nav link
+  (`/#waitlist`) → nav is now **Features · FAQ · Get notified**. Renamed the var
+  `notifyHref` → `downloadHref`.
+- **`Hero.astro`**: primary button back to **"↓ Download for Mac"** → release.
+  Added a quiet secondary link beneath it: **"Windows or Linux? Get notified →"**
+  → `#waitlist`. Kept the `macOS 13+ · Apple silicon · $29 once` caption.
+  Var → `downloadHref`.
+- **`CTA.astro`**: re-added a **"↓ Download for Mac"** button above the waitlist
+  form (the `#waitlist` form stays beneath it for Win/Linux + news). Context line
+  now leads "Free to download · Premium $29, once · lifetime 1.x · macOS 13+".
+  Added `downloadHref` const.
+- All three resolve to the same release URL — verified in built HTML
+  (`grep Conan_aarch64.dmg dist/client/index.html` → 3 hits, all the full URL).
+- **`docs/launch-plan.md`**: checked off the **Download URL** launch-blocker (was
+  a P0 hard gate in the playbook) with the URL + date.
 
-### 3. Launch GTM docs (new)
-- **`docs/launch-plan.md`** — launch readiness checklist (Resend, icon, favicon,
-  OG image, SWOT, PH, distribution + the known Download/Buy/IP stubs). Linked
-  from CLAUDE.md "Start here".
-- **`docs/research-conan-swot-competitive-pricing.md`** (+ `.html`) — deep-research
-  (28 cited sources). **Key finding: the competitive threat is "free," not
-  "expensive"** — the wedge is commoditized by free OSS (Claude HUD ~18k installs,
-  ccusage 10k+★, opcode — which even ships a FREE cost-analytics dashboard) +
-  Anthropic's own desktop context indicator. Differentiate on **always-on native
-  experience + unified breadth + brand**, not the "see your agent" claim.
-- **`docs/launch-playbook.md`** — copy-ready PH plan (§2: page copy, gallery shot
-  list, maker comment, 12:01am-PT/Tue–Thu timing, hour-by-hour runbook) +
-  distribution (§3: Show HN, Reddit subs+drafts, X thread, owned email, T/T+
-  calendar, PH-underperforms fallback). Voice calibrated per channel.
+> NOTE: this intentionally **reverses** the `[[cta-waitlist-interim]]` memory
+> ("don't re-add Download until the real .dmg exists"). That condition is now
+> met. Consider updating/retiring that memory next session if it causes confusion.
 
-### 4. Price drop $39 → $29 (this session's last change)
-- Owner's call after the research: **$29 one-time** to cut "why pay vs free?"
-  friction (under $30, still indie-band). Swept across site + structured data
-  (`Hero`, `CTA`, `terms.astro`, `index.astro` JSON-LD `price:"29"`, `llms.txt`)
-  and docs (`CLAUDE.md`, `DESIGN.md`, `landing-page-story.md`, launch docs).
-  Research doc keeps its original "$39 defensible" analysis + a decision banner.
-  Verified $29 in the built `dist/`.
+### Prior session (still uncommitted — committing together now)
+- **Branding → nav coin + favicon set** from `public/branding/conan.svg`:
+  generated `favicon.ico` (16/32/48), `favicon-16/32/96.png`,
+  `apple-touch-icon.png` (180²), `icon-192/512.png`, `logo.png` (circular coin).
+  `Layout.astro` `<head>` links updated; `public/favicon.svg` deleted.
+  `Header.astro` logo = `<img src="/logo.png">` `h-8 w-8`, vertically centered.
+- **OG image**: `public/og-image.png` (1200×630) wired as the `image` default in
+  `Layout.astro` (was the interim hero poster). **Still needs unfurl validation**
+  post-deploy (FB/LinkedIn/X debuggers — scrapers cache hard).
+- **$39 → $29 mop-up**: `src/data/faqs.ts` (incl. FAQPage JSON-LD),
+  `src/pages/terms.astro`, `src/layouts/Layout.astro` meta, `global.css` comment.
+  `grep '\$39' src/` is clean.
 
-## ⚠️ Open / next (mostly user actions)
-1. **PRICE SYNC (cross-repo):** set the **Polar** product to **$29** and update
-   the **product repo `../conan`** (CLAUDE.md + app UI) so site/checkout/app
-   agree. *User said they'll update the app in another session.* (Low live-risk
-   now: Buy button is still a `#` stub — nothing charges yet.)
-2. **Resend** — key + domain verify + Vercel env (see §2 above).
-3. **Launch P0s (launch-plan):** Conan **icon** (master → favicon + OG + app),
-   **favicon** wiring, **OG image** (`/og-image.png` → swap default in
-   `Layout.astro`), real **Download** URL (GitHub Release `.dmg`) + **Buy**/Polar
-   URL (Header/Hero/CTA are `#`/`#download` stubs), IP review.
-4. **Optional next:** define the **Free vs Premium gate** that survives the
-   "opcode does cost-analytics free" test (Premium = insight layer: history,
-   trends, cost-spike detection — NOT radio).
+## ⚠️ Next — remaining launch blockers (see docs/launch-plan.md)
+With the download wired, the funnel's last P0 gaps are:
+1. **Resend** (P0) — signups persist to KV but forward-to-`hello@conan.sh`
+   no-ops until: create Resend acct + API key, **verify `conan.sh` domain**
+   (SPF/DKIM DNS), add `RESEND_API_KEY` to Vercel env (all envs), redeploy,
+   live-test. This is the only thing still breaking the funnel.
+2. **Polar checkout** (P1) — set Polar product to **$29**, wire the checkout URL
+   when it exists. Still **no Buy/Premium button** on the page until then ($29 is
+   caption text only). Cross-repo price sync in `../conan` (user doing elsewhere).
+3. **Apply SWOT takeaways** — fix the Premium gate to unlock the **insight layer
+   / cost-spike detection**, NOT radio; lead copy on always-on + breadth + brand,
+   not the (commoditized) "see your agent" claim. See
+   `docs/research-conan-swot-competitive-pricing.md`.
+4. **IP review** before launch; fuller footer columns.
+
+Execution playbook for PH + distribution is fully drafted in
+`docs/launch-playbook.md` (needs a date + demo GIF + scheduling).
 
 ## Verify / commands
-- `npm run dev` → http://localhost:4321/ · `npm run build` (green).
-- Browser checks via automate-browser (sample pixels; don't trust paused video).
-- KV read/write check: `node --env-file=.env -e '...createClient(...).scard("waitlist:emails")'`.
-- Vercel: `vercel env ls` (linked to conan-marketing); store connected all envs.
+- `npm run build` → green (static + Vercel adapter). `npm run dev` → :4321/4322.
+- Browser checks via **automate-browser** (sample pixels, don't trust paused video).
+- Built-HTML href check: `grep -o 'href="[^"]*Conan_aarch64.dmg"' dist/client/index.html`.
 
 ## Git state
-Branch `main` (trunk; auto-deploys to www.conan.sh via Vercel). **Clean** apart
-from this handoff commit. Recent: `71ba84c` price→$29, `8a2f343` playbook,
-`2fe0bf8`/`cf74aee` research, `b42e743` launch-plan, `23df1c4` waitlist reframe,
-`d43b50f` hero video.
+Branch **`main`** (trunk; auto-deploys to www.conan.sh via Vercel). **DIRTY —
+committing this session now** (user asked: "commit this session's work"; commit
+only, **do not push** unless asked).
+- **Modified:** `src/components/{Header,Hero,CTA}.astro`, `src/layouts/Layout.astro`,
+  `src/data/faqs.ts`, `src/pages/terms.astro`, `src/styles/global.css`,
+  `docs/launch-plan.md`, `HANDOFF.md`, `.claude/current-task.txt`
+- **Deleted:** `public/favicon.svg`
+- **Untracked:** `public/branding/`, `public/og-image.png`, `public/logo.png`,
+  `public/{favicon.ico,favicon-16,favicon-32,favicon-96,apple-touch-icon,icon-192,icon-512}.png`
 
 ## Don't redo
 - No VP9/webm video — H.264 mp4 only [[hero-video-mp4-only-vp9-black]].
-- Don't `vercel env pull` to copy conan-license secrets — they're Sensitive
-  (empty on pull). Connect the store in the dashboard [[waitlist-kv-wiring]].
+- Don't `vercel env pull` to copy conan-license secrets (Sensitive/empty);
+  connect the store in the dashboard [[waitlist-kv-wiring]].
+- Download CTA is now LIVE (real `.dmg`) — the waitlist-interim routing was
+  intentionally undone this session [[cta-waitlist-interim]] (memory now stale).
 - Don't commit `.env` (gitignored; holds real KV creds).
-- Don't rewrite the research doc's "$39" analysis — it's the dated reasoning
-  record; the $29 decision lives in its banner + the live site.

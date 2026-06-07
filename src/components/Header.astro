@@ -8,17 +8,17 @@
 // Absolute "/#section" hrefs so the nav works from any page (incl. /terms,
 // /privacy) — on the homepage they still scroll same-document; off it they
 // navigate home and scroll. Route-only links (Legal) stay path-based.
-// `spy` (optional) overrides the scroll-spy active-region element while the
-// href stays the click target — so "Get notified" highlights across the whole
-// closing section (#closing) yet still jumps to the waitlist form (#waitlist).
 const navLinks = [
   { label: "Features", href: "/#features" },
   { label: "FAQ", href: "/#faq" },
-  { label: "Get notified", href: "/#waitlist", spy: "#closing" },
+  { label: "Get notified", href: "/#waitlist" },
 ];
 
-// TODO: point at the latest release .dmg once published.
-const downloadHref = "/#download";
+// The Mac download — latest GitHub Release .dmg (Apple silicon). The "/latest/
+// download/" path always resolves to the newest release asset, so this never
+// needs bumping per version.
+const downloadHref =
+  "https://github.com/thewhatmatters/conan/releases/latest/download/Conan_aarch64.dmg";
 ---
 
 <header
@@ -41,21 +41,22 @@ const downloadHref = "/#download";
     >
     </div>
     <!-- Logo (in a flex-1 wrapper so the links sit centred at the top; the
-         wrapper collapses to the logo width when the bar hugs).
-         PLACEHOLDER: swap the inner <span> for an
-         <img class="h-9 w-9 rounded-full object-cover" src="/…" alt="Conan" />
-         once the circular logo asset exists. -->
-    <div class="flex-1">
+         wrapper collapses to the logo width when the bar hugs). The asset is a
+         pre-composed circular badge (warm coin + ember ring), so no extra
+         ring/bg here. -->
+    <div class="flex flex-1 items-center">
       <a
         href="/"
         aria-label="Conan"
-        class="inline-flex shrink-0 transition-opacity hover:opacity-80"
+        class="flex shrink-0 transition-opacity hover:opacity-80"
       >
-        <span
-          class="grid h-9 w-9 place-items-center rounded-full bg-foreground/10 text-sm font-semibold uppercase tracking-tight text-foreground ring-1 ring-border"
-        >
-          C
-        </span>
+        <img
+          src="/logo.png"
+          alt="Conan"
+          width="32"
+          height="32"
+          class="h-8 w-8 rounded-full object-cover"
+        />
       </a>
     </div>
 

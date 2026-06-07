@@ -170,7 +170,9 @@ authors), draft copy per channel, and each community's rules pre-checked.
 
 ## Other known launch blockers (from CLAUDE.md — track here too)
 
-- [ ] **Download URL** — Header/Hero/CTA "Download for Mac" are `#`/`#download`
-      stubs; point at the latest GitHub Release `.dmg`.
+- [x] **Download URL** — Header/Hero/CTA "Download for Mac" now point at the
+      latest GitHub Release `.dmg`
+      (`https://github.com/thewhatmatters/conan/releases/latest/download/Conan_aarch64.dmg`,
+      via the version-agnostic `/latest/download/` path). Done 2026-06-07.
 - [ ] **Buy/checkout URL** — wire the **Polar** checkout link when it exists.
 - [ ] **IP review** — quick pass before launch (trademark caution in CLAUDE.md).

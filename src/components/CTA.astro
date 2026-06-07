@@ -2,11 +2,11 @@
 import WaitlistForm from "./WaitlistForm.tsx";
 
 // Final CTA band — fire-glow reprise before the footer. Primary action is the
-// Mac download; a general Conan news/updates signup sits beneath (folds in the
-// Windows/Linux availability ask — capture the email, never a greyed-out button).
+// Mac download (latest GitHub Release .dmg, Apple silicon); the waitlist signup
+// below captures Windows/Linux interest + general news.
 // Each signup is stored in KV + forwarded to hello@conan.sh (see /api/waitlist).
-// TODO: point downloadHref at the latest release .dmg once published.
-const downloadHref = "#download";
+const downloadHref =
+  "https://github.com/thewhatmatters/conan/releases/latest/download/Conan_aarch64.dmg";
 ---
 
 <section
@@ -36,24 +36,21 @@ const downloadHref = "#download";
       Take up the steel.
     </h2>
 
-    <!-- Primary action -->
-    <div
-      class="cta-col mt-9 flex flex-col items-center gap-4 sm:flex-row"
-      style="--d: 160ms"
+    <!-- Primary action: the Mac download. The waitlist below it stays for
+         Windows/Linux + general news. -->
+    <a
+      href={downloadHref}
+      class="cta-col mt-9 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-[0_0_40px_-10px] shadow-ember/60 transition-opacity hover:opacity-90"
+      style="--d: 140ms"
     >
-      <a
-        href={downloadHref}
-        class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-[0_0_40px_-10px] shadow-ember/60 transition-opacity hover:opacity-90"
-      >
-        <span aria-hidden="true">↓</span> Download for Mac
-      </a>
-    </div>
+      <span aria-hidden="true">↓</span> Download for Mac
+    </a>
     <p
       class="cta-col mt-5 text-xs text-muted-foreground"
-      style="--d: 220ms"
+      style="--d: 200ms"
     >
-      <span class="text-gold">Premium $29, once</span> · lifetime 1.x · macOS 13+
-      (Apple silicon)
+      Free to download · <span class="text-gold">Premium $29, once</span> ·
+      lifetime 1.x · macOS 13+ (Apple silicon)
     </p>
 
     <!-- Conan news/updates signup. `id="waitlist"` is the nav "Get notified"

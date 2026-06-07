@@ -1,9 +1,10 @@
 ---
 import HeroWord from "./HeroWord.tsx";
 
-// CTA. Stub for now — downloadHref scrolls to the CTA band (id="download");
-// swap for the latest release .dmg once published.
-const downloadHref = "#download";
+// Primary action: the Mac download — latest GitHub Release .dmg (Apple silicon).
+// "/latest/download/" always resolves to the newest release asset.
+const downloadHref =
+  "https://github.com/thewhatmatters/conan/releases/latest/download/Conan_aarch64.dmg";
 ---
 
 <section
@@ -98,6 +99,12 @@ const downloadHref = "#download";
         class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-[0_0_40px_-10px] shadow-ember/60 transition-opacity hover:opacity-90"
       >
         <span aria-hidden="true">↓</span> Download for Mac
+      </a>
+      <a
+        href="#waitlist"
+        class="inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        Windows or Linux? Get notified →
       </a>
     </div>
     <p
