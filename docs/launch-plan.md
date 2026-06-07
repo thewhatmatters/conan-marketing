@@ -121,42 +121,42 @@ launch-copy implications — delivered. Remaining: apply the takeaways to copy/g
 
 ## 5. Product Hunt launch plan (P1)
 
-- [ ] **Pre-launch:** create the maker account, build the product page draft
-      (tagline, description, gallery — reuse OG/hero assets), line up a **hunter**
-      if not self-posting, and gather **first-comment** maker story.
-- [ ] **Assets:** thumbnail/logo (from task 1), 3–5 gallery images/GIFs (the live
-      HUD bento tiles are strong here), optional demo video.
-- [ ] **Timing:** pick the launch day (PH resets 12:01am PT; Tue–Thu typically
-      strongest). Avoid clashing with major tech-news days.
-- [ ] **Day-of:** post early, seed the maker comment, mobilize a notification
-      list (the new updates signups!), respond to every comment fast.
-- [ ] **Offer:** decide any PH-exclusive (e.g. launch-week note) — keep within the
-      no-discount/$39 model unless decided otherwise.
-- [ ] **Compliance:** follow PH rules — no vote manipulation; authentic asks only.
+**Plan drafted** → [launch-playbook.md §2](launch-playbook.md) — page copy
+(tagline/description/topics), gallery shot list, maker's first comment, timing
+mechanics (12:01am PT, Tue–Thu), and an hour-by-hour day-of runbook.
 
-**Acceptance:** PH page fully drafted + assets ready + launch date set + a
-notify list and day-of runbook in hand, ≥1 week before launch.
+- [x] **Pre-launch plan** drafted — page copy, maker story, schedule-7-days steps.
+- [x] **Asset list** specified — thumbnail + 3–5 gallery shots + 30–60s demo GIF.
+- [x] **Timing** approach set (12:01am PT, Tue–Thu, 3 outreach pushes).
+- [x] **Day-of runbook** written (hour-by-hour, PT).
+- [x] **Offer** decision captured — optional "launch $39 → $49" anchor (no sub-$39).
+- [ ] **Execute:** create maker account, pick the date, produce assets (needs the
+      icon #1 + demo recording), schedule the post, line up advocates.
+
+**Acceptance:** ✅ PH page drafted + assets specced + timing + day-of runbook in
+hand. Remaining: set the date + produce assets + schedule (execution).
 
 ---
 
 ## 6. Backup / parallel distribution (P1–P2)
 
-Don't rely on a single channel. Sequence these around the PH launch.
+**Plan drafted** → [launch-playbook.md §3](launch-playbook.md) — per-channel
+**draft copy** + a T/T+ sequencing calendar + a PH-underperforms fallback.
 
-- [ ] **Reddit** — identify fit subs (r/ClaudeAI, r/macapps, r/commandline,
-      r/programming-adjacent). Read each sub's self-promo rules; lead with value
-      (the observability problem), not a pitch. Draft per-sub posts.
-- [ ] **Hacker News** — a **Show HN** (title format: "Show HN: Conan – …").
-      Author posts; be present for comments; expect technical scrutiny on the
-      "reads ~/.claude locally, no telemetry" + pricing.
-- [ ] **X/Twitter** — launch thread (problem → demo GIFs → link); tag/ping
-      relevant Claude Code / dev-tools voices.
-- [ ] **Communities** — relevant Discords/Slacks (Claude/AI-dev), Lobsters,
-      Indie Hackers, dev newsletters.
-- [ ] **Owned** — email the updates list on launch day (Resend, task 0); link from
-      the app if appropriate.
-- [ ] Prepare a **fallback plan** if PH underperforms: stagger HN/Reddit on
-      following days so momentum isn't spent at once.
+- [x] **Reddit** — sub list w/ rules + tailored drafts (r/ClaudeAI primary,
+      r/SideProject, r/macapps, r/AgentLLM, r/LocalLLaMA, r/SaaS).
+- [x] **Show HN** — title + plain first-comment draft + pre-post checklist.
+- [x] **X/Twitter** — 5-tweet launch-thread outline.
+- [x] **Communities + Owned** — Discords/Slacks/Lobsters/IH + email-the-list (Resend).
+- [x] **Fallback plan** — stagger Show HN + remaining subs T+1…T+4; treat PH as one
+      shot among several, not the whole launch.
+- [ ] **Execute:** post per the calendar on/after launch day.
+
+**Sequencing:** PH + owned email + X + r/ClaudeAI on **T**; Show HN **T+1**;
+other subreddits spread **T+1…T+4** (one/day, never copy-pasted).
+
+**Acceptance:** ✅ channel-by-channel calendar + draft copy + rules pre-checked.
+Remaining: post it when you launch.
 
 **Acceptance:** a channel-by-channel calendar (what posts where, which day, who
 authors), draft copy per channel, and each community's rules pre-checked.
