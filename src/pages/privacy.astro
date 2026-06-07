@@ -1,10 +1,19 @@
 ---
-// Privacy Policy — scaffolded structure with DRAFT placeholders (.todo). The
-// substance hinges on a real contrast from CLAUDE.md: the APP runs locally and
-// sends NO telemetry (reads ~/.claude on-device, nothing leaves the Mac), while
-// the WEBSITE does collect minimal data — news/updates signup email (Vercel/
-// Upstash KV + Resend forward) and payments via Polar (Merchant of Record).
-// Replace .todo blocks with counsel-reviewed text.
+// Privacy Policy — finalized 2026-06-07 (best-effort, NOT lawyer-reviewed; the
+// owner opted out of counsel). Substance: the APP is local-first (reads ~/.claude
+// on-device, no telemetry) with a fixed, audited outbound set — GitHub updates,
+// a no-data license-revocation download, and YouTube when Claude Radio is started
+// (verified against ../conan this session). The WEBSITE collects a signup email
+// (Vercel/Upstash KV + Resend) and, on purchase, the buyer email tied to the
+// license (Polar = Merchant of Record); GA4 analytics disclosed. No more
+// DRAFT/.todo placeholders.
+//
+// KNOWN PRODUCT-SIDE GAPS (in ../conan, not fixable here — policy makes promises
+// the product should honor): (1) the license JWT embeds the buyer email base64-
+// readable; (2) no automated deletion path, so §7 erasure requests must be
+// fulfilled MANUALLY (purge license:<sub> KV + scrub Vercel logs). (3) GA4 loads
+// with NO consent banner — a real EU/UK ePrivacy risk the policy text alone
+// doesn't cure. Address these before/right after launch.
 import LegalLayout from "../layouts/LegalLayout.astro";
 ---
 
@@ -12,10 +21,10 @@ import LegalLayout from "../layouts/LegalLayout.astro";
   active="privacy"
   title="Privacy Policy"
   description="What Conan and conan.sh collect — and what they deliberately don't."
-  updated="[DRAFT — set on publish]"
+  updated="June 7, 2026"
 >
   <p>
-    This Privacy Policy explains how WhatMatters ("we", "us") handles
+    This Privacy Policy explains how WhatMatters LLC ("WhatMatters", "we", "us") handles
     information in connection with the Conan application and the conan.sh
     website. The short version: the app is built to keep your work on your
     machine, and the website collects only the minimum needed to send Conan
@@ -46,14 +55,15 @@ import LegalLayout from "../layouts/LegalLayout.astro";
     <p>
       When you buy Premium, payment is processed by <strong>Polar.sh</strong> as
       Merchant of Record. Polar collects the information needed to complete the
-      sale (e.g. billing details); we receive purchase/entitlement confirmation
-      but <strong>do not store your full payment-card details</strong>.
+      sale (e.g. billing details) and we <strong>do not store your full
+      payment-card details</strong>. When your order completes, we do receive and
+      <strong>store your email address</strong> together with your order id and
+      license record — we use it to deliver your license, recognize your purchase,
+      and provide support. Your email is also embedded in your signed license token
+      so the app can confirm the license is yours. Because of this, please keep
+      your license private and do not post it publicly. You can ask us to delete
+      your stored purchase email at any time (see <a href="#rights">Your rights</a>).
     </p>
-    <span class="todo"
-      >Enumerate every field actually collected at checkout and what Polar shares
-      back to us (name, email, country, order id). Confirm whether we store the
-      buyer's email for license delivery/support.</span
-    >
   </section>
 
   <section id="app">
@@ -64,11 +74,32 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       does not transmit your code, prompts, or session contents to us or any
       third party, and the app sends <strong>no analytics or telemetry</strong>.
     </p>
-    <span class="todo"
-      >Confirm there is genuinely zero outbound app traffic except (a) signed
-      auto-update checks and (b) license validation, and describe exactly what
-      each of those sends (e.g. version, license key — no personal data).</span
-    >
+    <p>
+      The app makes only a small, fixed set of outbound connections, and none of
+      them send your personal data to us:
+    </p>
+    <ul>
+      <li>
+        <strong>Software updates</strong> — Conan checks GitHub for new signed
+        releases so it can keep itself up to date.
+      </li>
+      <li>
+        <strong>License revocation check</strong> — on launch, Conan downloads a
+        public revocation list to confirm a Premium license has not been revoked.
+        This is a download only: it transmits no personal data and does not send
+        your license. License validity itself is verified entirely on your device.
+      </li>
+      <li>
+        <strong>Claude Radio</strong> — if you start the built-in radio, audio
+        streams directly from YouTube. As with any embedded YouTube player,
+        Google / YouTube receives your IP address and may set its own cookies
+        under its own privacy policy. The radio is off until you start it.
+      </li>
+    </ul>
+    <p>
+      Choosing "Buy Premium" or opening a documentation link launches your normal
+      web browser, outside the app.
+    </p>
   </section>
 
   <section id="use">
@@ -78,8 +109,11 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       <li>to fulfill and support your Premium purchase;</li>
       <li>to operate, secure, and improve the website.</li>
     </ul>
-    <p>We do not sell your personal information.</p>
-    <span class="todo">Confirm signup emails are used only for Conan product news, never sold or used for unrelated marketing.</span>
+    <p>
+      We use signup emails <strong>only</strong> to send Conan product news; we
+      never sell them or use them for unrelated marketing. We do not sell your
+      personal information.
+    </p>
   </section>
 
   <section id="processors">
@@ -88,23 +122,23 @@ import LegalLayout from "../layouts/LegalLayout.astro";
     <ul>
       <li><strong>Polar.sh</strong> — payments / Merchant of Record;</li>
       <li><strong>Vercel</strong> — hosting and the KV store that holds signup emails;</li>
-      <li><strong>Resend</strong> — to deliver our news/update emails and signup notifications.</li>
+      <li><strong>Resend</strong> — to deliver our news/update emails and signup notifications;</li>
+      <li><strong>Google Analytics</strong> — aggregate, cookie-based website analytics (see §8).</li>
     </ul>
-    <span class="todo"
-      >List the actual email/notification provider and any analytics vendor. Link
-      each processor's DPA/privacy terms. Confirm no other third parties receive
-      data.</span
-    >
+    <p>
+      Each of these providers processes data under its own privacy terms, and we
+      do not share your data with any other third parties for their own purposes.
+    </p>
   </section>
 
   <section id="retention">
     <h2>6. Data retention</h2>
     <p>
       We keep signup emails for as long as you wish to receive Conan updates, or
-      until you unsubscribe or ask us to remove you. Purchase records are
-      retained as required for tax and accounting purposes.
+      until you unsubscribe or ask us to remove you. Purchase records (including
+      the email tied to your license) are retained as required for tax and
+      accounting purposes.
     </p>
-    <span class="todo">Set concrete retention periods per data type and legal requirements.</span>
   </section>
 
   <section id="rights">
@@ -113,43 +147,46 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       Depending on where you live (e.g. under GDPR or CCPA), you may have rights
       to access, correct, delete, or port your personal data, and to object to
       certain processing. To exercise these, email <a
-        href="mailto:hello@whatmatters.so">hello@whatmatters.so</a
-      >.
+        href="mailto:hello@conan.sh">hello@conan.sh</a
+      > and we will respond within a reasonable time and as required by applicable
+      law. We will not discriminate against you for exercising these rights.
     </p>
-    <span class="todo"
-      >Confirm the rights statement matches the regimes you serve (GDPR/UK
-      GDPR/CCPA), and add a legal-basis table if you target the EU/UK.</span
-    >
   </section>
 
   <section id="cookies">
     <h2>8. Cookies & analytics</h2>
-    <span class="todo"
-      >State whether the site uses cookies and/or analytics at all. If it's
-      cookieless and runs no third-party analytics, say so plainly (a strong
-      trust signal consistent with the app's no-telemetry stance). If analytics
-      are added later, disclose the vendor and add a cookie/consent banner if
-      required.</span
-    >
+    <p>
+      The conan.sh website uses <strong>Google Analytics (GA4)</strong> to
+      understand aggregate, anonymized traffic — for example, which pages are
+      visited and roughly where visitors arrive from. Google Analytics sets
+      cookies in your browser for this purpose. We use this only to improve the
+      website; we do not use it to build advertising profiles or sell your data.
+      You can opt out with Google's
+      <a href="https://tools.google.com/dlpage/gaoptout">browser opt-out add-on</a>
+      or by blocking cookies in your browser. The <strong>Conan app itself
+      contains no analytics or telemetry</strong> (see §3).
+    </p>
   </section>
 
   <section id="children">
     <h2>9. Children's privacy</h2>
     <p>
-      The Service is not directed to children, and we do not knowingly collect
-      personal information from them.
+      The Service is not directed to anyone under 18, and we do not knowingly
+      collect personal information from children. If you believe a minor has
+      provided us personal information, contact us and we will delete it.
     </p>
-    <span class="todo">Confirm the age threshold to match the Terms.</span>
   </section>
 
   <section id="intl">
     <h2>10. International users</h2>
     <p>
-      If you access the Service from outside the country where our providers
-      operate, your information may be processed in other countries with
-      different data-protection laws.
+      Our service providers are based primarily in the United States, so if you
+      access the Service from elsewhere, your information may be processed in the
+      United States and other countries with different data-protection laws. Where
+      personal data is transferred internationally, we rely on appropriate
+      safeguards — such as our providers' standard contractual clauses — where
+      required by law.
     </p>
-    <span class="todo">Name the processing locations and any transfer mechanism (e.g. SCCs) if serving the EU/UK.</span>
   </section>
 
   <section id="changes">
@@ -163,10 +200,9 @@ import LegalLayout from "../layouts/LegalLayout.astro";
   <section id="contact">
     <h2>12. Contact</h2>
     <p>
-      Questions about your privacy? Email <a href="mailto:hello@whatmatters.so"
-        >hello@whatmatters.so</a
+      Questions about your privacy? Email <a href="mailto:hello@conan.sh"
+        >hello@conan.sh</a
       >.
     </p>
-    <span class="todo">Confirm the contact (and, if you appoint one, a Data Protection Officer / EU representative).</span>
   </section>
 </LegalLayout>

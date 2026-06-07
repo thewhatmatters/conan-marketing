@@ -1,9 +1,12 @@
 ---
-// Terms of Service — scaffolded structure with clearly-flagged DRAFT placeholders
-// (.todo) reflecting the real facts from CLAUDE.md (Polar = Merchant of Record,
-// $29 one-time, freemium, lifetime 1.x updates, not affiliated). Replace the
-// .todo blocks with counsel-reviewed / Polar-template binding language before
-// launch.
+// Terms of Service — finalized 2026-06-07 (best-effort, NOT lawyer-reviewed; the
+// owner opted out of counsel). Facts are grounded in CLAUDE.md + decisions made
+// this session: Polar = Merchant of Record, USD $29 one-time, freemium, updates
+// within 1.x, non-refundable (statutory rights preserved), 18+, personal+commercial
+// single-user license, Texas governing law, liability capped at amounts paid /
+// $29, not affiliated with Anthropic or Conan Properties International. No more
+// DRAFT/.todo placeholders. If a lawyer is ever engaged, revisit IP/liability/
+// arbitration + EU-UK consumer specifics.
 import LegalLayout from "../layouts/LegalLayout.astro";
 ---
 
@@ -11,28 +14,25 @@ import LegalLayout from "../layouts/LegalLayout.astro";
   active="terms"
   title="Terms of Service"
   description="The terms governing your use of Conan and conan.sh."
-  updated="[DRAFT — set on publish]"
+  updated="June 7, 2026"
 >
   <p>
     These Terms of Service ("Terms") govern your access to and use of the Conan
     desktop application and the conan.sh website (together, the "Service"),
-    provided by WhatMatters ("we", "us"). By downloading, installing, or using
-    the Service, you agree to these Terms.
+    provided by WhatMatters LLC ("WhatMatters", "we", "us"). By downloading,
+    installing, or using the Service, you agree to these Terms. These Terms are
+    effective as of the date above and also serve as the end-user license
+    agreement for the installed Conan application; there is no separate EULA.
   </p>
-  <span class="todo"
-    >Confirm legal entity name/form (e.g. "WhatMatters, [LLC/Ltd]"), the effective
-    date, and whether a separate EULA covers the installed app vs. these
-    website Terms.</span
-  >
 
   <section id="agreement">
     <h2>1. Agreement to terms</h2>
     <p>
       By using the Service you confirm you can form a binding contract and agree
       to be bound by these Terms and our <a href="/privacy">Privacy Policy</a>.
-      If you do not agree, do not use the Service.
+      If you do not agree, do not use the Service. You must be at least 18 years
+      old, or the age of majority in your jurisdiction, to use the Service.
     </p>
-    <span class="todo">Add age requirement (e.g. 13+/16+/18+) per counsel.</span>
   </section>
 
   <section id="service">
@@ -43,10 +43,11 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       run Claude Code yourself and Conan adds an observability layer around it.
       Conan runs locally on your Mac and reads Claude Code's local session data.
     </p>
-    <span class="todo"
-      >Confirm system-requirement language (macOS 13+, Apple silicon, Claude Code
-      required) and that availability/features may change.</span
-    >
+    <p>
+      Conan requires an <strong>Apple-silicon (M-series) Mac running macOS 11 Big
+      Sur or later</strong>, and a working installation of Claude Code. Intel Macs
+      are not supported. Availability and features may change over time.
+    </p>
   </section>
 
   <section id="license">
@@ -57,7 +58,10 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       unlocks Premium features. Subject to these Terms, we grant you a personal,
       non-exclusive, non-transferable, revocable license to install and use
       Conan. Your purchase includes all updates within the 1.x release line, with
-      no per-device limit and no subscription.
+      no per-device limit and no subscription. The license is granted to you as a
+      single user and may be used for both personal and commercial work on the
+      Macs you control. Your Premium license is tied to your purchase; please keep
+      your license key private and do not share or publish it.
     </p>
     <p>You agree not to:</p>
     <ul>
@@ -66,10 +70,6 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       <li>circumvent the Premium gate or any license/entitlement check;</li>
       <li>use the Service unlawfully or to infringe others' rights.</li>
     </ul>
-    <span class="todo"
-      >Confirm exact license scope (personal + commercial use?), device/seat
-      terms, and whether license keys are per-purchase or per-user.</span
-    >
   </section>
 
   <section id="purchases">
@@ -78,15 +78,23 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       Premium is sold for a one-time price of $29 through <strong>Polar.sh</strong>,
       which acts as the <strong>Merchant of Record</strong> for the transaction.
       Polar processes your payment, handles applicable taxes, and issues your
-      receipt; we do not store your full payment-card details. Your purchase is
-      governed by Polar's terms in addition to these Terms.
+      receipt; we do not store your full payment-card details. The price is
+      <strong>USD $29</strong>, one time. Your purchase is governed by Polar's
+      terms in addition to these Terms.
     </p>
-    <span class="todo"
-      >Confirm refund handling with Polar (refunds are intentionally not surfaced
-      as a marketing section — the free tier is the try-before-you-buy — but the
-      binding refund/cancellation terms still belong here). State currency, tax
-      treatment, and chargeback policy.</span
-    >
+    <p>
+      Because Conan is <strong>freemium</strong> — the free download lets you try
+      the app before you buy — Premium purchases are generally
+      <strong>non-refundable</strong>. Polar, as Merchant of Record, may still
+      issue a refund at its discretion or where required by applicable consumer
+      law.
+    </p>
+    <p>
+      Nothing in this section limits any non-waivable statutory rights you may
+      have under the consumer-protection laws of your country or region —
+      including any mandatory cancellation or withdrawal rights — which continue
+      to apply regardless of the above.
+    </p>
   </section>
 
   <section id="ip">
@@ -101,12 +109,10 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       endorsed by, or sponsored by Anthropic</strong> (maker of Claude Code), and
       is <strong>not affiliated with Conan Properties International</strong>.
       "Claude" and "Claude Code" are trademarks of Anthropic; all other marks are
-      the property of their respective owners.
+      the property of their respective owners. We use these names only to
+      describe compatibility, and our use does not imply any affiliation or
+      endorsement.
     </p>
-    <span class="todo"
-      >Have counsel review the trademark/affiliation disclaimers and any
-      nominative-fair-use language around the "Conan" name and Claude Code.</span
-    >
   </section>
 
   <section id="third-party">
@@ -124,9 +130,10 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       The Service is provided "as is" and "as available," without warranties of
       any kind, whether express or implied, including merchantability, fitness
       for a particular purpose, and non-infringement. We do not warrant that the
-      Service will be uninterrupted, error-free, or secure.
+      Service will be uninterrupted, error-free, or secure. Some jurisdictions do
+      not allow the exclusion of certain warranties, so some of these exclusions
+      may not apply to you.
     </p>
-    <span class="todo">Confirm final warranty-disclaimer wording with counsel.</span>
   </section>
 
   <section id="liability">
@@ -136,10 +143,14 @@ import LegalLayout from "../layouts/LegalLayout.astro";
       any indirect, incidental, special, consequential, or punitive damages, or
       any loss of data, profits, or revenue, arising from your use of the Service.
     </p>
-    <span class="todo"
-      >Insert a liability cap (e.g. limited to amounts paid in the prior 12
-      months) and any jurisdiction-specific carve-outs.</span
-    >
+    <p>
+      To the maximum extent permitted by law, our total liability for any claim
+      arising out of or relating to the Service will not exceed the greater of the
+      amount you paid us for the Service in the twelve months before the claim, or
+      USD $29. Some jurisdictions do not allow certain limitations of liability, so
+      parts of this section may not apply to you; nothing here limits liability
+      that cannot be limited by law.
+    </p>
   </section>
 
   <section id="termination">
@@ -163,20 +174,22 @@ import LegalLayout from "../layouts/LegalLayout.astro";
 
   <section id="law">
     <h2>11. Governing law</h2>
-    <p>These Terms are governed by the laws set out below, without regard to conflict-of-law rules.</p>
-    <span class="todo"
-      >Specify governing jurisdiction and venue/dispute-resolution (e.g.
-      arbitration) per WhatMatters' location and counsel.</span
-    >
+    <p>
+      These Terms are governed by the laws of the State of Texas, United States,
+      without regard to its conflict-of-law rules. You and WhatMatters LLC agree
+      that the state and federal courts located in Texas have exclusive
+      jurisdiction over any dispute arising out of or relating to these Terms or
+      the Service, except where applicable law gives you the right to bring a claim
+      in your local courts.
+    </p>
   </section>
 
   <section id="contact">
     <h2>12. Contact</h2>
     <p>
-      Questions about these Terms? Email <a href="mailto:hello@whatmatters.so"
-        >hello@whatmatters.so</a
+      Questions about these Terms? Email <a href="mailto:hello@conan.sh"
+        >hello@conan.sh</a
       >.
     </p>
-    <span class="todo">Confirm the correct legal/contact address and a postal address if required.</span>
   </section>
 </LegalLayout>

@@ -11,7 +11,10 @@
 const navLinks = [
   { label: "Features", href: "/#features" },
   { label: "FAQ", href: "/#faq" },
-  { label: "Get notified", href: "/#waitlist" },
+  // href stays the click target (scroll to the form); spy highlights "Get
+  // notified" across the whole closing section (footer) so it stays lit to the
+  // page bottom. Restored after the download-CTA swap dropped it.
+  { label: "Get notified", href: "/#waitlist", spy: "#closing" },
 ];
 
 // The Mac download — latest GitHub Release .dmg (Apple silicon). The "/latest/
