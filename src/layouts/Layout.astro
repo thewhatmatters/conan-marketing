@@ -13,14 +13,13 @@ interface Props {
 const SITE_NAME = "Conan";
 const DEFAULT_TITLE = "Conan — a live HUD for Claude Code on macOS";
 const DEFAULT_DESCRIPTION =
-  "Conan is a native macOS app that wraps Claude Code in a live HUD — every prompt, tool call, skill, and token, surfaced as it happens. One-time $39, no subscription.";
+  "Conan is a native macOS app that wraps Claude Code in a live HUD — every prompt, tool call, skill, and token, surfaced as it happens. $29 one-time, no subscription.";
 
 const {
   title,
   description = DEFAULT_DESCRIPTION,
-  // Interim share image (a real frame of the product) until the branded
-  // 1200×630 /og-image.png is dropped in. Swap the default when it lands.
-  image = "/hero/hero-poster.jpg",
+  // Branded 1200×630 share card. Pages can override per-page via the `image` prop.
+  image = "/og-image.png",
 } = Astro.props;
 
 // Sub-pages pass a short title ("Privacy Policy") → "Privacy Policy — Conan".
@@ -63,7 +62,10 @@ const siteLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary meta -->
