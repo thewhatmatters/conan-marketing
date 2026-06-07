@@ -2,9 +2,9 @@
 // Privacy Policy — scaffolded structure with DRAFT placeholders (.todo). The
 // substance hinges on a real contrast from CLAUDE.md: the APP runs locally and
 // sends NO telemetry (reads ~/.claude on-device, nothing leaves the Mac), while
-// the WEBSITE does collect minimal data — waitlist email (Vercel/Upstash KV)
-// and payments via Polar (Merchant of Record). Replace .todo blocks with
-// counsel-reviewed text.
+// the WEBSITE does collect minimal data — news/updates signup email (Vercel/
+// Upstash KV + Resend forward) and payments via Polar (Merchant of Record).
+// Replace .todo blocks with counsel-reviewed text.
 import LegalLayout from "../layouts/LegalLayout.astro";
 ---
 
@@ -18,8 +18,8 @@ import LegalLayout from "../layouts/LegalLayout.astro";
     This Privacy Policy explains how WhatMatters ("we", "us") handles
     information in connection with the Conan application and the conan.sh
     website. The short version: the app is built to keep your work on your
-    machine, and the website collects only the minimum needed to run a waitlist
-    and sell Premium.
+    machine, and the website collects only the minimum needed to send Conan
+    updates and sell Premium.
   </p>
 
   <section id="overview">
@@ -27,18 +27,20 @@ import LegalLayout from "../layouts/LegalLayout.astro";
     <p>
       There are two surfaces to distinguish. The <strong>Conan app</strong> runs
       entirely on your Mac and sends us no telemetry. The <strong>conan.sh
-      website</strong> collects limited data when you join the waitlist or
+      website</strong> collects limited data when you sign up for updates or
       purchase Premium. This policy covers both.
     </p>
   </section>
 
   <section id="collect">
     <h2>2. Data we collect (website)</h2>
-    <h3>Waitlist</h3>
+    <h3>News &amp; updates signup</h3>
     <p>
-      If you join the Windows/Linux waitlist, we collect the <strong>email
-      address</strong> you submit, so we can notify you when those platforms are
-      available. This is stored in our key-value store (Vercel/Upstash KV).
+      If you sign up for Conan news and updates, we collect the <strong>email
+      address</strong> you submit, so we can send you occasional updates — new
+      features, releases, and Windows/Linux availability. This is stored in our
+      key-value store (Vercel/Upstash KV) and forwarded to our team inbox via
+      <strong>Resend</strong>. You can unsubscribe at any time.
     </p>
     <h3>Purchases</h3>
     <p>
@@ -72,12 +74,12 @@ import LegalLayout from "../layouts/LegalLayout.astro";
   <section id="use">
     <h2>4. How we use data</h2>
     <ul>
-      <li>to email you about Windows/Linux availability if you joined the waitlist;</li>
+      <li>to send you occasional Conan news and updates if you signed up (you can unsubscribe anytime);</li>
       <li>to fulfill and support your Premium purchase;</li>
       <li>to operate, secure, and improve the website.</li>
     </ul>
     <p>We do not sell your personal information.</p>
-    <span class="todo">Confirm we never use waitlist emails for unrelated marketing without consent.</span>
+    <span class="todo">Confirm signup emails are used only for Conan product news, never sold or used for unrelated marketing.</span>
   </section>
 
   <section id="processors">
@@ -85,8 +87,8 @@ import LegalLayout from "../layouts/LegalLayout.astro";
     <p>We share data only with service providers that help us run the Service:</p>
     <ul>
       <li><strong>Polar.sh</strong> — payments / Merchant of Record;</li>
-      <li><strong>Vercel</strong> — hosting and the KV store that holds waitlist emails;</li>
-      <li><strong>[Email provider]</strong> — to send waitlist notifications.</li>
+      <li><strong>Vercel</strong> — hosting and the KV store that holds signup emails;</li>
+      <li><strong>Resend</strong> — to deliver our news/update emails and signup notifications.</li>
     </ul>
     <span class="todo"
       >List the actual email/notification provider and any analytics vendor. Link
@@ -98,8 +100,8 @@ import LegalLayout from "../layouts/LegalLayout.astro";
   <section id="retention">
     <h2>6. Data retention</h2>
     <p>
-      We keep waitlist emails until the relevant platform launches and you have
-      been notified, or until you ask us to remove you. Purchase records are
+      We keep signup emails for as long as you wish to receive Conan updates, or
+      until you unsubscribe or ask us to remove you. Purchase records are
       retained as required for tax and accounting purposes.
     </p>
     <span class="todo">Set concrete retention periods per data type and legal requirements.</span>

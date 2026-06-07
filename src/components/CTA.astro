@@ -2,8 +2,9 @@
 import WaitlistForm from "./WaitlistForm.tsx";
 
 // Final CTA band — fire-glow reprise before the footer. Primary action is the
-// Mac download; the Windows/Linux waitlist sits beneath as the platform line
-// (story doc §2 — capture the email, never a greyed-out "Windows" button).
+// Mac download; a general Conan news/updates signup sits beneath (folds in the
+// Windows/Linux availability ask — capture the email, never a greyed-out button).
+// Each signup is stored in KV + forwarded to hello@conan.sh (see /api/waitlist).
 // TODO: point downloadHref at the latest release .dmg once published.
 const downloadHref = "#download";
 ---
@@ -55,7 +56,7 @@ const downloadHref = "#download";
       (Apple silicon)
     </p>
 
-    <!-- Platform handling / waitlist. `id="waitlist"` is the nav "Get notified"
+    <!-- Conan news/updates signup. `id="waitlist"` is the nav "Get notified"
          target; scroll-mt clears the sticky header on jump + scroll-spy. -->
     <div
       id="waitlist"
@@ -63,9 +64,14 @@ const downloadHref = "#download";
       style="--d: 300ms"
     >
       <p class="text-sm leading-relaxed text-muted-foreground">
-        The Hyborian age comes first to Mac. On Windows or Linux?
+        <span class="font-medium text-gold">Dispatches from the forge.</span>
+        New features, releases, and Windows/Linux availability — sent only when
+        there's something worth your steel.
       </p>
       <WaitlistForm client:visible />
+      <p class="text-xs text-muted-foreground/70">
+        Occasional Conan news. Unsubscribe anytime.
+      </p>
     </div>
   </div>
 </section>

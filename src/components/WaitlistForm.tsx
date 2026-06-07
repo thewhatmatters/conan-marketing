@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-// Windows/Linux waitlist capture (the macOS-first platform handling, per the
-// story doc §2 — capture the email, never a greyed-out "Windows" button).
-// Posts to /api/waitlist (a stub today; Upstash KV persistence is the follow-up).
+// Conan news/updates signup — new features, releases, and Windows/Linux
+// availability (the macOS-first platform ask folded into a general updates list,
+// never a greyed-out "Windows" button). Posts to /api/waitlist → KV + a forward
+// to hello@conan.sh.
 type Status = "idle" | "submitting" | "success" | "error";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,7 +37,7 @@ export default function WaitlistForm() {
       };
       if (res.ok && data.ok) {
         setStatus("success");
-        setMessage("By steel — you're on the list.");
+        setMessage("By steel — you'll hear from us.");
         setEmail("");
       } else {
         setStatus("error");
@@ -63,7 +64,7 @@ export default function WaitlistForm() {
     <form onSubmit={onSubmit} noValidate className="w-full max-w-md">
       <div className="flex flex-col gap-3 sm:flex-row">
         <label htmlFor="waitlist-email" className="sr-only">
-          Email address for the Windows and Linux waitlist
+          Email address for Conan news and updates
         </label>
         <input
           id="waitlist-email"
@@ -97,7 +98,7 @@ export default function WaitlistForm() {
           disabled={status === "submitting"}
           className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
         >
-          {status === "submitting" ? "Summoning…" : "Summon me →"}
+          {status === "submitting" ? "Sending word…" : "Send word →"}
         </button>
       </div>
       {invalid && (
