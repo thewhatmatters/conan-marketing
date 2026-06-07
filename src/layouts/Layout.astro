@@ -94,6 +94,16 @@ const siteLd = {
 
     <!-- Per-page head extras (JSON-LD, etc.) -->
     <slot name="head" />
+
+    <!-- Google Analytics (gtag.js). `is:inline` keeps Astro from bundling the
+         third-party snippet so it's emitted verbatim on every page. -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-0S3T6SKY2J"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0S3T6SKY2J');
+    </script>
   </head>
   <body>
     <slot />
