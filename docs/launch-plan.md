@@ -14,23 +14,28 @@
 
 ---
 
-## 0. Email forwarding — Resend (P0)
+## 0. Email forwarding — Resend (P0) ✅ DONE (2026-06-07)
 
-Signups already persist to KV and forward-on-new is **coded and deployed**
-(`src/pages/api/waitlist.ts`), but it **no-ops until the Resend key is set**.
-Until then every new signup saves to KV but no email reaches `hello@conan.sh`.
+Signups persist to KV and forward-on-new is coded, deployed, and **live**
+(`src/pages/api/waitlist.ts`). Verified end-to-end on prod.
 
-- [ ] Create a **Resend account** + an **API key** (resend.com → API Keys).
-- [ ] **Verify the `conan.sh` domain** in Resend (add their DNS records — SPF/
-      DKIM). Required so `noreply@conan.sh` (the `WAITLIST_FROM` default) can send.
-- [ ] Add **`RESEND_API_KEY`** to the `conan-marketing` Vercel env (all envs).
-      Optionally override `WAITLIST_FROM` / `WAITLIST_NOTIFY_TO`.
-- [ ] **Redeploy** prod so the function picks up the key.
-- [ ] **Live test:** submit a real signup → confirm `hello@conan.sh` receives it
-      and `reply-to` is the subscriber's address. Remove the test from the KV set.
+- [x] **Resend account** + a **send-only API key**.
+- [x] **Verified the `conan.sh` domain** in Resend (Vercel DNS — SPF/DKIM landed
+      in ~2 min). `noreply@conan.sh` (the `WAITLIST_FROM` default) can send.
+- [x] Added **`RESEND_API_KEY`** to Vercel **Production + Development**. Defaults
+      kept (`WAITLIST_FROM` = `noreply@conan.sh`, `WAITLIST_NOTIFY_TO` = `hello@conan.sh`).
+      ⚠️ **Preview** env not set — CLI wouldn't apply "all branches" non-interactively;
+      add via dashboard if PR previews should forward too (non-blocking).
+- [x] **Redeployed** prod (aliased to www.conan.sh).
+- [x] **Live test:** POST to `/api/waitlist` → `200`, email landed in `hello@conan.sh`,
+      reply-to = subscriber. (Test address `resend-test-20260607@conan.sh` still in the
+      KV set — purge it if you want a clean list.)
 
-**Acceptance:** a new signup on www.conan.sh lands an email in `hello@conan.sh`
+**Acceptance:** ✅ a new signup on www.conan.sh lands an email in `hello@conan.sh`
 within seconds; duplicates do not re-email; a Resend outage never breaks signup.
+
+**Note:** the key is send-only (can't read logs via API) — verify future sends in
+the Resend dashboard **Emails** log, not via curl.
 
 ---
 
