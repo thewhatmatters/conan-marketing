@@ -104,6 +104,20 @@ const siteLd = {
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-0S3T6SKY2J');
+
+      // Track "Download for Mac" clicks. Delegated so it covers every download
+      // button (Header/Hero/CTA) tagged with data-dl, including ones rendered in
+      // islands. `beacon` transport lets the event flush even as the click
+      // navigates away to the .dmg.
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[data-dl]');
+        if (!a) return;
+        gtag('event', 'conan_download', {
+          location: a.dataset.dl,   // 'header' | 'hero' | 'cta'
+          link_url: a.href,
+          transport_type: 'beacon',
+        });
+      });
     </script>
   </head>
   <body>
