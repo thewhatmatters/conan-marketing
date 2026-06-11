@@ -1,1 +1,1 @@
-Legal pages finalized (no lawyer) + nav spy fix — committing
+Resend P0 + conan_download GA4 tracking shipped — next: Polar checkout, OG validation
