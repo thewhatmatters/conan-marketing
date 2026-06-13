@@ -1,0 +1,32 @@
+# One-shot launch automation: merges the ph-launch branch (Product Hunt badge)
+# into main just before the PH listing goes live at 12:01 AM PT Sun 2026-06-14.
+# The push to main triggers Vercel's normal auto-deploy.
+#
+# Scheduled at 06:45 UTC = 11:45 PM PT Sat — GitHub cron regularly fires
+# 5–15 min late, so this lands right around midnight; a few minutes early is
+# harmless (the badge links to the PH product page, which flips at 12:01).
+#
+# DELETE THIS FILE after launch day — the cron would otherwise re-fire every
+# June 14 (a no-op once the branch is merged/deleted, but noise).
+name: PH launch merge
+
+on:
+  schedule:
+    - cron: "45 6 14 6 *"
+  workflow_dispatch: # manual fallback if the cron misfires
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge ph-launch into main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/merges" \
+            -f base=main \
+            -f head=ph-launch \
+            -f commit_message="feat(launch): go live with the Product Hunt badge (scheduled merge)"
