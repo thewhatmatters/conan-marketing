@@ -130,6 +130,18 @@ const siteLd = {
           transport_type: 'beacon',
         });
       });
+
+      // Track Product Hunt badge clicks (data-ph), same pattern. Launch-day
+      // element — the listener is harmless if no badge is on the page.
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[data-ph]');
+        if (!a) return;
+        gtag('event', 'conan_ph_click', {
+          location: a.dataset.ph,   // 'hero' | 'cta'
+          link_url: a.href,
+          transport_type: 'beacon',
+        });
+      });
     </script>
   </head>
   <body>
