@@ -118,6 +118,18 @@ const siteLd = {
           transport_type: 'beacon',
         });
       });
+
+      // Track clickable-price → Polar checkout clicks (data-buy), same
+      // delegated + beacon pattern as downloads.
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[data-buy]');
+        if (!a) return;
+        gtag('event', 'conan_buy_click', {
+          location: a.dataset.buy,  // 'hero' | 'cta'
+          link_url: a.href,
+          transport_type: 'beacon',
+        });
+      });
     </script>
   </head>
   <body>

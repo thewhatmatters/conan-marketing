@@ -3,6 +3,11 @@ import HeroWord from "./HeroWord.tsx";
 
 // Primary action: the Mac download — latest GitHub Release .dmg (Apple silicon).
 // "/latest/download/" always resolves to the newest release asset.
+// Polar checkout (same link the app's Settings ▸ License Buy button uses).
+// The price caption is the page's only buy affordance — Download stays the
+// sole button; the free tier is the trial.
+const buyHref =
+  "https://buy.polar.sh/polar_cl_yCw19D7U1STmkUlsNrQkGRwYkeRyr196LeoYJ46vMvd";
 const downloadHref =
   "https://github.com/thewhatmatters/conan/releases/latest/download/Conan_aarch64.dmg";
 ---
@@ -112,8 +117,11 @@ const downloadHref =
       class="hero-rise mt-5 text-xs text-muted-foreground"
       style="animation-delay: 520ms;"
     >
-      macOS 13+ · Apple silicon · <span class="text-gold">$29 once</span>, no
-      subscription
+      macOS 13+ · Apple silicon · <a
+        href={buyHref}
+        data-buy="hero"
+        class="text-gold underline decoration-gold/40 underline-offset-2 transition-colors hover:decoration-gold"
+      >$29 once</a>, no subscription
     </p>
 
     <!-- Framed app loop — a fully contained window (all four corners rounded)

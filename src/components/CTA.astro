@@ -7,6 +7,9 @@ import WaitlistForm from "./WaitlistForm.tsx";
 // Each signup is stored in KV + forwarded to hello@conan.sh (see /api/waitlist).
 const downloadHref =
   "https://github.com/thewhatmatters/conan/releases/latest/download/Conan_aarch64.dmg";
+// Polar checkout — the clickable price under the Download button (see Hero).
+const buyHref =
+  "https://buy.polar.sh/polar_cl_yCw19D7U1STmkUlsNrQkGRwYkeRyr196LeoYJ46vMvd";
 ---
 
 <section
@@ -50,7 +53,11 @@ const downloadHref =
       class="cta-col mt-5 text-xs text-muted-foreground"
       style="--d: 200ms"
     >
-      Free to download · <span class="text-gold">Premium $29, once</span> ·
+      Free to download · <a
+        href={buyHref}
+        data-buy="cta"
+        class="text-gold underline decoration-gold/40 underline-offset-2 transition-colors hover:decoration-gold"
+      >Premium $29, once</a> ·
       lifetime 1.x · macOS 13+ (Apple silicon)
     </p>
 
