@@ -5,9 +5,10 @@ import HeroWord from "./HeroWord.tsx";
 // "/latest/download/" always resolves to the newest release asset.
 // Polar checkout (same link the app's Settings ▸ License Buy button uses).
 // The price caption is the page's only buy affordance — Download stays the
-// sole button; the free tier is the trial.
+// sole button; the free tier is the trial. theme=dark matches the site so
+// the handoff to checkout doesn't flash white.
 const buyHref =
-  "https://buy.polar.sh/polar_cl_yCw19D7U1STmkUlsNrQkGRwYkeRyr196LeoYJ46vMvd";
+  "https://buy.polar.sh/polar_cl_yCw19D7U1STmkUlsNrQkGRwYkeRyr196LeoYJ46vMvd?theme=dark";
 const downloadHref =
   "https://github.com/thewhatmatters/conan/releases/latest/download/Conan_aarch64.dmg";
 ---
