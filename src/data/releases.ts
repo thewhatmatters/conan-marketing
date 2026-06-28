@@ -25,6 +25,18 @@ export const releaseUrl = (version: string) => `${GH}/v${version}`;
 
 export const releases: Release[] = [
   {
+    version: "1.0.6",
+    date: "2026-06-28",
+    title: "Claude Radio reconnects itself",
+    summary:
+      "Claude Radio now finds the current live stream on every launch, and a What’s New note recaps each update.",
+    highlights: [
+      "Claude Radio resolves the live broadcast at startup — no more “Offline” when the stream’s video rotates.",
+      "A one-time “What’s New” note after you update, so you can see what each release brings.",
+    ],
+    kind: "fix",
+  },
+  {
     version: "1.0.5",
     date: "2026-06-14",
     title: "One-click upgrade",
