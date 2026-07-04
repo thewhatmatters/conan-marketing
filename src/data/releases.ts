@@ -25,6 +25,43 @@ export const releaseUrl = (version: string) => `${GH}/v${version}`;
 
 export const releases: Release[] = [
   {
+    version: "1.3.0",
+    date: "2026-07-03",
+    title: "Agents in the HUD",
+    summary:
+      "A new Agents tab shows every Claude Code subagent installed on your machine and what each one does.",
+    highlights: [
+      "New Agents HUD tab beside Skills — your global agents, the project’s agents, and plugin-shipped agents in one list, each with its description, tools, and on-disk path.",
+      "Skill descriptions written as YAML block scalars now render correctly in the Skills tab (no more literal “>-”), and skills-considered scoring sees the full description again.",
+    ],
+    kind: "feature",
+  },
+  {
+    version: "1.2.0",
+    date: "2026-07-03",
+    title: "Conan Setup in the box",
+    summary:
+      "New terminals can open into a spec-first project setup that ends with a real PRD and CLAUDE.md before Claude starts.",
+    highlights: [
+      "Conan Setup ships bundled: pick a method, get interviewed about the goal, and start Claude with a reviewed PRD.md and CLAUDE.md.",
+      "“Start Claude instead” skips setup with one keystroke — and Settings ▸ Terminal can turn setup off entirely.",
+      "Auto context tracking is now opt-in, so Conan doesn’t spend your context to measure it unless you ask.",
+    ],
+    kind: "feature",
+  },
+  {
+    version: "1.1.0",
+    date: "2026-06-28",
+    title: "Files panel",
+    summary:
+      "A new Files panel lets you watch Claude work the filesystem while you work the terminal.",
+    highlights: [
+      "Browse the active terminal’s working directory beside the Timeline — the panel follows along as you cd.",
+      "Files Claude has edited or read this session are flagged, so you can see exactly where the agent has been.",
+    ],
+    kind: "feature",
+  },
+  {
     version: "1.0.6",
     date: "2026-06-28",
     title: "Claude Radio reconnects itself",
