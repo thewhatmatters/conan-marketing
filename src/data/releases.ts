@@ -25,6 +25,20 @@ export const releaseUrl = (version: string) => `${GH}/v${version}`;
 
 export const releases: Release[] = [
   {
+    version: "1.4.0",
+    date: "2026-07-11",
+    title: "Agent activity in the Timeline",
+    summary:
+      "See every subagent Claude spawns right in the Timeline, plus a new Project skills view and passively-fresh usage data.",
+    highlights: [
+      "Subagent spawns now show inline in the Timeline — live status, duration, model, and tools, no separate panel to open.",
+      "The Skills tab gets a Project view alongside User and System, listing the current project's own local skills.",
+      "Usage windows stay fresh via a background poll — no more manual refresh, plus a badge showing whether a reading is live or a fallback.",
+      "The Pulse throughput chart is smoother, and hovering it now shows whole numbers instead of decimals.",
+    ],
+    kind: "feature",
+  },
+  {
     version: "1.3.0",
     date: "2026-07-03",
     title: "Agents in the HUD",
